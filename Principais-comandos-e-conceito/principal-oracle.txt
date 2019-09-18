@@ -26,7 +26,9 @@ Links:
 
 #oracle apex
 https://apex.oracle.com/pt-br/
-#Link para fazer Scripts e teste de banco online fornecidos pela oracle 
+
+https://livesql.oracle.com/apex/f?p=590:1000
+#Link para fazer Scripts e teste de banco online fornecidos pela oracle PLSQL
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
