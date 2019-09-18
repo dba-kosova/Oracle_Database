@@ -12,7 +12,6 @@ ORACLE EDITION
 
 
 
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -21,13 +20,157 @@ ORACLE EDITION
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Links:
 
-
 #oracle delivery
 # https://edelivery.oracle.com
 #para baixar todos os programas que a oracle ja teve, todas as versões 
 
+#oracle apex
+https://apex.oracle.com/pt-br/
+#Link para fazer Scripts e teste de banco online fornecidos pela oracle 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Arquitetura: Estrutura Logica - Resumo 
+
+#Estrutra Logica 
+# data blocks, Extents, Segments, Tablespaces-
+
+# Data Blocks: Menor unidade logica de armazenamento do banco de dados 
+
+#Extents composta de vários blocos de dados contíguos, tamanho do conjunto de data blocks tambem
+
+#Sagments -conjunto de Extents que contém todos os dados para uma estrutura de armazenamento lógico específica em um espaço de tabela. Obejtos: tabelas,views 
+
+#Tablespaces -Sagments semelhantes são agrupados, facilitando o gerenciamento 
+
+
+
+
+
+#Fisica 
+# Datafiles, Redologs e Controlfiles
+ 
+# Datafiles - Um espaço de tabela em um banco de dados Oracle consiste em um ou mais arquivos de dados físicos. Um arquivo de dados pode ser associado a apenas um espaço de tabela e apenas um banco de dados.
+#permitem que eles sejam expandidos sempre que o espaço físico do banco de dados terminar;
+#DBF
+
+#Redologs - estrutura mais crucial para operações de recuperação armazenam todas as alterações feitas no banco de dados à medida que ocorrem.
+
+
+#Controlfiles- necessário para o banco de dados iniciar e operar com sucesso.
+#Each control file is associated with only one Oracle database.
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Arquitetura: Estrutura Logica - Detalhado 
+
+
+#Estrutra Logica
+# Todos os sistemas de arquivos são constituídos de um conjunto de estrutras lógicas 
+#que permitem ao sistema operacional organizar os dados gravados e acessá-los com a maior velocidade e confiabilidade possíveis.
+*estrutua para conseguir administrar os dados, é o q dá significado para as coisas, sem isso é só dados,
+ele guarda quando foi modificado, quem modificou e sabe o que esses dados significam 
+
+#O SO que organiza qual espaço esta livre e não, atraves tambem dos filesystems, qual esta ligado com quem, quem criou 
+isso é logico isto é so faz sentido para o SO, se não são só dados 
+
+#https://www.hardware.com.br/livros/hardware/estruturas-logicas.html
+muito bom sobre HD, e filesystens
+
+
+
+
+*em banco de dados a gente mexe mais com as estruturas logicas que são: tabelas,views etc, isso é o que o SBD dá sifinificado para a gente se não são so arquivos e dados que não sabemos interpretar 
+
+
+#fragmentação, que reduz consideravelmente a velocidade de acesso, já que dados espalhados significam mais movimentos da cabeça de leitura.
+
+#os arquivos tem tambem a extensao, se são ocultos, somente leitura,escrita 
+
+
+#Por que o SGBD Oracle possui uma estrutura "física" separada da estrutura "lógica"? 
+#http://dominandoti.com.br/blog/284
+# o banco de dados sepera em estruturas logicas e fisicas 
+#para uma não atrapalhar a outra, faço as tabelas, relaçoes logicas e não me importo como elas serão grenciadas e guardadas nos arquivos fisicos, 
+
+
+
+# Segments Extents data blocks
+# Data Blocks: Menor unidade logica de armazenamento do banco de dados 
+# ele fica dentro das estrutrar logicas de blocos do SO, são multiplos de 8k para se encaixar perfeitametne com os blcos do SO
+# 2k, 8k... dependendo do problema 
+
+
+
+# Datafiles - 
+administrador não tem controle sobre quais datafiles serão usados para armazenar os dados de uma tabela, pois isso é administrado pelo próprio SGBD.
+
+
+
+#Controlfiles- necessário para o banco de dados iniciar e operar com sucesso.
+The database name,The timestamp of database creation,The names and locations of associated datafiles and redo log files
+Tablespace information,Datafile offline ranges,The log history,Archived log information,Backup set and backup piece,information,Backup datafile and redo log information,Datafile copy information,
+The current log sequence number,Checkpoint information
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
