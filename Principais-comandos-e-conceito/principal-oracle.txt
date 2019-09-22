@@ -149,6 +149,139 @@ The current log sequence number,Checkpoint information
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQLPLUS:
+
+# usuario/senha
+$ sqlplus system/senha
+
+# plsql e todos os comandos de administracao 
+
+# lista o ultimo comando executado, esta armazenado no buffer 
+# *so armazena o ultimo comando executado 
+SQL> list
+# ou l 
+
+# para executar o comando lista no list, so digitar r ou run 
+SQL> r 
+SQL> run 
+#ou /, não mostra o codigo 
+SQL> / 
+
+#apagar a linha que esta corrente do list * 
+SQL> del 
+
+
+# para apagar a linha 2 tem que digitar
+SQL> 2
+#ai ele tras para o terminal 
+SQL> del 
+
+
+
+# colocar entre a linha 1 e 2 
+# o comando a de append 
+
+
+#alterar, comando c 
+
+
+# limpar o que esta no buufer
+SQL> clear buff 
+
+
+#comando i de input
+# colocar entre a linha 1 e 2 
+SQL> list
+SQL> 2 /*seleciona a linha 2*/
+SQL> i
+# colocou mais uma linha, linha 3
+
+
+
+#definir um editor padrão 
+SQL> define_editor = vi
+
+
+
+
+#abrir o editor de texto com o nome aula01.sql 
+# ai dentro coloca um comando 
+sql> ed aula01
+
+
+# executar o comando 
+sql> @aula01
+ou 
+sql>start aula01
+
+#salvar o comando que esta no buffer, e joga para um determinado arquivo 
+sql> save aula01
+
+
+#salvar o comando que esta no buffer, e joga para um determinado arquivo 
+# salvar um em baixo do outro sem perder o anterior
+# usar o app - append
+sql> save aula01 app
+
+
+# pegar o conteudo de um determinado arquivo e jogar no arquivo 
+sql> get aula01 
+
+
+
+#gravar em um arquivo de texto 
+sql> spool teste.lst 
+#apartir de agora tudo é salvo nesse arquivo 
+
+# para parar de gravar spool off 
+
+#desc e nome da tabela 
+#mostra o nome da coluna e tipo de dados, 
+# * pk, constraint nao mostram nesse comando 
+
+
+# host 
+# combina o comados do sistema operacional 
+sql> host ls 
+# se digitar 
+sql>host 
+# para voltar 
+#exit 
+
+
+# help l
+# help del 
+
+# clear screen - limpar a tela
+#cl scr 
+sql> cl scr
+clear screen
+
+
+# SET - alterar algumas variaveis de ambiente 
+
+
+# colunas por linha  
+sql> set lin 100 
+
+
+# separar por paginação 
+# a cada 100 linhas ele parece o cabecalho e pula uma linha 
+sql> set pages 100
+
+
+#mostrar alguma variavel 
+sql> show lin 
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
