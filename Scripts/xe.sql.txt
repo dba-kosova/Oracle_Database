@@ -1,13 +1,13 @@
-/****************************************************************
- * FILE NAME:  xe.sql
- * 
- * PURPOSE: Test conection in database oracle 
- * 
- * 
- * Date        Author                       Release      
- * 14-09-19    Pedro Akira Danno Lima       -------       
- * *
- ****************************************************************/
+/**************************************************************
+ * FILE NAME:  xe.sql                                         *
+ *                                                            *
+ * PURPOSE: Test conection in database oracle                 *
+ *                                                            *
+ *                                                            *
+ * Date        Author                       Release           *
+ * 14-09-19    Pedro Akira Danno Lima       -------           *
+ *                                                            * 
+ *************************************************************/
 
 
 SELECT instance_Name FROM v$instance;

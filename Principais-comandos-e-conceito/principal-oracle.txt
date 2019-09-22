@@ -149,18 +149,129 @@ The current log sequence number,Checkpoint information
 
 
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-SQLPLUS:
 
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Resumo SQLPLUS:
+
+
+/*SAVE*/
+#conectar
+$ sqlplus system/senha
+
+
+# criar um arquivo para guardar comandos 
+SQL> host touch 22-09-2019.sql
+
+# executar um comando
+SQL> SELECT INSTANCE_NAME FROM V$INSTANCE;
+
+#ver comando 
+SQL> list
+
+#salvar comando digitado que esta no buffer, no arquivo ja criado
+# app para sempre acrescentar em baixo do arquivo  
+SQL> save 22-09-2019.sql app 
+
+#apagar resultados 
+SQL> clear screen
+
+
+
+
+/*EDITANDO O ARQUIVO*/
+#conectar
+$ sqlplus system/senha
+
+
+#definir um editor padrão 
+SQL> define_editor = vi
+
+
+# criar arquivo e editar 
+sql> ed 22-09-2019
+
+
+# executar um arquivo 
+sql> @22-09-2019 
+# ou
+sql> start 22-09-2019
+
+#exibir conteudo do arquivo 
+sql> show 22-09-2019
+
+
+
+
+/*SPOOL*/
+#conectar
+$ sqlplus system/senha
+
+#gravar em um arquivo de texto 
+sql> spool 22-09-2019.lst 
+#a partir de agora tudo é salvo nesse arquivo 
+
+# para parar de gravar spool off 
+
+# executar um comando
+SQL> SELECT INSTANCE_NAME FROM V$INSTANCE;
+
+
+#exibir conteudo do arquivo gravado 
+sql> show 22-09-2019
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Detalhado SQLPLUS: 
+
+
+#conectar no sqlplus
 # usuario/senha
 $ sqlplus system/senha
 
-# plsql e todos os comandos de administracao 
 
 # lista o ultimo comando executado, esta armazenado no buffer 
 # *so armazena o ultimo comando executado 
 SQL> list
-# ou l 
+# ou l
+ 
+
 
 # para executar o comando lista no list, so digitar r ou run 
 SQL> r 
@@ -168,29 +279,30 @@ SQL> run
 #ou /, não mostra o codigo 
 SQL> / 
 
+
+
 #apagar a linha que esta corrente do list * 
 SQL> del 
 
 
 # para apagar a linha 2 tem que digitar
 SQL> 2
-#ai ele tras para o terminal 
+#ai ele fica marcado 
 SQL> del 
 
 
 
-# colocar entre a linha 1 e 2 
+# acrescentar comando em uma linha do buffer
 # o comando a de append 
+# a  where user = 'pedro'
 
-
-#alterar, comando c 
 
 
 # limpar o que esta no buufer
 SQL> clear buff 
 
 
-#comando i de input
+#comando i de input - colocar mais uma linha 
 # colocar entre a linha 1 e 2 
 SQL> list
 SQL> 2 /*seleciona a linha 2*/
@@ -203,14 +315,16 @@ SQL> i
 SQL> define_editor = vi
 
 
+#SHOW ALL	Mostrar os valores das variáveis SET
 
 
 #abrir o editor de texto com o nome aula01.sql 
+# abre o editor de texto e pode criar o arquivo 
 # ai dentro coloca um comando 
 sql> ed aula01
 
 
-# executar o comando 
+# executar um arquivo 
 sql> @aula01
 ou 
 sql>start aula01
@@ -274,10 +388,6 @@ sql> set pages 100
 #mostrar alguma variavel 
 sql> show lin 
 
-
-
-
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -285,22 +395,11 @@ sql> show lin
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*TUDO que fizer envolendo banco de dados guardar na pasta diario com data.
+*pasta trabalho, e pasta e casa (.sql)
+* salvar como .sql, e usar sqldeveloper como editor 
+* e outro para executar os comandos 
+* pode ter duplicata não importa 
 
 
 
