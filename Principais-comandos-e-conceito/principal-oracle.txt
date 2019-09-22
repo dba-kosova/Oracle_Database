@@ -398,7 +398,7 @@ sql> show lin
 *TUDO que fizer envolendo banco de dados guardar na pasta diario com data.
 *pasta trabalho, e pasta e casa (.sql)
 * salvar como .sql, e usar sqldeveloper como editor 
-* e outro para executar os comandos 
+* e outro para executar os comandos no sqldeveloper ou sqlplus
 * pode ter duplicata não importa 
 
 
