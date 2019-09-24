@@ -467,12 +467,48 @@ TRANSACAO: 118
 - usuario pode desfazer essas alterações completamente ou are um ponto especifico 
 
 
+SQLPLUS*
+
+space - numero de espaço em branco que serao colocados entre as colunas de uma selecao.
+
+SET SPACE 3
+
+
+linesize - define o comprimento da linha que sera visualizada 
+valor padrao 80 caracteres - os valores excedidos - depende da variavel WRAP 
+
+SET LINESIZE 120 
+
+
+heading - titulo de exibição 
+SET HEADINF ON 
+SET HEADING OFF 
+
+
+pagesize - quantas linhas exibidas o titulo sera mostrado novamente 
+SET PAGESIZE 10
+
+
+wrap - variavel trabalha em conjunto com a determinacao do tamanho da linha da variavel linesize. ou seja se o valor atribuido para wrap for on e a selecao ultrapassar o tamanho da linha, o restante da linha apacerera na linha de baixo caso contrario se o valor de wrap for off, o resultado da linha sera truncado.  
+set  wrap on 
+set wrap off
+
+* melhor deixar 
+set wrap off 
 
 
 
+null - especifica o valor de alguma colna fro nula 
+padroa é ""
+set null "texto"
 
 
 
+autocommit - 
+caso o a variavel AUTOCOMMIT seja ON ou IMMEDIATE 
+serao automaticamente confirmadas 
+
+OFF - permite apenas o COMMIT explicito via comando
 
 
 fontes: 
