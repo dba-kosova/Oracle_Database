@@ -30,6 +30,10 @@ https://apex.oracle.com/pt-br/
 https://livesql.oracle.com/apex/f?p=590:1000
 #Link para fazer Scripts e teste de banco online fornecidos pela oracle PLSQL
 
+
+https://docs.oracle.com/en/
+#documentacao do oracle - de todos os servicos e produtos 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
