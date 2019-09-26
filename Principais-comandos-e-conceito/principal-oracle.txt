@@ -4,7 +4,7 @@ Programas Oracle:
 
 SQL Plus 
 sqldeveloper 
-SQL EXPRESS (XE)
+SQL EXPRESS Edition (XE)
 ORACLE DATABASE 
 ORACLE EDITION 
 
@@ -159,6 +159,105 @@ sql> show 22-09-2019
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+link: https://docs.oracle.com/cd/E11882_01/license.112/e47877.pdf
+
+# dados obtidos oficialmente pela oracle docs
+# *Oracle EXPRESS Edition (XE) - o meu BD 
+# *tudo sobre o 11g
+
+Oracle Database - Licensing Information and versions/realises 
+
+
+
+Oracle Database is available in five editions:
+
+1-Oracle Database Standard Edition One
+
+2-Oracle Database Standard Edition
+
+3-Oracle Database Enterprise Edition
+
+4-Oracle Database Express Edition*
+
+5-Oracle Database Personal Edition
+
+
+
+Oracle Database Express Edition*
+
+Oracle Database Express Edition (Oracle DatabaseXE) is an entry-level edition of Oracle Data base that is quick to download, simple to install and manage, and is free to develop, deploy, and distribute. Oracle Database XE makes it easy to upgrade to the other editions of Oracle without costly and complex migrations. Oracle Database XE can be installed on any size machine with any number of CPUs, stores up to 11 GB of user data, using up to 1 GB of memory, and using only one CPU on the host machine. Support is provided by an online forum.
+
+obs: this doc talk more about (SE1),(SE),(EE)
+
+
+
+
+
+
+
+
+link: https://docs.oracle.com/cd/E17781_01/license.112/e18068/toc.htm#XELIC101
+link: https://docs.oracle.com/cd/E17781_01/license.112/e18068.pdf    -memso link, mas em .pdf
+
+# Oracle Database Express Edition Licensing Information
+#Licensing Information
+#11g Release 2 (11.2)
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Good docs 
+
+https://docs.oracle.com/en/
+#documentacao do oracle - de todos os servicos e produtos
+
+
+
+link: https://docs.oracle.com/cd/E17781_01/license.112/e18068/toc.htm#XELIC101
+link: https://docs.oracle.com/cd/E17781_01/license.112/e18068.pdf    -memso link, mas em .pdf
+# Oracle Database Express Edition Licensing Information
+
+
+
+
+link: https://docs.oracle.com/cd/E17781_01/install.112/e18803.pdf
+link: https://docs.oracle.com/cd/E17781_01/install.112/e18803/toc.htm#XEINW101
+#Oracle Database Express Edition Installation Guide 
+# *windowns
+
+
+#https://docs.oracle.com/cd/E17781_01/install.112/e18802.pdf
+https://docs.oracle.com/cd/E17781_01/install.112/e18802/toc.htm
+#Oracle Database Express Edition Installation Guide 
+# *linux
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
 
 
