@@ -624,10 +624,15 @@ biblioteca virtual ->  dominado oracle 9i: Modelagem e desenvolvimento  -> -> pa
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DIVERSOS: 
 
 
+https://www.guj.com.br/t/padrao-oficial-para-nomenclatura-de-banco-de-dados-existe/294501/4
 
+https://www.fabioprado.net/2012/05/sql-padrao-ansi-x-padrao-oracle.html
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
