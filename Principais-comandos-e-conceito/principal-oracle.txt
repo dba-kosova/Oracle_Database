@@ -644,15 +644,6 @@ https://www.fabioprado.net/2012/05/sql-padrao-ansi-x-padrao-oracle.html
 
 
 
-
-
-
-
-
-
-
-
-
 *TUDO que fizer envolendo banco de dados guardar na pasta diario com data.
 *pasta trabalho, e pasta e casa (.sql)
 * salvar como .sql, e usar sqldeveloper como editor 
