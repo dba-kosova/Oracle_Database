@@ -222,6 +222,47 @@ Unbreakable Linux Network (ULN)
 Configure Additional Operating System Features
 
 
+Oracle recommends that you configure your operating system before starting
+installation
+
+
+
+
+
+
+
+
+Guidelines for Linux Operating System Installation
+
+You can also search for "Linux reduced set of packages" to locate the instructions.
+
+
+
+RPM Packages for Completing Operating System Configuration
+
+Oracle Preinstallation RPM for your Oracle Linux 6 or Oracle Linux 7 kernel (oracle-database-server-12cR2-preinstall).
+
+
+
+Completing a Default Linux Installation
+
+If you do not install the Oracle Preinstallation RPM, then Oracle recommends that you
+install your Linux operating system with the default software packages (RPMs).
+
+
+Oracle recommends that you do not customize the RPMs during installation
+
+
+
+
+About Oracle Linux with the Unbreakable Enterprise Kernel
+It is based on a recent stable mainline development Linux kernel, and also includes optimizations developed in collaboration with Oracle Database, Oracle middleware, and Oracle hardware engineering teams to ensure stability and optimal performance for the most demanding enterprise workloads
+
+
+
+
+Reviewing Operating System and Software Upgrade Best Practices
+
 
 
 
@@ -233,8 +274,18 @@ https://docs.oracle.com/cd/E11882_01/install.112/e47689/appendix_ofa.htm#LADBI13
 
 https://docs.oracle.com/cd/E11882_01/install.112/e47689.pdf#E12.BABFEECI
 
+https://www.oracle.com/linux/
 
 https://docs.oracle.com/en/operating-systems/linux.html
+
+#instalar RPMs recomentados 
+https://blogs.oracle.com/linux/oracle-database-12c-preinstall-steps-for-oracle-linux-simplified
+
+
+https://www.oraclehome.com.br/2012/09/20/como-simplificar-a-instalacao-do-oracle-database-no-oracle-linux-11g-only/
+
+
+https://docs.oracle.com/cd/E11882_01/install.112/e47689/pre_install.htm#LADBI1085
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
