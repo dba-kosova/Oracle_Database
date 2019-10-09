@@ -7,11 +7,11 @@ INSTALACAO CONFIGURACAO E CRIACAO
 PASSOS para configuração e uso do ORACLE DATABASE:
 
 RESUMO: 
-0-ckecklist de resursos necessarios
+0-ckecklist de resursos necessarios (requisitos de hardware para instalação do oracle database e outros serviços)
 1-Instalar e configurar Oracle Linux(SO)
 2-Criação de diretoiros e pastas padrão 
 3-Criação de variaveis de ambiente 
-4-Instalação do Oracle datavase 
+4-Instalação do Oracle database 
 5-Criação do Banco de Dados ex:(poc08)
 
 
@@ -22,6 +22,7 @@ RESUMO:
 REFERENCIAS:
 #Configuring Operating Systems for Oracle Database on Linux
 -https://docs.oracle.com/en/database/oracle/oracle-database/12.2/ladbi/configuring-operating-systems-for-oracle-database-on-linux.html#GUID-563B2067-8E17-4846-A9E1-F7043E70B00E
+
 
 
 
@@ -42,7 +43,200 @@ REFERENCIAS:
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+0-ckecklist de resursos necessarios (requisitos de hardware para instalação do oracle database e outros serviços)
+# vai depender qual DB e serviços vai instalar.
+
+
+ckecklist hardware:
+Minimum RAM-
+*At least 1 GB RAM for Oracle Database installations. 2 GB RAM
+recommended.
+*At least 8 GB RAM for Oracle Grid Infrastructure installations.
+
+
+ckecklist orerating system:
+Operating system general requirements OpenSSH installed manually.
+
+
+
+
+Server Configuration Checklist
+Disk space allocated to the /tmp directory
+At least 1 GB of space in the /tmp directory
+
+
+Swap space allocation relative to RAM (OracleDatabase)
+-Between 1 GB and 2 GB: 1.5 times the size of the RAM
+
+Oracle Inventory(oraInventory) and OINSTALL Group Requirements
+*or upgrades, Oracle Universal Installer (OUI) detects an
+existing oraInventory directory from the 
+/etc/
+
+
+Groups and users
+The OINSTALL group must be the primary group of all Oracle
+software installation owners on the server. It should be writable
+by any Oracle installation owne
+
+
+Determine superuser (root) privilege delegation option for installation
+*During a database or grid infrastructure installation, you are asked to run configuration scripts as the root user.
+
+
+
+Set locale (if needed)
+NLS (National Language Support) 
+
+
+
+
+
+Check Shared Memory File System Mount
+/dev/shm mount area is of type tmpfs  and is mounted 
+
+
+
+
+User Environment Configuration for Oracle Database
+*Review Oracle Inventory (oraInventory) and OINSTALL Group Requirements
+
+Environment Variables
+ORACLE_HOME, ORACLE_BASE, ORACLE_SID,
+TNS_ADMIN 
+
+Set the DISPLAY environment variable.
+
+
+
+
+Storage Checklist for Oracle Database
+
+check                                      
+Minimum local disk storage space 
+task 
+At least 7.5 GB for Oracle Database Enterprise Edition.
+Oracle recommends that you allocate approximately 100 GB to allow additional space for applying any future patches
+
+
+
+
+
+
+Installer Planning Checklist for Oracle Database
+
+
+Run OUI with CVU and use fixup scripts
+Cluster Verification Utility (CVU)
+
+
+Oracle RAC 
+
+
+
+
+
+Download and run
+ORAchk
+
+
+
+
+
+Oracle Universal Installer Planning Checklist for Oracle Database Installation
+
+
+
+Deployment Checklist for Oracle Database
+
+Install Oracle Database software using Oracle Universal Installer (OUI)
+
+Oracle DBCA
+
+
+
+Checking and Configuring Server Hardware for Oracle Database
+
+
+
+OUI is a graphical user interface (GUI) application.
+
+
+
+
+
+Checking Server Hardware and Memory Configuration
+grep MemTotal /proc/meminfo
+
+grep SwapTotal /proc/meminfo
+
+df -h /tmp
+
+
+
+Determine the amount of free RAM and disk swap space on the system:
+free
+
+
+Determine if the system architecture can run the software:
+# uname -m
+
+
+Verify that the processor architecture matches the Oracle software release to
+install. For example, you should see the following for a x86-64 bit system:
+x86_64
+
+
+Verify that shared memory (/dev/shm) is mounted properly with sufficient size:
+df -h /dev/shm
+
+
+The df-h command displays the filesystem on which /dev/shm is mounted, and also displays in GB the total size and free size of shared memory.
+
+
+
+
+Automatically Configuring Oracle Linux with Oracle Preinstallation RPM
+
+Use Oracle Linux RPMs to simplify operating system configuration in preparation for
+Oracle software installations.
+
+
+Oracle recommends that you install Oracle Linux 6 or Oracle Linux 7 and use Oracle
+Preinstallation RPM to configure your operating systems for Oracle Database and
+Oracle Grid Infrastructure installations.
+
+
+
+
+Configuring a server using Oracle Linux and the Oracle Preinstallation RPM consists
+of the following steps:
+Install Oracle Linux.
+Unbreakable Linux Network (ULN)
+
+
+
+
+Configure Additional Operating System Features
+
+
+
+
+
+
+
+REFERENCIAS:
+#OFA Optimal Flexible Architecture
+https://docs.oracle.com/cd/E11882_01/install.112/e47689/appendix_ofa.htm#LADBI1374
+
+https://docs.oracle.com/cd/E11882_01/install.112/e47689.pdf#E12.BABFEECI
+
+
+https://docs.oracle.com/en/operating-systems/linux.html
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
