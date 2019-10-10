@@ -7,14 +7,14 @@ INSTALACAO CONFIGURACAO E CRIACAO
 PASSOS para configuração e uso do ORACLE DATABASE:
 
 RESUMO: 
-0-ckecklist de resursos necessarios (requisitos de hardware para instalação do oracle database e outros serviços)
-1-Instalar e configurar Oracle Linux(SO)
-2-Criação de diretoiros e pastas padrão 
+*ckecklist
+0- resursos necessarios (requisitos de hardware para instalação do oracle database e outros serviços)
+1-Instalar e configurar Oracle Linux(SO) - Oracle Preinstallation RPM
+2-Criação de diretoiros e pastas padrão (Optimal Flexible Architecture)
 3-Criação de variaveis de ambiente 
-4-Instalação do Oracle database 
-5-Criação do Banco de Dados ex:(poc08)
-
-
+4-Instalação do Oracle database - Silent Mode or OUI 
+5-Configurar Litener - NETCA
+5-Criação do Banco de Dados ex:(poc08) - DBCA
 
 
 
@@ -22,11 +22,6 @@ RESUMO:
 REFERENCIAS:
 #Configuring Operating Systems for Oracle Database on Linux
 -https://docs.oracle.com/en/database/oracle/oracle-database/12.2/ladbi/configuring-operating-systems-for-oracle-database-on-linux.html#GUID-563B2067-8E17-4846-A9E1-F7043E70B00E
-
-
-
-
-
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -286,6 +281,10 @@ https://www.oraclehome.com.br/2012/09/20/como-simplificar-a-instalacao-do-oracle
 
 
 https://docs.oracle.com/cd/E11882_01/install.112/e47689/pre_install.htm#LADBI1085
+
+
+
+dar nome aos bois 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -10,6 +10,15 @@ ORACLE EDITION
 
 
 
+OEM (Oracle Enterprise Manager)
+DBCA (Database Configuration Assistant)
+NETCA (Net Easy Configuration Assistant) 
+ORAchk (Health Check Tool)
+Oracle RAC (Real Application Clusters)
+CVU (Cluster Verification Utility)
+OUI (Oracle Universal Installer)
+EMCA (Enterprise Manager Configuration Assistan)
+DBUA (Oracle Database Upgrade Assistant)
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -43,10 +52,10 @@ https://docs.oracle.com/en/
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Arquitetura: Estrutura Logica - Resumo 
+Arquitetura: Estrutura  - Resumo 
 
 #Estrutra Logica 
-# data blocks, Extents, Segments, Tablespaces-
+# data blocks, Extents, Segments, Tablespaces
 
 # Data Blocks: Menor unidade logica de armazenamento do banco de dados 
 
@@ -69,7 +78,6 @@ Arquitetura: Estrutura Logica - Resumo
 #DBF
 
 #Redologs - estrutura mais crucial para operações de recuperação armazenam todas as alterações feitas no banco de dados à medida que ocorrem.
-
 
 #Controlfiles- necessário para o banco de dados iniciar e operar com sucesso.
 #Each control file is associated with only one Oracle database.
