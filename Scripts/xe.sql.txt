@@ -10,4 +10,11 @@
  *************************************************************/
 
 
-SELECT instance_Name FROM v$instance;
+/*nome da instancias*/ 
+SELECT instance_Name FROM V$INSTANCE;
+
+
+
+/*informacoes sobre o BD*/
+SELECT * FROM V$DATABASE;
+
