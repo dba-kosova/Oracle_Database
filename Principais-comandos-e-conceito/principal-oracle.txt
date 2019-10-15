@@ -652,6 +652,510 @@ https://www.fabioprado.net/2012/05/sql-padrao-ansi-x-padrao-oracle.html
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PASSOS para configuração e uso do ORACLE DATABASE: 
+
+RESUMO: 
+*ckecklist em todos os passos 
+0- resursos necessarios (requisitos de hardware para instalação do oracle database e outros serviços)
+1-Instalar e configurar Oracle Linux(SO) - (Oracle Preinstallation RPM)
+2-Criação de diretoiros e pastas padrão - (Optimal Flexible Architecture)
+3-Criação de variaveis de ambiente - (Environment Variables)
+4-Instalação do Oracle database - (Silent Mode or OUI)
+5-Configurar Litener - (NETCA)
+5-Criação do Banco de Dados ex:(poc08) - (DBCA)
+
+
+
+REFERENCIAS:
+#Configuring Operating Systems for Oracle Database on Linux
+-https://docs.oracle.com/en/database/oracle/oracle-database/12.2/ladbi/database-installation-guide-linux.pdf
+-https://docs.oracle.com/cd/B28359_01/install.111/b32002.pdf
+-https://support.oracle.com (My Oracle Support)
+-https://docs.oracle.com/cd/E11882_01/server.112/e10897.pdf
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DETALHE Linux So e configuração e uso do ORACLE DATABASE: 11g
+
+
+0- resursos necessarios (requisitos de hardware para instalação do oracle database e outros serviços)
+REFERENCIAS: https://docs.oracle.com/cd/E11882_01/install.112/e24324/toc.htm#CHDCIAAA pagina 3
+
+Checking the Hardware Requirement
+-Memory Requirements
+-Disk Space Requirements 
+-System Architecture 
+-Display requirements 
+
+
+Memory Requirements:
+
+Minimum: 1 GB of RAM
+
+Recommended: 2 GB of RAM or more
+To determine the RAM size, enter the following command:
+$ grep MemTotal /proc/meminfo
+or
+$ free -h
+
+
+
+Available RAM                  Swap Space Required
+Between 1 GB and 2 GB          1.5 times the size of the RAM
+Between 2 GB and 16 GB         Equal to the size of the RAM
+More than 16 GB                16 GB
+
+
+
+To determine whether the system architecture can run the software, enter the 
+following command:
+
+uname -m
+
+note:
+This command displays the processor type. Verify that the processor architecture matches the Oracle software release to install. If you do not see the expected output, then you cannot install the software on this system.
+
+
+
+To determine the size of the configured swap space, enter the following command:
+
+$ grep SwapTotal /proc/meminfo
+or
+$ free -h
+
+
+
+To determine the available RAM and swap space, enter the following command:
+$ free
+
+
+Automatic Memory Management
+Starting with Oracle Database 11g, the Automatic Memory Management feature requires more shared memory (/dev/shm) and file descriptors. The shared memory should be sized to be at least the greater of MEMORY_MAX_TARGET and MEMORY_TARGET for each Oracle instance on that computer. 
+
+
+To determine the amount of shared memory available, enter the following command: # df -h /dev/shm/
+
+
+Note:MEMORY_MAX_TARGET and MEMORY_TARGET cannot be used when LOCK_SGA is enabled or with HugePages on Linux
+
+
+
+
+
+Disk Space Requirements:
+The following are the disk space requirements for installing Oracle Database 11g Release 2 (11.2)
+
+1 GB of disk space in the /tmp directory
+
+To determine the amount of disk space available in the /tmp directory, enter the following command:
+# df -h /tmp
+
+
+To determine the amount of free disk space on the system, enter the following 
+command:
+# df -h
+
+
+
+The following tables describe the disk space requirements for software files, and data files for each installation type on Linux x86:
+
+
+Installation Type            Requirement for Software Files (GB)
+Enterprise Edition           4.5
+Standard Edition             4.4
+
+
+
+Installation Type            Requirement for Data Files (GB)
+Enterprise Edition           1.7
+Standard Edition             1.5
+
+
+
+
+
+
+System Architecture
+To determine if the system architecture can run the software, enter the following 
+command:
+# uname -m
+
+
+
+Display Requirements
+The minimum resolution for Oracle Database 11g Release 2 (11.2) is 1024 x 768 or higher.
+
+
+
+
+
+
+
+4 Checking the Software Requirement
+-Operating System Requirements
+-Kernel Requirements 
+-Package Requirements
+-Compiler Requirements
+-Additional Software Requirements 
+
+
+Note:Oracle Universal Installer (OUI) performs checks on the system to verify that it meets the listed requirements. To ensure that these checks pass, verify the requirements before you start Oracle Universal Installer.
+
+
+
+4.1  Operating System Requirements
+The following or later versions of the operating system are required for Oracle Database 11g Release 2 (11.2):
+Asianux Server 3 SP2
+Asianux Server 4 SP3
+Oracle Linux 4 Update 7
+Oracle Linux 5 Update 2
+Oracle Linux 6
+Red Hat Enterprise Linux 4 Update 7
+Red Hat Enterprise Linux 5 Update 2
+Red Hat Enterprise Linux 6
+SUSE Linux Enterprise Server 10 SP2
+SUSE Linux Enterprise Server 11
+
+
+
+To determine the distribution and version of Linux installed, enter the following 
+command:
+
+# cat /proc/version
+
+
+
+Note:Only the distributions and versions listed in the earlier list are 
+supported. Do not install the software on other versions of Linux
+
+
+
+
+4.2  Kernel Requirements
+The following are the Kernel requirements for Oracle Database 11g Release 2 (11.2):
+For Oracle Linux 4 and Red Hat Enterprise Linux 4: 2.6.9 or later
+For Asianux Server 3, Oracle Linux 5, and Red Hat Enterprise Linux 5: 2.6.18 or later
+For Oracle Linux 6: 2.6.32.100 or later
+For Red Hat Enterprise Linux 6 and Asianux Server 4: 2.6.32-71 or later
+For SUSE Linux Enterprise Server 10: 2.6.16.21 or late
+On SUSE Linux Enterprise Server 11: 2.6.27.19 or late
+
+
+
+
+To determine whether the required kernel is installed, enter the following command:
+# uname -r
+
+
+
+If the kernel version does not meet the requirement specified earlier in this section, then contact the operating system vend or for information about obtaining and installing kernel updates.
+
+
+
+4.3  Package Requirements
+The following are the list of packages required for Oracle Database 11g Release 2 (11.2)
+Note:
+-Oracle recommends that you install your Linux operating system with the default software packages (RPMs), unless you specifically intend to perform a minimal installation, and follow the directions for performing such an installation to ensure that  you have all required packages for Oracle software.
+
+-Oracle recommends that you do not customize RPMs during a default operating system installation. A default installation includes most required packages, and helps you to limit manual checks of package dependencies.
+
+-If you did not perform a default Linux installation, you intend to use LDAP, and you want to use the scripts odisrvreg,oidca, or schemasync, then install the Korn shell RPM for your Linux distribution
+
+-You must install the packages (or later versions) listed in the following table. Also, ensure that the list of RPMs and all the prerequisites for these RPMs are installed.
+
+
+
+
+
+The following or later version of packages for Oracle Linux 4 and Red Hat Enterprise Linux 4 should be installed:
+binutils-2.15.92.0.2
+compat-libstdc++-33-3.2.3
+elfutils-libelf-0.97
+elfutils-libelf-devel-0.97
+gcc-3.4.6
+gcc-c++-3.4.6
+glibc-2.3.4-2.41
+glibc-common-2.3.4
+glibc-devel-2.3.4
+glibc-headers-2.3.4
+libaio-devel-0.3.105
+libaio-0.3.105
+libgcc-3.4.6
+libstdc++-3.4.6
+libstdc++-devel-3.4.6
+make-3.80
+numactl-0.6.4.i386
+pdksh-5.2.14
+sysstat-5.0.5
+
+
+
+The following or later version of packages for Asianux Server 3, Oracle Linux 5, and Red Hat Enterprise Linux 5 should be installed:
+binutils-2.17.50.0.6
+compat-libstdc++-33-3.2.3
+elfutils-libelf-0.125
+elfutils-libelf-devel-0.125
+elfutils-libelf-devel-static-0.125
+gcc-4.1.2
+gcc-c++-4.1.2
+glibc-2.5-24
+glibc-common-2.5
+glibc-devel-2.5
+glibc-headers-2.5
+kernel-headers-2.6.18
+ksh-20060214
+libaio-0.3.106
+libaio-devel-0.3.106 
+libgcc-4.1.2
+libgomp-4.1.2
+libstdc++-4.1.2 
+libstdc++-devel-4.1.2
+make-3.81
+sysstat-7.0.2
+
+
+
+The following or later version of packages for Oracle Linux 6, Red Hat Enterprise Linux 6, and Asianux Server 4 should be installed:
+binutils-2.20.51.0.2-5.11.el6.i686
+compat-libcap1-1.10-1.i686
+compat-libstdc++-33-3.2.3-69.el6.i686
+gcc-4.4.4-13.el6.i686
+gcc-c++-4.4.4-13.el6.i686
+glibc-2.12-1.7.el6.i686
+glibc-devel-2.12-1.7.el6.i686
+ksh
+libgcc-4.4.4-13.el6.i686
+libstdc++-4.4.4-13.el6.i686
+libstdc++-devel-4.4.4-13.el6.i686
+libaio-0.3.107-10.el6.i686
+libaio-devel-0.3.107-10.el6.i686
+make-3.81-19.el6.i686
+sysstat-9.0.4-11.el6.i686
+
+
+
+
+
+The following or later version of packages for SUSE Linux Enterprise Server 10 should be installed:
+binutils-2.16.91.0.5
+compat-libstdc++-5.0.7
+gcc-4.1.2
+gcc-c++-4.1.2
+glibc-2.4-31.63
+glibc-devel-2.4-31.63
+ksh-93r-12.9
+libaio-0.3.104
+libaio-devel-0.3.104
+libelf-0.8.5
+libgcc-4.1.2
+libstdc++-4.1.2
+libstdc++-devel-4.1.2
+make-3.80
+sysstat-8.0.
+
+
+
+
+
+
+
+The following or later version of packages for SUSE Linux Enterprise Server 11 should be installed:
+binutils-2.19
+gcc-4.3
+gcc-c++-4.3
+glibc-2.9
+glibc-devel-2.9
+ksh-93t
+libstdc++33-3.3.3
+libstdc++43-4.3.3_20081022
+libstdc++43-devel-4.3.3_20081022
+libaio-0.3.104
+libaio-devel-0.3.104
+libgcc43-4.3.3_20081022
+libstdc++-devel-4.3
+make-3.81
+sysstat-8.1.5
+
+
+Note:
+The kernel-headers-2.6.18 package is not mandatory for database installations on Linux x86. You can ignore the OUI or Cluster Verification Utility (CVU) warning to install this package
+
+The numa package link for Linux x86 is /usr/lib.
+
+
+To determine whether the required packages are installed, enter commands similar to the following
+# rpm -q package_name
+
+
+If a package is not installed, then install it from the Linux distribution media or 
+download the required package version from the Linux vendors website
+
+
+
+
+
+
+
+4.4  Compiler Requirements
+The following are the compiler requirements for Pro*C/C++ , Oracle Call Interface, Oracle C++ Call Interface, and Oracle XML Developers Kit (XDK) with Oracle Database 11g Release 2 (11.2):
+
+
+Intel C++ Compiler 10.1 or later and the version of GNU C and C++ compilers listed under "Package Requirements" on page 1-8 are supported with these products
+
+pag 11 
+
+
+
+REFERENCIAS:
+#todos os docs sobre 11g
+https://docs.oracle.com/cd/E11882_01/index.htm
+# docs sobre install oracle database
+https://docs.oracle.com/cd/E11882_01/nav/portal_11.htm
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 *TUDO que fizer envolendo banco de dados guardar na pasta diario com data.
 *pasta trabalho, e pasta e casa (.sql)
 * salvar como .sql, e usar sqldeveloper como editor 

@@ -4,7 +4,7 @@ INSTALACAO CONFIGURACAO E CRIACAO
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-PASSOS para configuração e uso do ORACLE DATABASE:
+PASSOS para configuração e uso do ORACLE DATABASE: 
 
 RESUMO: 
 *ckecklist em todos os passos 
@@ -15,11 +15,6 @@ RESUMO:
 4-Instalação do Oracle database - (Silent Mode or OUI)
 5-Configurar Litener - (NETCA)
 5-Criação do Banco de Dados ex:(poc08) - (DBCA)
-
-
-
-
-
 
 
 
@@ -37,6 +32,8 @@ REFERENCIAS:
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DETALHE Linux So e configuração e uso do ORACLE DATABASE: 11g
 
 
 
@@ -44,6 +41,14 @@ REFERENCIAS:
 
 
 
+
+REFERENCIAS:
+#todos os docs sobre 11g
+https://docs.oracle.com/cd/E11882_01/index.htm
+# docs sobre install oracle database
+https://docs.oracle.com/cd/E11882_01/nav/portal_11.htm
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
