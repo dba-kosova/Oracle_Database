@@ -11,6 +11,7 @@ ORACLE LINUX 5.11.0.0.0 ( Oracle Linux )
 Instalacao SO (ORACLE LINUX)
 https://edelivery.oracle.com/osdc/faces/SoftwareDelivery
 Oracle Linux 5.11.0.0.0 ( Oracle Linux )
+operating system requirements
 
 
 INSTALAÇÃO GRAFICA SEGUINDO DOCUMENTAÇAO ORACLE ESSENTIONS UDEMY
@@ -257,17 +258,95 @@ If the kernel version does not meet the requirement specified earlier in this se
 
 
 
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+6  Configuring Kernel Parameters and Resource Limits
+
+
+Verify that the kernel parameters shown in the following table are set to values greater than or equal to the minimum value shown. The procedure following the table describes how to verify and set the values.
+
+Note:The kernel parameter and shell limit values in this section are minimum values only. For production database systems, Oracle recommends that you tune these values to optimize the performance of the system. Refer to your operating system documentation for more information about tuning kernel parameters.
+
+
+Parameter	Minimum  Value		File
+PAG 19 TABLE 
+
+
+Note:If the current value of any parameter is higher than the value listed in this table, then do not change the value of that parameter.
+
+
+To view the current value specified for these kernel parameters, and to change them if necessary:
+
+
+Enter commands similar to the following to view the current values of the kernel parameters:
+Note:Make a note of the current values and identify any values that you must change.
+
+Parameter	Command
+PAG 20 TABLE 
 
 
 
+If the value of any kernel parameter is different from the recommended value, then complete the following steps:
+
+1.Using any text editor, create or edit the /etc/sysctl.conf file, and add or edit lines similar to the following:
+
+
+Note:Include lines only for the kernel parameter values to change. For the semaphore parameters (kernel.sem), you must specify all four values. However, if any of the current values are larger than the minimum value, then specify the larger value. 
+
+#CONFIGURACAO REFERENTE AO ORACLE
+fs.aio-max-nr = 1048576
+fs.file-max = 6815744
+kernel.shmall = 2097152
+kernel.shmmax = 536870912
+kernel.shmmni = 4096
+kernel.sem = 250 32000 100 128
+net.ipv4.ip_local_port_range = 9000 65500
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048576
+#FIM DA CONFIGURACAO DO ORACLE
+
+
+By specifying the values in the /etc/sysctl.conf file, they persist when you restart the system. However, on SUSE Linux Enterprise Server systems, enter the following command to ensure that the system reads the /etc/sysctl.conf file when it restarts:
+
+# /sbin/chkconfig boot.sysctl on
 
 
 
+2.Enter the following command to change the current values of the kernel parameters:
+# /sbin/sysctl -p
 
+Review the output from this command to verify that the values are correct. If the values are incorrect, edit the /etc/sysctl.conf file,then enter this command again.
+
+3.Enter the command /sbin/sysctl -a to confirm that the values are set correctly.
+
+
+4.On SUSE systems only, enter the following command to cause the system to read the/etc/sysctl.conf file when it restarts:
+# /sbin/chkconfig boot.sysctl on
+
+
+5.On SUSE systems only, you must enter the GID of the oinstall group as the value for the parameter /proc/sys/vm/hugetlb_shm_group.Doing this grants  members of oinstall a group permission to create shared memory segments.
+
+For example, where theoinstall group GID is 501:
+# echo 501 > /proc/sys/vm/hugetlb_shm_group
+
+After running this command, use vi to add the following textto /etc/sysctl.conf, and enable the boot.sysctl script to run on system restart:
+
+Note:Include lines only for the kernel parametervalues to change. For the semaphore parameters (kernel.sem), you must specify all four values. However, if any of the currentvalues are larger than the minimum value, then specify the larger value. 22vm.hugetlb_shm_group
+
+
+6.After updating the values of kernel parameters in the /etc/sysctl.conf file, either restart the computer, or run the command 
+sysctl -p to make the changes in the /etc/sysctl.conf file available in the active kernel memory.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
