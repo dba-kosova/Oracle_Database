@@ -721,7 +721,7 @@ For example:
 
 
 
-8 Configuring the oracle Users Environment
+8 Configuring the oracle Users Environment
 You run Oracle Universal Installer from the oracle account. However, before you start
 Oracle Universal Installer, you must configure the environment of the oracle user. To
 configure the environment, you must:
@@ -732,7 +732,7 @@ configure the environment, you must:
 
 
 
-To set the oracle users environment:
+To set the oracle users environment:
 
 1. Start a new terminal session, for example, an X terminal (xterm).
 
@@ -936,7 +936,7 @@ the disc drive.
 
 10 Installing Oracle Database
 
-After configuring the oracle users environment, start Oracle Universal Installer and
+After configuring the oracle users environment, start Oracle Universal Installer and
 install Oracle Database as follows:
 1. To start Oracle Universal Installer, enter the following command:
 $ /mount_point/db/runInstaller
@@ -975,24 +975,6 @@ Guide
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 REFERENCIAS:
 #todos os docs sobre 11g
 https://docs.oracle.com/cd/E11882_01/index.htm
@@ -1000,12 +982,6 @@ https://docs.oracle.com/cd/E11882_01/index.htm
 https://docs.oracle.com/cd/E11882_01/nav/portal_11.htm
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
 
 
 
@@ -1355,63 +1331,6 @@ https://docs.oracle.com/cd/E11882_01/install.112/e47689/pre_install.htm#LADBI108
 dar nome aos bois 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

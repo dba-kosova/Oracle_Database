@@ -1,0 +1,281 @@
+ORACLE 11G EXPRESS EDITON (XE) 11g Release 2 (11.2) 
+ORACLE LINUX 5.11.0.0.0 ( Oracle Linux )
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Instalacao SO (ORACLE LINUX)
+https://edelivery.oracle.com/osdc/faces/SoftwareDelivery
+Oracle Linux 5.11.0.0.0 ( Oracle Linux )
+
+
+INSTALAÇÃO GRAFICA SEGUINDO DOCUMENTAÇAO ORACLE ESSENTIONS UDEMY
+
+
+Instalar e configurar Oracle Linux(SO) - (Oracle Preinstallation RPM)
+
+
+Oracle Linux 5,and Red Hat Enterprise Linux 5 should be installed:
+REFERENCIA: https://docs.oracle.com/cd/E11882_01/install.112/e24324.pdf pag.09
+(rpm -Uvh) - adicionar no começo dos pacotes para instalção 
+binutils-2.17.50.0.6
+compat-libstdc++-33-3.2.3
+elfutils-libelf-0.125
+elfutils-libelf-devel-0.125
+elfutils-libelf-devel-static-0.125
+gcc-4.1.2
+gcc-c++-4.1.2
+glibc-2.5-24
+glibc-common-2.5
+glibc-devel-2.5
+glibc-headers-2.5
+kernel-headers-2.6.18
+ksh-20060214
+libaio-0.3.106
+libaio-devel-0.3.106 
+libgcc-4.1.2
+libgomp-4.1.2
+libstdc++-4.1.2 
+libstdc++-devel-4.1.2
+make-3.81
+sysstat-7.0.2
+
+
+To determine whether the required packages are installed, enter commands similar to the following:
+# rpm -q package_name
+
+
+Note:
+-Oracle recommends that you install your Linux operating system with the default software packages (RPMs), unless you specifically intend to perform a minimal installation, and follow the directions for performing such an installation to ensure that you have all required packages for Oracle software.
+
+-Oracle recommends that you do not customize RPMs during a default operating system installation. A defaultinstallation includes most required packages, and helps you to limit manual checks of package dependencies.
+
+-If you did not perform a default Linux installation, you intend to use LDAP, and you want to use the scripts odisrvreg, oidca, or schemasync, then install the Korn shell RPM for your Linux distribution.
+
+-You must install the packages (or later versions) listed in the following table. Also, ensure that the list of RPMs and all the prerequisites for these RPMs are installed.
+
+
+
+ou instalação automatica dos packets necessarios 
+REFERENCIA:
+https://oracle-base.com/articles/11g/oracle-db-11gr2-installation-on-oracle-linux-6
+http://public-yum.oracle.com/
+https://www.oracle.com/technetwork/articles/servers-storage-admin/ginnydbinstallonlinux-488779.html
+
+
+# yum install oracle-rdbms-server-11gR2-preinstall
+
+# yum update
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Resursos necessarios (requisitos de hardware para instalação do oracle database e outros serviços)
+REFERENCIAS: https://docs.oracle.com/cd/E11882_01/install.112/e24324/toc.htm#CHDCIAAA pagina 3
+
+
+Checking the Hardware Requirement
+-Memory Requirements
+-Disk Space Requirements 
+-System Architecture 
+-Display requirements 
+
+
+Memory Requirements:
+
+Minimum: 1 GB of RAM
+
+Recommended: 2 GB of RAM or more
+To determine the RAM size, enter the following command:
+$ grep MemTotal /proc/meminfo
+or
+$ free -h
+
+
+
+Available RAM                  Swap Space Required
+Between 1 GB and 2 GB          1.5 times the size of the RAM
+Between 2 GB and 16 GB         Equal to the size of the RAM
+More than 16 GB                16 GB
+
+
+
+To determine whether the system architecture can run the software, enter the 
+following command:
+
+uname -m
+
+note:
+This command displays the processor type. Verify that the processor architecture matches the Oracle software release to install. If you do not see the expected output, then you cannot install the software on this system.
+
+
+
+To determine the size of the configured swap space, enter the following command:
+
+$ grep SwapTotal /proc/meminfo
+or
+$ free -h
+
+
+
+To determine the available RAM and swap space, enter the following command:
+$ free
+
+
+Automatic Memory Management
+Starting with Oracle Database 11g, the Automatic Memory Management feature requires more shared memory (/dev/shm) and file descriptors. The shared memory should be sized to be at least the greater of MEMORY_MAX_TARGET and MEMORY_TARGET for each Oracle instance on that computer. 
+
+
+To determine the amount of shared memory available, enter the following command: # df -h /dev/shm/
+
+
+Note:MEMORY_MAX_TARGET and MEMORY_TARGET cannot be used when LOCK_SGA is enabled or with HugePages on Linux
+
+
+
+
+
+Disk Space Requirements:
+The following are the disk space requirements for installing Oracle Database 11g Release 2 (11.2)
+
+1 GB of disk space in the /tmp directory
+
+To determine the amount of disk space available in the /tmp directory, enter the following command:
+# df -h /tmp
+
+
+To determine the amount of free disk space on the system, enter the following 
+command:
+# df -h
+
+
+
+The following tables describe the disk space requirements for software files, and data files for each installation type on Linux x86:
+
+
+Installation Type            Requirement for Software Files (GB)
+Enterprise Edition           4.5
+Standard Edition             4.4
+
+
+
+Installation Type            Requirement for Data Files (GB)
+Enterprise Edition           1.7
+Standard Edition             1.5
+
+
+
+
+
+
+System Architecture
+To determine if the system architecture can run the software, enter the following 
+command:
+# uname -m
+
+
+
+Display Requirements
+The minimum resolution for Oracle Database 11g Release 2 (11.2) is 1024 x 768 or higher.
+
+
+
+
+
+
+
+4 Checking the Software Requirement
+-Operating System Requirements
+-Kernel Requirements 
+-Package Requirements
+-Compiler Requirements
+-Additional Software Requirements 
+
+
+Note:Oracle Universal Installer (OUI) performs checks on the system to verify that it meets the listed requirements. To ensure that these checks pass, verify the requirements before you start Oracle Universal Installer.
+
+
+
+4.1  Operating System Requirements
+The following or later versions of the operating system are required for Oracle Database 11g Release 2 (11.2):
+Asianux Server 3 SP2
+Asianux Server 4 SP3
+Oracle Linux 4 Update 7
+Oracle Linux 5 Update 2
+Oracle Linux 6
+Red Hat Enterprise Linux 4 Update 7
+Red Hat Enterprise Linux 5 Update 2
+Red Hat Enterprise Linux 6
+SUSE Linux Enterprise Server 10 SP2
+SUSE Linux Enterprise Server 11
+
+
+
+To determine the distribution and version of Linux installed, enter the following 
+command:
+
+# cat /proc/version
+
+
+
+Note:Only the distributions and versions listed in the earlier list are 
+supported. Do not install the software on other versions of Linux
+
+
+
+
+4.2  Kernel Requirements
+The following are the Kernel requirements for Oracle Database 11g Release 2 (11.2):
+For Oracle Linux 4 and Red Hat Enterprise Linux 4: 2.6.9 or later
+For Asianux Server 3, Oracle Linux 5, and Red Hat Enterprise Linux 5: 2.6.18 or later
+For Oracle Linux 6: 2.6.32.100 or later
+For Red Hat Enterprise Linux 6 and Asianux Server 4: 2.6.32-71 or later
+For SUSE Linux Enterprise Server 10: 2.6.16.21 or late
+On SUSE Linux Enterprise Server 11: 2.6.27.19 or late
+
+
+
+
+To determine whether the required kernel is installed, enter the following command:
+# uname -r
+
+
+
+If the kernel version does not meet the requirement specified earlier in this section, then contact the operating system vend or for information about obtaining and installing kernel updates.
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

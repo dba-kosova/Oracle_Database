@@ -43,6 +43,10 @@ https://livesql.oracle.com/apex/f?p=590:1000
 https://docs.oracle.com/en/
 #documentacao do oracle - de todos os servicos e produtos 
 
+
+https://shop.oracle.com/apex/product?p1=oraclelinux&p2=&p3=&p4=&p5=
+#Produtos e preços oracle 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
