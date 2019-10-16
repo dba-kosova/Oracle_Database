@@ -3,8 +3,9 @@ ORACLE LINUX 5.11.0.0.0 ( Oracle Linux )
 
 
 
-
-
+REFERENCES:
+https://www.oracle.com/database/technologies/oracle-database-software-downloads.html
+https://www.oracle.com/database/technologies/112010-linx8664soft.html
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -77,6 +78,76 @@ https://www.oracle.com/technetwork/articles/servers-storage-admin/ginnydbinstall
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Creating Required Operating System Groups and Users
+REFERENCES: https://docs.oracle.com/cd/E11882_01/install.112/e24326.pdf
+
+
+
+The following local operating system groups and users are required if you are 
+installing Oracle Database:
+-The Oracle Inventory group (typically,oinstall)
+-The OSDBA group (typically,dba)
+-The Oracle software owner (typically,oracle)
+-The OSOPER group (optional. Typically,oper)
+
+
+To determine whether these groups and users exist, and if necessary, to create them, 
+follow these steps:
+
+
+1.To determine whether the oinstall group exists, enter the following command:
+more /etc/oraInst.loc
+ou
+cat /etc/group | grep oinstall
+
+
+If the output of this command shows the oinstall group name, then the group exists.
+inventory_loc=/u01/app/oraInventory
+inst_group=oinstall
+
+
+The inst_group parameter shows the name of the Oracle Inventory group, oinstall.
+
+
+2.To determine whether the dba group exists, enter the following command
+# grep dba /etc/group
+or 
+cat /etc/group | grep dba
+
+If the output from this commands shows the dba group name, then the group exists.
+
+
+3.If necessary, enter the following commands to create the oinstall and dba groups:
+# /usr/sbin/groupadd oinstall
+# /usr/sbin/groupadd dba
+
+
+4.To determine whether the oracle user exists and belongs to the correct groups, enter the following command:
+# id oracle
+
+If the oracle user exists, then this command displays information about the groups to which the user belongs. The output should besimilar to the following, indicating that oinstall is the primary group and dba is a secondary group:
+uid=440(oracle) gid=200(oinstall) groups=201(dba),202(oper)
+
+
+
+5.If necessary, complete one of the following actions:
+If the oracle user exists, but its primary group is not oinstall or it is not a member of the dba group, then enter the following command: 
+# /usr/sbin/usermod -g oinstall -G dba oracle
+
+
+If the oracleuser does not exist, enter the following command to create it:
+# /usr/sbin/useradd -g oinstall -G dba oracle
+
+
+This command creates the oracle user and specifies oinstall as the primary group and dba as the secondary group.
+
+
+6.Enter the following command to set the password of the oracle user:
+# passwd oracle
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -266,7 +337,7 @@ If the kernel version does not meet the requirement specified earlier in this se
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
-6  Configuring Kernel Parameters and Resource Limits
+6  Configuring Kernel Parameters 
 
 
 Verify that the kernel parameters shown in the following table are set to values greater than or equal to the minimum value shown. The procedure following the table describes how to verify and set the values.
@@ -347,6 +418,105 @@ sysctl -p to make the changes in the /etc/sysctl.conf file available in the acti
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Resource Limits
+REFERENCIAS: 
+https://docs.oracle.com/cd/E11882_01/install.112/e24324/toc.htm#CHDCIAAA pagina 22
+https://docs.oracle.com/cd/E26370_01/doc.121/e26358/dbinstall.htm
+
+
+Check Resource Limits for the Oracle Software Installation Users
+
+On Oracle Linux systems, Oracle recommends that you install Oracle Preinstallation RPMs to meet preinstallation requirements like configuring your operating system to set the resource limits in the limits.conf  file. Oracle Preinstallation RPM only configures the limits.conf file for the oracle user. If you are implementing Oracle Grid Infrastructure job role separation, then copy the values from the oracle user to the grid user in the limits.conf file.
+
+
+For each installation software owner, check the resource limits for installation, using 
+the following recommended ranges:
+
+TABLE PAG 22
+
+
+To check resource limits:
+
+Log in as an installation owner.
+
+
+Check the soft and hard limits for the file descriptor setting. Ensure that the result is in the recommended range. For example:
+$ ulimit -Sn
+$ ulimit -Hn
+
+
+
+Check the soft and hard limits for the number of processes available to a user. 
+Ensure that the result is in the recommended range. For example:
+$ ulimit -Su
+$ ulimit -Hu
+
+
+
+Check the soft limit for the stack setting. Ensure that the result is in the recommended range. For example:
+$ ulimit -Ss
+$ ulimit -Hs
+
+
+
+Repeat this procedure for each Oracle software installation owner. 
+
+
+If necessary, update the resource limits in the /etc/security/limits.conf configuration file for the installation owner. However, note that the configuration file is distribution specific. Contact your system administrator for distribution specific configuration file information.
+
+
+Note:If the grid or oracle users are logged in, then changes in the limits.conf file do not take effect until you log these users out and log them back in. You must do this before you use these accounts for installation.
+
+
+vi /etc/security/limits.conf
+
+#CONFIGURACAO REFERENTE AO ORACLE
+oracle              soft    nproc   2047
+oracle              hard    nproc   16384
+oracle              soft    nofile  4096
+oracle              hard    nofile  65536
+oracle              soft    stack   10240
+#oracle             hard    stack   10240
+#FIM DA CONFIGURACAO DO ORACLE
+REFERENCES: https://docs.oracle.com/cd/E26370_01/doc.121/e26358/dbinstall.htm
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+7  Creating Required Directories
+
+Criação de diretoiros e pastas padrão - (Optimal Flexible Architecture)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
