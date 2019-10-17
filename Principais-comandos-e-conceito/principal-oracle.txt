@@ -19,6 +19,13 @@ CVU (Cluster Verification Utility)
 OUI (Oracle Universal Installer)
 EMCA (Enterprise Manager Configuration Assistan)
 DBUA (Oracle Database Upgrade Assistant)
+ADR  (Automatic Diagnostic Repository)
+OMF  (Oracle Managed Files)
+
+
+
+
+
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

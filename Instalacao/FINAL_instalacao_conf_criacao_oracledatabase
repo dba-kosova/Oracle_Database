@@ -499,8 +499,287 @@ REFERENCES: https://docs.oracle.com/cd/E26370_01/doc.121/e26358/dbinstall.htm
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 7  Creating Required Directories
+REFERENCES: https://docs.oracle.com/cd/E11882_01/install.112/e24324.pdf
+
+
+Create directories with names similar to the following, and specify the correct owner, 
+group, and permissions for them:
+-The Oracle base directory
+-An optional Oracle data file directory
+
+
+
+
+The Oracle base directory must have 4 GB of free disk space, or 6 GB of free disk space if you choose not to create a separate Oracle data file directory.
+
+
+Note:If you do not want to create a separate Oracle data file directory, then you can install the data filesin a subdirectory of the Oracle base directory. However, this is not recommended for production databases.
+
+
+
+To create the Oracle base directory:
+Enter the following command to display information about all mounted file systems:
+# df -h
+
+
+This command displays information about all the file systems mounted on the system, including:
+-The physical device name
+-The total amount, used amount, and available amount of disk space
+-The mount point directory for that file system
+
+
+2.From the display, identify either one or two file systems that meet the disk space requirements mentionedearlier in this section. 
+
+
+3.Note the name of the mount point directory for each file system that you identified.
+
+
+4.Enter commands similar to the following to create the recommended subdirectories in the mount point directory that you identified and set the appropriate owner, group, and permissions on them:
+
+# mkdir -p /mount_point/app/
+# chown -R oracle:oinstall /mount_point/app/
+# chmod -R 775 /mount_point/app/
+
+
+
+For example:
+# mkdir -p /u01/app/
+# chown -R oracle:oinstall /u01/app/
+# chmod -R 775 /u01/app/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Criação de diretoiros e pastas padrão - (Optimal Flexible Architecture)
+
+Optimal Flexible Architecture
+REFERENCES: https://docs.oracle.com/cd/E11882_01/install.112/e47689.pdf
+
+
+This appendix describes the Optimal Flexible Architecture (OFA) standard. This standard is a set of configuration guide lines created to ensure well organized Oracle installations that are easier to maintain. It includes information about the following topics:
+-Overview of the Optimal Flexible Architecture Standard
+-Implementing Optimal Flexible Architecture
+
+
+
+Overview of the Optimal Flexible Architecture Standard
+
+The Optimal Flexible Architecture standard helps you to organize database software and configure databases toallow multiple databases, of different versions, owned by different users to coexist. Optimal Flexible Architecture assists in identification of ORACLE_BASE with its Automatic Diagnostic Repository (ADR)diagnostic data to properly collect incidents.
+
+All Oracle components on the installation media arecompliant with Optimal Flexible Architecture. Oracle Universal Installer places Oracle Database componentsin directory locations, assigning the default permissions that follow Optimal Flexible Architecture guidelines.
+
+
+
+Oracle recommends that you use Optimal Flexible Architecture, especially if the 
+database is huge, or if you plan to have multiple databases.
+
+
+
+
+Advantages of Multiple Oracle Homes and OFA
+
+When you install Oracle database, you are  installing a large application that your computer can support.Using multiple Oracle homes and Optimal Flexible Architecture provides many advantages when administering large databases. The following advantages are important:
+
+-Structured organization of directories and files, and consistent naming for database files simplify database administration.
+
+-Distribution of I/O across  multiple disks prevents performance bottlenecks caused by multiple read or write commands issued simultaneously to a single drive.
+
+-Distribution of applications across multiple disks safeguards against database failures.
+
+-Login home directories are not at risk when database administrators add, move, or delete Oracle home directories.
+
+-Multiple databases, of different versions, owned by different users can coexist 
+concurrently
+
+-Software upgrades can be tested in an Oracle home in a separate directory from the Oracle home where your production database is located.
+
+
+
+Implementing Optimal Flexible Architecture
+This section describes the naming strategy recommended by the Optimal Flexible Architecture standard. It contains the following sections:
+-File Systems
+-Naming Directories
+-Naming Database Files
+-Separating Segments with Different Requirements 
+-Exploiting the Optimal Flexible Arquichitecture Structura the Oracle Files
+-Optimal Flexible Arquiteture File Mapping 
+
+
+
+File Systems
+The following sections describe the conventions for mount points:
+-Number of File Systems 
+-Naming Conventions 
+
+
+
+Number of File Systems
+To fully implement the Optimal Flexible Architecture recommendations for a database stored on file systems that are not striped or mirrored, you require at least three file systems located on separate physical devices.
+
+
+Naming Conventions
+Name all file system mount points using the syntax/pm, where p is a string constant and m is a unique fixedlength key (typically a two-digit number) used to distinguish each mount point. For example: /u01 and/u02, or /disk01 and /disk02
+
+
+Naming Directories
+The following sections describe the naming conventions for directories that are compliant with the Optimal Flexible Architecture standard:
+- Oracle Base Directory Naming Convetion 
+- Naming Mount Points for Very Large Database (VLDBs)
+- Referring to Path names
+- Oracle Home Directory Naming Convention 
+- Naming Subdirectories 
+
+
+
+
+Note:Ensure that the paths you select for Oracle software, such as the Oracle home path and the Oracle base path, use only ASCII characters. Because installation owner names are used by default for some paths,this ASCII character restriction applies to user names, file names, and directory names.
+
+
+
+Oracle Base Directory Naming Convention
+The Oracle Base directory is the top level directory that you can use to install the various Oracle software products. You can use the same Oracle base directory for multiple installations. If different operating system users install Oracle software on the same system, then each user must create a separate Oracle base directory.Name Oracle base directories using the syntax /pm/s/u. Ta b l e D – 1 describes the variables used in this syntax.
+
+
+Table D–1 Syntax for Naming Oracle Base Directories 
+Variable     Description
+pm	     A mount point name
+s	     A standard directory name
+u	     The name of the owner of the directory (the user running Oracle Universal Installer)
+
+For example, /u01/app/oracle is an Oracle base directory created by the oracle user and /u01/app/applmgr is an Oracle base directory created by the applmgr user.
+
+
+Placing Oracle base directories at the same level in the UNIX file system is advantageous because it enables you to refer to the collection of Oracle base directories on different mount points using a single pattern matching string, /*/app/*.
+
+
+
+Naming Mount Points for Very Large Databases (VLDBs)
+
+If each disk drive contains database files from one application and there are enough drives for each database to prevent I/O bottlenecks, use the syntax /h/q/d for naming mount points. Ta b l e D – 2 describes the variables used in this syntax.
+
+
+Table D–2 Syntax for Naming Mount Points for Very Large Databases
+Variable		Description
+h			Oracle base directory
+q			A string denoting that Oracle data is stored in this directory, for example, oradata
+d			The value of the initialization parameter DB_NAME (typically the same as the instance SID for single-instance databases)
+
+
+For example, to allocate two drives exclusively for the test database, name the mount points /u01/app/oracle/oradata/test and /u02/app oracle/oradata/test.
+
+
+
+Referring to Path Names Refer to explicit path names only in files designed specifically to store them, such as the password file, /etc passwd, and the Oracle oratab file. Refer to group memberships only in the /etc/group file.
+
+
+
+Oracle Home Directory Naming Convention
+To help fulfill the Optimal Flexible Arch itecture requirement of simultaneously  running multiple versions of Oracle software, install the software in a directory  matching the pattern  / pm / s / u /product/ v / type _[ n ] .
+
+
+Table D–3 describes the variables used in this syntax.
+
+
+
+
+Table D–3 Syntax for Naming Oracle Home Directories 
+Variable	Description
+pm		A mount point name
+s		A standard directory name	
+u		The name of the owner of the directory
+v		The version of the software
+type		The type of installation, for example Database (dbhome_1), Client (client), or Oracle Grid Infrastructure (grid)
+n		An optional counter, which enables you to install the same product more than once in the same Oracle base directory
+
+
+
+For example:
+/u01/app/oracle/product/11.2.0/dbhome_1 indicates the Oracle home directory for the first installation of Oracle Database on this system.
+
+the ORACLE_HOME environment variable is set to the Oracle home directory.
+
+
+
+Naming Subdirectories 
+To facilitate the organization of administra tive data, Oracle recommends that you store  database-specific administration files in subdirectories matching the pattern  / h /admin/ d / a / , where  h  is the Oracle base directory,  d  is the database name (DB_ NAME), and  a  is a subdirectory for specific types of database administration files.  Ta b l e D – 4  describes the database admini stration file subdirectories.
+
+
+
+table D–4 Subdirectories for Database Administration Files 
+Subdirectory		 Description
+arch			 Archived redo log files
+adump		         Audit files (Set the AUDIT_FILE_DEST initialization parameter to specify the adump directory. Clean out this 
+                         subdirectory periodically
+create			 Contains database creation log files and scripts used to create the database.
+dpdump			 Default directory for data pump operations. Contains the data pump file dp.log
+exp			 Database export files
+logbook			 Files recording the status and history of the database
+pfile			 Instance parameter files	
+scripts		         Ad hoc SQL scripts
+
+
+
+
+For example,  /u01/app/oracle/admin/orcl/scripts/  is the  scripts  subdirectory  associated with the database named  orcl.
+
+
+In Oracle Database 11 g , Automatic Diagnostic Repository (ADR) directories replace  the  bdump, cdump,  and  udump  directories. The ADR diagnostic data goes into the  /h/diag/rdbms/d/i/  directory by default.
+
+
+where
+h is Oracle Base
+d is the database name
+i is the instance name. 
+
+
+
+The ADR home has the trace, alert,  and incident sub-directories.  Ta b l e D – 5  describes  the ADR directories.
+
+
+Table D–5 Locations for Diagnostic Traces
+Diagnostic Data				10g Location			11g Location
+Foreground Process traces		user_dump_dest			ADR_HOME/trace/
+Background Process traces		background_dump_dest 		ADR_HOME/trace/
+Alert Log Datas				background_dump_dest		ADR_HOME/alert/
+Core 					core_dump_dest			ADR_HOME/incident/In/
+Incident Dumps			        user_dump_dest or 
+					background_dump_dest 
+					depending on the process        ADR_HOME/incident/In/	
+
+
+
+
+
+Naming Database Files			
+The following table lists the recommended file naming conventions for database files:
+
+Note: Oracle Managed Files (OMF) and files stored in Oracle  Automatic Storage Management disk  groups use different naming  conventions. For more information about these naming conventions,  refer to  Oracle Database Administrator's Guide
+
+
+File Type			File Naming Convention
+Control files			/ h / q / d /control.ctl
+Redo log files 			/ h / q / d /redo n .log 
+Data files 			/ h / q / d / tn .dbf
+
+
+
+The following table describes this syntax:
+Variable	Description
+h		Oracle base directory
+
 
 
 
