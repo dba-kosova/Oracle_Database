@@ -779,6 +779,38 @@ Data files 			/ h / q / d / tn .dbf
 The following table describes this syntax:
 Variable	Description
 h		Oracle base directory
+q		A string (typically oradata) distinguishing Oracle data from all other files
+d		The value of the DB_NAME initialization parameter (typically, the same as the instance SID for single-instance databases)
+t		An Oracle tablespace name
+n		A two-digit string
+
+
+
+Note: Do not store files other than control files, redo log files, or  data files associated with database  d  in the path  / h / q / d .
+
+
+
+
+Using this convention, it is easy to determine the database to which the /u01/app/oracle/oradata/sab/system01.dbf file belongs.
+
+
+
+Separating Segments with Different Requirements
+
+Separate groups of segments with different lifespans, I/O request demands, and
+backup frequencies across different tablespaces.
+
+
+Ta b l e D – 6 describes the special tablespaces that the Database Configuration Assistant creates for each Oracle database. If you manually create a database, you must create the required tablespaces. These tablespaces are in addition to those required for application segments.
+
+
+
+
+See Also:Oracle Database Administrator's Guide for information about creating databases manually
+
+
+Table D–6 Special Tablespaces 
+
 
 
 
