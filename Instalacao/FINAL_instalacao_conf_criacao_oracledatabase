@@ -810,6 +810,57 @@ See Also:Oracle Database Administrator's Guide for information about creating da
 
 
 Table D–6 Special Tablespaces 
+Tablespace			Required		Description
+EXAMPLE				No			The EXAMPLE tablespace used to store the Sample Schemas
+SYSAUX				Yes			Auxiliary tablespace to the SYSTEM tablespace
+SYSTEM				Yes			Data dictionary segments
+TEMP				Yes			Temporary segments
+UNDOTBS1			Yes			Used by Oracle to store undo information
+USERS				No			Miscellaneous user segments
+
+
+
+
+
+Creating these special tablespaces is effective because data dictionary segments are never dropped, and no other segments that can be dropped are allowed in the SYSTEM tablespace.
+
+
+
+
+
+See Also:"Reviewing Tablespaces and Data Files, Redo Log Files, and Control Files" on page 6-11 for information about redo log, and control files
+
+
+
+Exploiting the Optimal Flexible Architecture Structure for Oracle Files
+Table D – 7 describes the syntax used for identifying classes of files.
+Directory Structure Syntax			Description		
+/u[0-9][0-9]					User data directories
+/*/home/*					User home directories
+/*/app/*					User application software directories
+/*/app/applmgr					Oracle applications software subtrees
+/*/app/oracle/product				Oracle software subtrees
+/*/app/oracle/product/11.2.0			Oracle software subtree for release 11g products
+/*/app/oracle/product/11.2.0/db*		Oracle home directories for Oracle Database 11
+/*/app/oracle/product/11.2.0/grid*		Oracle home directory for Oracle Grid Infrastructure 11g for a standalone server, for user oracle
+
+
+
+/*/app/oracle/admin/orcl			orcl database administrative subtrees
+*/app/oracle/admin/orcl/arch/*			orcl database archived log files
+/*/app/oracle/oradata				Oracle data directories
+
+
+
+
+
+PAGINA 215
+TABELAS
+https://docs.oracle.com/cd/E11882_01/install.112/e24324.pdf
+
+
+
+
 
 
 
@@ -822,6 +873,87 @@ Table D–6 Special Tablespaces
 
 
 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Definindo LOCALHOST para o X
+REFERENCIA: https://docs.oracle.com/cd/E11882_01/install.112/e47689.pdf
+
+xhost  +localhost
+
+Logging In to the System as root
+
+
+Before you install the Oracle software,you must complete several tasks as the root user. To log in as the root user, complete one of the following procedures
+
+
+
+
+Note:Unless you intend to complete a silent-mode installation, you must install the software from an X Window System workstation, an X terminal, a PC, or other system with X server software installed.For moreinformation about silent-mode installations, see Appendix A.
+
+
+
+To install the software from an X Window System workstation or X terminal:
+
+1.Start a local terminal session, for example, an X terminal (xterm).
+
+2.If you are not installing the software on the local system, then enter the following command to enable theremote host to display X applications on the local X server:$ xhost fully_qualified_remote_host_name
+
+
+
+3.If you are not installing the software on the local system, then use the ssh, rlogin, or telnet command to connect to the system where you want to install the software:$ telnet fully_qualified_remote_host_name
+
+
+4.If you are not logged in as the root user, then enter the following command to switch the user to root:$sudo sh
+password:#
+
+
+To install the software from a PC or other system with X server software
+
+Note:If necessary, see the X server documentation, or contact your X server vendor or system administrator formore information about completing this procedure. Depending on the X server software that you are using, you may have to complete the tasks in a different order.
+
+
+Start the X server software.
+
+
+2.Configure the security settings of the X server software to permit remote hosts to display X applications on the local system.
+
+
+3.Connect to the remote system where you want to install the software and start a terminal session on that system, for example, an X terminal (xterm).
+
+
+
+
+
+4.If you are not logged in as the root user on the remote system, then enter the following command to switchthe user to root:
+$ sudo sh
+password:
+#
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3-Criação de variaveis de ambiente - (Environment Variables)
+REFERENCES: 
+https://docs.oracle.com/cd/E11882_01/install.112/e47689.pdf
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

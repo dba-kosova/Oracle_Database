@@ -54,6 +54,9 @@ https://docs.oracle.com/en/
 https://shop.oracle.com/apex/product?p1=oraclelinux&p2=&p3=&p4=&p5=
 #Produtos e preços oracle 
 
+
+https://docs.oracle.com/cd/E11882_01/server.112/e25494.pdf
+#Oracle Database Administrator's Guide for information about creating databases manually
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
