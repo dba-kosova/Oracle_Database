@@ -57,6 +57,13 @@ https://shop.oracle.com/apex/product?p1=oraclelinux&p2=&p3=&p4=&p5=
 
 https://docs.oracle.com/cd/E11882_01/server.112/e25494.pdf
 #Oracle Database Administrator's Guide for information about creating databases manually
+
+
+https://devgym.oracle.com/pls/apex/f?p=10001:901:107553930945325:::901::&cs=1fnjUIbFI2t15fiFAFFrCdCGVxW1sm3tYx3kAx-h7GBBvup06lXU2sXCnX-7VaEZfWLIwmzq8NI8Vb-Ak60JzMQ
+#Oracle Dev Gym 
+
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 

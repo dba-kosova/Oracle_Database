@@ -6,6 +6,7 @@ ORACLE LINUX 5.11.0.0.0 ( Oracle Linux )
 REFERENCES:
 https://www.oracle.com/database/technologies/oracle-database-software-downloads.html
 https://www.oracle.com/database/technologies/112010-linx8664soft.html
+https://www.oracle.com/technetwork/pt/articles/database-performance/linux-7-parte-2-3787045-ptb.html
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -372,6 +373,8 @@ If the value of any kernel parameter is different from the recommended value, th
 
 
 Note:Include lines only for the kernel parameter values to change. For the semaphore parameters (kernel.sem), you must specify all four values. However, if any of the current values are larger than the minimum value, then specify the larger value. 
+
+vi /etc/sysctl.conf
 
 #CONFIGURACAO REFERENTE AO ORACLE
 fs.aio-max-nr = 1048576
@@ -947,6 +950,287 @@ password:
 3-Criação de variaveis de ambiente - (Environment Variables)
 REFERENCES: 
 https://docs.oracle.com/cd/E11882_01/install.112/e47689.pdf
+https://books.google.com.br/books?id=o9IHXPx1Un8C&pg=PA287&lpg=PA287&dq=Environment+Variables+11g&source=bl&ots=3FgAvZLY6j&sig=ACfU3U0I0F_hVvM7YheJNNSrInnrkTuVig&hl=pt-BR&sa=X&ved=2ahUKEwiJ0OjOva3lAhW0H7kGHUTRDGIQ6AEwFHoECAgQAQ#v=onepage&q=Environment%20Variables%2011g&f=false
+
+su - oracle
+
+vim .bash_profile
+
+echo "Welcome to oracle";
+
+
+
+
+Stopping Existing Oracle Processes
+REFERENCE: https://docs.oracle.com/cd/E11882_01/install.112/e47689.pdf PAG 97
+
+
+Note:If you are installing additional Oracle Database 11gproducts in an existing Oracle home, then stop all processes, including the listener and database, running in the Oracle home. You must complete this task to enable Oracle Universal Installer to relink certain executables and libraries.
+
+
+Consider the following before you install Oracle Grid Infrastructure or Oracle Database:
+
+
+If you plan to use Oracle Restart, then you must install Oracle Grid Infrastructure before you install and create the database. When you perform a database installation, the database must use the same listener created during the Oracle Grid Infrastructure installation, thereafter you do not have to perform the steps listed in this section. 
+
+
+
+The default listener and any additional listeners must run from the Oracle Grid Infrastructure home. See "Configuring Oracle Software Owner Environment" on page 2-61 to continue.
+
+
+
+If you have an existing Oracle Database 11g Release 2 (11.2) running on Oracle ASM, then stop any existing Oracle ASM instances. After you finish installing the Oracle Grid Infrastructure software, start the Oracle ASM instance again
+
+
+If you create a database during the software  installation, then most installation types configure and start a default OracleNet listener using TCP/IP port 1521 and the IPC key value EXTPROC. If an existing Oracle Net listener process is usingthe same port or key value, Oracle Universal Installer looks for the next available port (for example, 1522) andconfigures and starts the new listener on this available port.
+
+
+To determine if an existing listener process is running and to shut it down, if necessary:
+
+1. Switch user to oracle
+# su - oracle
+
+2.Enter the following command to determine if a listener process is running and to identify its name and the Oracle home directory in which it is installed
+...oracle_home1/bin/tnslsnr LISTENER -inherit
+
+
+In this example,oracle_home1 is the Oracle home directory where the listener is installed and LISTENER is the listener name.
+
+
+
+Note:If no Oracle Net listeners are running, then see the "Configuring Oracle Software Owner Environment" section on page 2-61 to continue
+
+
+
+3.At the command prompt, set the ORACLE_HOME environment variable to specify the appropriate Oracle home directory for the listener:
+
+Bourne, Bash, or Korn shell:
+$ ORACLE_HOME=
+oracle_home1
+$ export ORACLE_HOME
+
+
+C or tcsh shell:
+% setenv ORACLE_HOME 
+oracle_home1
+
+
+4.Enter the following command to identify the TCP/IP port number and IPC key value that the listener is using
+$ $ORACLE_HOME/bin/lsnrctl status listenername
+
+
+5.Enter a command similar to the following to stop the listener process:$ $ORACLE_HOME/bin/lsnrctl stop listenername
+
+
+6.Repeat this procedure to stop all listeners running on this system.
+
+
+
+
+
+Configuring Oracle Software Owner Environment
+REFERENCE: https://docs.oracle.com/cd/E11882_01/install.112/e47689.pdf PAG 99
+
+You must run Oracle Universal Installer from the oracle or grid account. However, before you start Oracle Universal Installer,you must configure the environment of the oracle or grid user. To configure the environment, you must:
+
+
+Set the default file mode creation mask (umask) to 022 in the shell startup file
+
+
+Set the DISPLAY environment variable.
+
+
+
+Caution:Use shell programs supported by your operating system vendor. If you use a shell program that is not supported byyour operating system, then you can encounter errors during installation.
+
+To set the Oracle software owners' environments, follow these steps, for each software owner (oracle, grid). The following procedure lists the steps for the oracle user only
+
+1.Start a new X terminal session (xterm).
+
+2.Enter the following command to ensure that X Window applications can display on this system:
+$ xhost + RemoteHost
+where RemoteHost is the fully qualified remote host name. For example:
+$ xhost + somehost.example.com
+
+
+
+3.If you are not logged in as the user, then switch to the software owner user you are configuring. For example, as the oracle user.
+$ su - oracle
+
+
+
+4.To determine the default shell for the oracle user, enter the following command:
+$ echo $SHEL
+
+
+
+5.Open the user's shell startup file in any text editor:
+Bash shell (bash):
+$ vi .bash_profil
+
+C shell (csh or tcsh):
+% vi .login
+
+6.Enter or edit the following line, specifying a value of 022 for the default file mode creation mask:
+umask 022
+
+
+
+
+7.Save the file and exit from the text editor
+
+
+
+
+8.
+To run the shell startup script, enter one of the following commands:
+Bash shell:
+$ . ./.bash_profile
+
+Bourne or Korn shell:
+$ . ./.profile
+
+C shell:
+% source ./.login
+
+
+
+
+9.
+If you are not installing the software on the local computer, then run the followingcommand on the remote computer to set the DISPLAY variable:
+Bourne, Bash or Korn shell:
+$ export DISPLAY=local_host:0.0
+
+C shell:
+% setenv DISPLAY local_host:0.0
+
+
+
+
+in this example, local_hostis the host name or IP address of the system (your workstation, or another client) on which youwant to display the installer.Run the following command on the remote system to check if the SHELL and the DISPLAY environment variables are set correctly:
+echo $SHELL
+echo $DISPLAy
+
+
+to change the display location from the default display to a remote system display, 
+run the following command on the local computer:
+$ xhost + 
+
+RemoteHost
+To verify that the X applications display is set properly, run an X11-based program that comes with the operating system suchas xclock.
+ $ xclock
+In this example, you can find xclock at /usr/X11R6/bin/xclocks. 
+
+
+
+10.If the /tmp directory has less than 1 GB of free disk space, then identify a file system with at least 1 GB of free space and set the TMP and TMPDIR environment variables to specify a temporary directory on this file system:a.To determine the free disk space on each mounted file system use the following command
+# df -h /tmp
+
+
+b.
+If necessary, enter commands similar to  the following to create a temporary directory on the file system that youidentified,and set the appropriate permissions on the directory:
+$ sudo - s
+# mkdir /mount_point/tmp
+# chmod 775 /mount_pointtmp
+# exit
+
+
+
+c.Enter commands similar to the following to set the TMP and TMPDIRenvironment variables:
+
+*Bourne, Bash, or Korn shell:
+$ TMP=/mount_point/tmp
+$ TMPDIR=/mount_point/tmp
+$ export TMP TMPDIR
+
+*C shell:
+% setenv TMP /mount_point/tmp
+% setenv TMPDIR /mount_point/tmp
+
+
+1.If you have had an existing installation on your system, and you are using the same user account to install this installation, then unset the ORACLE_HOME, ORACLE_BASE, ORACLE_SID, TNS_ADMIN environment variables and any other environment variable set for the Oracle installation user that is connected with Oracle software homes.Enter the following commands to ensure that the ORACLE_HOME, ORACLE_BASE, ORACLE_SID and TNS_ADMIN environment variables are not set:
+
+Bourne, Bash, or Korn shell:
+$ unset ORACLE_HOME
+$ unset ORACLE_BASE
+$ unset ORACLE_SID
+$ unset TNS_ADMIN
+
+
+C shell:
+% unsetenv ORACLE_HOME
+% unsetenv ORACLE_BASE
+% unsetenv ORACLE_SID
+% unsetenv TNS_ADMIN
+
+
+Use the following command to check thePATH environment variable:
+$ echo $PATH
+
+Ensure that the $ORACLE_HOME/bin path is removed from your PATH environment variable.
+
+
+
+Note:If the ORACLE_HOME environment variable is set, then Oracle Universal Installer uses the value that it specifies as the default path for the Oracle home directory. If you set the ORACLE_BASEenvironment variable, then Oracle recommends that you unset the ORACLE_HOME environment variable and choose the default path suggested by Oracle Universal Installer.
+
+
+
+
+2.To verify that the environment has been set correctly, enter the following commands:
+$ umask
+$ env | more
+
+
+
+
+Verify that the umask command displays a value of 22, 022, or 0022 and that the environment variables you set in this section have the correct values.See Also:"Configuring the User’s Environment" on page 3-3 for information about setting the Oracle Grid Infrastructure software owner user’s environment
+
+
+
+
+
+
+
+
+
+
+
+
+vi .bash_profile
+
+# CONFIGURACOES DO ORACLE
+TMP=/tmp; export TMP
+TMPDIR=$TMP; export TMPDIR
+
+ORACLE_HOSTNAME=localhost; export ORACLE_HOSTNAME
+ORACLE_UNQNAME=orcl; export ORACLE_UNQNAME
+ORACLE_BASE=/u01/app/oracle; export ORACLE_BASE
+ORACLE_HOME=$ORACLE_BASE/product/11.2.0/db_home1; export ORACLE_HOME
+ORACLE_SID=orcl; export ORACLE_SID
+PATH=/usr/sbin:$PATH; export PATH
+PATH=$ORACLE_HOME/bin:$PATH; export PATH
+
+LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
+CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLASSPATH
+
+# FIM DAS CONFIGURACOES DO ORACLE
+
+
+
+18 - CARREGANDO O BASH
+. .bash_profile
+
+
+19 - VERIFICANDO AS VARIAVEIS SETADAS
+
+echo $ORACLE_HOME
+
+
+
+
+
+
+
 
 
 
