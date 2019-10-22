@@ -15,6 +15,49 @@ SELECT instance_Name FROM V$INSTANCE;
 
 
 
+/*informacoes sobre instancias*/ 
+SELECT * FROM V$INSTANCE;
+
+
+
 /*informacoes sobre o BD*/
 SELECT * FROM V$DATABASE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
