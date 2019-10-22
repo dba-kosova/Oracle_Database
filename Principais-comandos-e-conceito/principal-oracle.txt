@@ -729,8 +729,12 @@ RESUMO:
 3-Criação de variaveis de ambiente - (Environment Variables)
 4-Instalação do Oracle database - (Silent Mode or OUI)
 5-Configurar Litener - (NETCA)
-5-Criação do Banco de Dados ex:(poc08) - (DBCA)
+6-Criação do Banco de Dados ex:(poc08) - (DBCA) ou criação dos arquivos ou DBCA -silentmode ou pelo sqlplus 
 
+
+ativar listener
+lsnrctl start
+lsnrctl stop
 
 
 REFERENCIAS:
