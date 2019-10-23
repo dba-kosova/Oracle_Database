@@ -1240,17 +1240,6 @@ echo $ORACLE_HOME
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Silent Mode install oracle database
 REFERENCES: https://dbaora.com/install-oracle-in-silent-mode-11g-release-2-11-2/
@@ -1263,6 +1252,138 @@ REFERENCES: https://dbaora.com/install-oracle-in-silent-mode-11g-release-2-11-2/
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Release Number Format
+
+REFERENCES: https://docs.oracle.com/cd/E11882_01/server.112/e25494.pdf PAG 57
+
+
+Release Number Format
+To understand the release nomenclature used by Oracle, examine the following example of an Oracle Database release labeled "11.2.0.1.0"
+
+Figure 1–1    Example of an Oracle Database Release Number
+11.2.0.1.0
+
+11.- Major database release number
+2.- Database maintenan cerelease number
+0.- Fusion Middleware release number 
+1.- Component specific release number 
+0.- Platform specific release number
+
+
+Note:Starting with release 9.2, maintenance releases of Oracle Database are denoted by a change to the second numeral of a release number. In previousreleases, the third numeral indicated a particular maintenance release.  
+
+
+Major Database Release Number
+The first numeral is the most general identifier. It represents a major new version of the software that contains significant new functionality. 
+
+
+Database Maintenance Release Number
+The second numeral represents a maintenance release level. Some new features may also be included. 
+
+
+Fusion Middleware Release Number
+The third numeral reflects the release level of Oracle Fusion Middleware.
+
+
+
+Component-Specific Release Number
+The fourth numeral identifies a release level specific to a component. Different components can have different numbers in this position depending upon,for example, component patch sets or interim releases
+
+
+
+Platform-Specific Release Number
+The fifth numeral identifies a platform-specific release. Usually this is a patch set. When different platforms require the equivalent patch set, this numeral will be the same across the affected platforms.
+
+
+
+
+Checking Your Current Release Number
+To identify the release of Oracle Database that is currently installed and to see the release levels of other database components you are using, query the data dictionary view PRODUCT_COMPONENT_VERSION. A sample query follows. (You can also query the V$VERSION view to see component-level information.) Other product release levels may increment independent of the database server
+COL PRODUCT FORMAT A40
+COL VERSION FORMAT A15
+COL STATUS FORMAT  A15 
+
+SELECT * FROM PRODUCT_COMPONENT_VERSION;
+PRODUCT                                  VERSION     STATUS
+---------------------------------------- ----------- -----------
+NLSRTL                                   11.2.0.0.1  Production
+Oracle Database 11g Enterprise Edition   11.2.0.0.1  Production
+PL/SQL          			 11.2.0.0.1  Production
+
+
+
+
+		
+
+
+
+
+				
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+REFERENCES: install orcl -> scott
+https://o7planning.org/en/10211/installing-and-configuring-oracle-database-11g
+
+
+#virtual machine Linux 11g
+https://stackoverflow.com/questions/23824115/oracle-developer-vm-with-oracle-11g/23825490
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
