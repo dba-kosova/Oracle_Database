@@ -24,7 +24,8 @@ OMF  (Oracle Managed Files)
 
 
 
-
+Database Net Services
+lsnrctl (Listener Control Utility)
 
 
 
