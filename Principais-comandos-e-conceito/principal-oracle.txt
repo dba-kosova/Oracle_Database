@@ -59,8 +59,43 @@ https://docs.oracle.com/cd/E11882_01/server.112/e25494.pdf
 #Oracle Database Administrator's Guide for information about creating databases manually
 
 
+#Tests Database Oracle 
 https://devgym.oracle.com/pls/apex/f?p=10001:901:107553930945325:::901::&cs=1fnjUIbFI2t15fiFAFFrCdCGVxW1sm3tYx3kAx-h7GBBvup06lXU2sXCnX-7VaEZfWLIwmzq8NI8Vb-Ak60JzMQ
 #Oracle Dev Gym 
+
+
+#Tests Database Oracle 
+https://www.quora.com/Are-there-any-links-to-test-databases-out-in-Oracle-to-practice-SQL
+
+
+
+#exemples Database 
+https://www.oracletutorial.com/getting-started/oracle-sample-database/
+
+
+#Tests Database Oracle 
+https://livesql.oracle.com/apex/f?p=590:1000
+
+
+#Tests Database Oracle 
+https://docs.oracle.com/database/121/RATUG/GUID-C6C2FA1F-3474-4B5A-B814-C41415B4C248.htm#RATUG101
+
+
+#Tests Database Oracle 
+https://www.guru99.com/data-testing.html
+
+
+
+#MUITO BOMM
+#Tests Database Oracle 
+https://code.google.com/archive/p/northwindextended/
+#
+https://code.google.com/archive/p/northwindextended/downloads
+
+
+
+https://docs.oracle.com/database/121/EXMPL/E55464-03.pdf
+
 
 
 
@@ -280,6 +315,10 @@ link: https://docs.oracle.com/cd/E17781_01/install.112/e18803/toc.htm#XEINW101
 https://docs.oracle.com/cd/E17781_01/install.112/e18802/toc.htm
 #Oracle Database Express Edition Installation Guide 
 # *linux
+
+
+
+https://www.softwaretestinghelp.com/how-to-test-oracle-database/
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -753,12 +792,15 @@ REFERENCIAS:
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Oracle database is one of the most sophisticated, robust, scalable, secure databases available in the market due to the exquisite features all bundled and available to us.
+
+Relational Database Management System (RDBMS)
 
 
 
-
-
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
