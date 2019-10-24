@@ -24,6 +24,13 @@ SELECT * FROM V$INSTANCE;
 SELECT * FROM V$DATABASE;
 
 
+/*mostrar todas as tabelas*/
+SELECT * FROM ALL_TABLES;
+
+
+/*mostrar paremetros spfile*/
+SHOW parameter spfile;
+
 
 
 
