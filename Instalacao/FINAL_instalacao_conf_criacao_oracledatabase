@@ -1233,6 +1233,25 @@ echo $ORACLE_HOME
 
 
 
+# tips environment variables 
+https://www.ibm.com/support/knowledgecenter/en/SSFUEU_7.3.0/com.ibm.swg.ba.cognos.op_installation_guide.7.3.0.doc/t_camphor_setting_environment_variables_ora.html
+
+
+
+carregar o bash_profile 
+
+. /home/38716776801/.bash_profile
+
+
+
+
+
+
+
+
+
+
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1351,6 +1370,10 @@ https://o7planning.org/en/10211/installing-and-configuring-oracle-database-11g
 #virtual machine Linux 11g
 https://stackoverflow.com/questions/23824115/oracle-developer-vm-with-oracle-11g/23825490
 
+
+
+#about variables 
+https://docs.oracle.com/cd/E11882_01/server.112/e27507.pdf
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
