@@ -99,6 +99,12 @@ https://docs.oracle.com/database/121/EXMPL/E55464-03.pdf
 
 
 
+#IMPORTANT
+# How Install XE 
+https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/database-express-edition-installation-guide-linux.pdf
+
+
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -700,6 +706,10 @@ DIVERSOS:
 https://www.guj.com.br/t/padrao-oficial-para-nomenclatura-de-banco-de-dados-existe/294501/4
 
 https://www.fabioprado.net/2012/05/sql-padrao-ansi-x-padrao-oracle.html
+
+
+# how install oracle XE 
+https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/setting-oracle-database-xe-environment-variables.html
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
