@@ -33,6 +33,8 @@ SHOW parameter spfile;
 
 
 
+/*mostrar file_name do tipo .dbf*/
+SELECT file_name FROM dba_data_files;
 
 
 
@@ -40,20 +42,18 @@ SHOW parameter spfile;
 
 
 
+/*********************************************************************************************************
+*					REFERENCIAS							 *
+*													 *
+*https://www.askmlabs.com/2018/09/install-oracle-database-18c-in-silent_8.html    			 *
+**********************************************************************************************************/
 
 
 
 
 
 
-
-
-
-
-
-
-
-
+S
 
 
 
