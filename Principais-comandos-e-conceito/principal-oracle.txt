@@ -23,6 +23,9 @@ ADR  (Automatic Diagnostic Repository)
 OMF  (Oracle Managed Files)
 
 
+Programa 
+Crash Manager Oracle
+
 
 Database Net Services
 lsnrctl (Listener Control Utility)
@@ -37,9 +40,10 @@ lsnrctl (Listener Control Utility)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Links:
 
+
 #oracle delivery
 # https://edelivery.oracle.com
-#para baixar todos os programas que a oracle ja teve, todas as versıes 
+#para baixar todos os programas que a oracle ja teve, todas as vers√µes 
 
 #oracle apex
 https://apex.oracle.com/pt-br/
@@ -53,7 +57,7 @@ https://docs.oracle.com/en/
 
 
 https://shop.oracle.com/apex/product?p1=oraclelinux&p2=&p3=&p4=&p5=
-#Produtos e preÁos oracle 
+#Produtos e pre√ßos oracle 
 
 
 https://docs.oracle.com/cd/E11882_01/server.112/e25494.pdf
@@ -122,11 +126,11 @@ Arquitetura: Estrutura  - Resumo
 
 # Data Blocks: Menor unidade logica de armazenamento do banco de dados 
 
-#Extents composta de v·rios blocos de dados contÌguos, tamanho do conjunto de data blocks tambem
+#Extents composta de v√°rios blocos de dados cont√≠guos, tamanho do conjunto de data blocks tambem
 
-#Sagments -conjunto de Extents que contÈm todos os dados para uma estrutura de armazenamento lÛgico especÌfica em um espaÁo de tabela. Obejtos: tabelas,views 
+#Sagments -conjunto de Extents que cont√©m todos os dados para uma estrutura de armazenamento l√≥gico espec√≠fica em um espa√ßo de tabela. Obejtos: tabelas,views 
 
-#Tablespaces -Sagments semelhantes s„o agrupados, facilitando o gerenciamento 
+#Tablespaces -Sagments semelhantes s√£o agrupados, facilitando o gerenciamento 
 
 
 
@@ -136,13 +140,13 @@ Arquitetura: Estrutura  - Resumo
 #Fisica 
 # Datafiles, Redologs e Controlfiles
  
-# Datafiles - Um espaÁo de tabela em um banco de dados Oracle consiste em um ou mais arquivos de dados fÌsicos. Um arquivo de dados pode ser associado a apenas um espaÁo de tabela e apenas um banco de dados.
-#permitem que eles sejam expandidos sempre que o espaÁo fÌsico do banco de dados terminar;
+# Datafiles - Um espa√ßo de tabela em um banco de dados Oracle consiste em um ou mais arquivos de dados f√≠sicos. Um arquivo de dados pode ser associado a apenas um espa√ßo de tabela e apenas um banco de dados.
+#permitem que eles sejam expandidos sempre que o espa√ßo f√≠sico do banco de dados terminar;
 #DBF
 
-#Redologs - estrutura mais crucial para operaÁıes de recuperaÁ„o armazenam todas as alteraÁıes feitas no banco de dados ‡ medida que ocorrem.
+#Redologs - estrutura mais crucial para opera√ß√µes de recupera√ß√£o armazenam todas as altera√ß√µes feitas no banco de dados √† medida que ocorrem.
 
-#Controlfiles- necess·rio para o banco de dados iniciar e operar com sucesso.
+#Controlfiles- necess√°rio para o banco de dados iniciar e operar com sucesso.
 #Each control file is associated with only one Oracle database.
 
 
@@ -191,7 +195,7 @@ SQL> clear screen
 $ sqlplus system/senha
 
 
-#definir um editor padr„o 
+#definir um editor padr√£o 
 SQL> define_editor = vi
 
 
@@ -216,7 +220,7 @@ $ sqlplus system/senha
 
 #gravar em um arquivo de texto 
 sql> spool 22-09-2019.lst 
-#a partir de agora tudo È salvo nesse arquivo 
+#a partir de agora tudo √© salvo nesse arquivo 
 
 # para parar de gravar spool off 
 
@@ -230,8 +234,6 @@ sql> show 22-09-2019
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 
 
@@ -345,13 +347,13 @@ Arquitetura: Estrutura Logica - Detalhado
 
 
 #Estrutra Logica
-# Todos os sistemas de arquivos s„o constituÌdos de um conjunto de estrutras lÛgicas 
-#que permitem ao sistema operacional organizar os dados gravados e acess·-los com a maior velocidade e confiabilidade possÌveis.
-*estrutua para conseguir administrar os dados, È o q d· significado para as coisas, sem isso È sÛ dados,
+# Todos os sistemas de arquivos s√£o constitu√≠dos de um conjunto de estrutras l√≥gicas 
+#que permitem ao sistema operacional organizar os dados gravados e acess√°-los com a maior velocidade e confiabilidade poss√≠veis.
+*estrutua para conseguir administrar os dados, √© o q d√° significado para as coisas, sem isso √© s√≥ dados,
 ele guarda quando foi modificado, quem modificou e sabe o que esses dados significam 
 
-#O SO que organiza qual espaÁo esta livre e n„o, atraves tambem dos filesystems, qual esta ligado com quem, quem criou 
-isso È logico isto È so faz sentido para o SO, se n„o s„o sÛ dados 
+#O SO que organiza qual espa√ßo esta livre e n√£o, atraves tambem dos filesystems, qual esta ligado com quem, quem criou 
+isso √© logico isto √© so faz sentido para o SO, se n√£o s√£o s√≥ dados 
 
 #https://www.hardware.com.br/livros/hardware/estruturas-logicas.html
 muito bom sobre HD, e filesystens
@@ -359,34 +361,34 @@ muito bom sobre HD, e filesystens
 
 
 
-*em banco de dados a gente mexe mais com as estruturas logicas que s„o: tabelas,views etc, isso È o que o SBD d· sifinificado para a gente se n„o s„o so arquivos e dados que n„o sabemos interpretar 
+*em banco de dados a gente mexe mais com as estruturas logicas que s√£o: tabelas,views etc, isso √© o que o SBD d√° sifinificado para a gente se n√£o s√£o so arquivos e dados que n√£o sabemos interpretar 
 
 
-#fragmentaÁ„o, que reduz consideravelmente a velocidade de acesso, j· que dados espalhados significam mais movimentos da cabeÁa de leitura.
+#fragmenta√ß√£o, que reduz consideravelmente a velocidade de acesso, j√° que dados espalhados significam mais movimentos da cabe√ßa de leitura.
 
-#os arquivos tem tambem a extensao, se s„o ocultos, somente leitura,escrita 
+#os arquivos tem tambem a extensao, se s√£o ocultos, somente leitura,escrita 
 
 
-#Por que o SGBD Oracle possui uma estrutura "fÌsica" separada da estrutura "lÛgica"? 
+#Por que o SGBD Oracle possui uma estrutura "f√≠sica" separada da estrutura "l√≥gica"? 
 #http://dominandoti.com.br/blog/284
 # o banco de dados sepera em estruturas logicas e fisicas 
-#para uma n„o atrapalhar a outra, faÁo as tabelas, relaÁoes logicas e n„o me importo como elas ser„o grenciadas e guardadas nos arquivos fisicos, 
+#para uma n√£o atrapalhar a outra, fa√ßo as tabelas, rela√ßoes logicas e n√£o me importo como elas ser√£o grenciadas e guardadas nos arquivos fisicos, 
 
 
 
 # Segments Extents data blocks
 # Data Blocks: Menor unidade logica de armazenamento do banco de dados 
-# ele fica dentro das estrutrar logicas de blocos do SO, s„o multiplos de 8k para se encaixar perfeitametne com os blcos do SO
+# ele fica dentro das estrutrar logicas de blocos do SO, s√£o multiplos de 8k para se encaixar perfeitametne com os blcos do SO
 # 2k, 8k... dependendo do problema 
 
 
 
 # Datafiles - 
-administrador n„o tem controle sobre quais datafiles ser„o usados para armazenar os dados de uma tabela, pois isso È administrado pelo prÛprio SGBD.
+administrador n√£o tem controle sobre quais datafiles ser√£o usados para armazenar os dados de uma tabela, pois isso √© administrado pelo pr√≥prio SGBD.
 
 
 
-#Controlfiles- necess·rio para o banco de dados iniciar e operar com sucesso.
+#Controlfiles- necess√°rio para o banco de dados iniciar e operar com sucesso.
 The database name,The timestamp of database creation,The names and locations of associated datafiles and redo log files
 Tablespace information,Datafile offline ranges,The log history,Archived log information,Backup set and backup piece,information,Backup datafile and redo log information,Datafile copy information,
 The current log sequence number,Checkpoint information
@@ -424,7 +426,7 @@ SQL> list
 # para executar o comando lista no list, so digitar r ou run 
 SQL> r 
 SQL> run 
-#ou /, n„o mostra o codigo 
+#ou /, n√£o mostra o codigo 
 SQL> / 
 
 
@@ -459,11 +461,11 @@ SQL> i
 
 
 
-#definir um editor padr„o 
+#definir um editor padr√£o 
 SQL> define_editor = vi
 
 
-#SHOW ALL	Mostrar os valores das vari·veis SET
+#SHOW ALL	Mostrar os valores das vari√°veis SET
 
 
 #abrir o editor de texto com o nome aula01.sql 
@@ -494,7 +496,7 @@ sql> get aula01
 
 #gravar em um arquivo de texto 
 sql> spool teste.lst 
-#apartir de agora tudo È salvo nesse arquivo 
+#apartir de agora tudo √© salvo nesse arquivo 
 
 # para parar de gravar spool off 
 
@@ -528,7 +530,7 @@ clear screen
 sql> set lin 100 
 
 
-# separar por paginaÁ„o 
+# separar por pagina√ß√£o 
 # a cada 100 linhas ele parece o cabecalho e pula uma linha 
 sql> set pages 100
 
@@ -546,14 +548,14 @@ sql> show lin
 Historia e resumo do livro dominado oracle 9i: Modelagem e desenvolvimento:
 
 Em 1977 - surgiu o software development laboratories, com bob miner, ed oates, bruce scott e Larry Ellison, ao lerrem e estudarem o Ingress 
-e o System R, resolveram lanÁar a sua versao comercial de um produtor similar. 
+e o System R, resolveram lan√ßar a sua versao comercial de um produtor similar. 
 -primerio cliente comercial do oracle foi base da forca area 1979
--versıes V2,V3
-- 1997 - foi lanÁado o Oracle 8, sistema gerenciador de banco de dados, comporta limite de 512 petabytes 
+-vers√µes V2,V3
+- 1997 - foi lan√ßado o Oracle 8, sistema gerenciador de banco de dados, comporta limite de 512 petabytes 
 -1999 - oracle 8i
 -2001 - oracle 9i
 
-Funcionalidades avanÁadas em clusterizacao, confiabilidade e performace 
+Funcionalidades avan√ßadas em clusterizacao, confiabilidade e performace 
 
 
 *Mecanismo de tolerancia a falha com uso de servidor standby
@@ -564,17 +566,17 @@ publicou padrao SQL, como linguagem padroa de bd relacional.
 ad hoc 
 
 
-sqlplus È uma ferramenta oracle q tem por objetivo realizar a interface interativa com o bd 
+sqlplus √© uma ferramenta oracle q tem por objetivo realizar a interface interativa com o bd 
 
 
-quando o SQL È instalado, tem um usuario-padrao 
-chamado scott e senha 'tiger '. j· tem alguns exemplos de tabela 
+quando o SQL √© instalado, tem um usuario-padrao 
+chamado scott e senha 'tiger '. j√° tem alguns exemplos de tabela 
 
 
 ver estrutura da tabela desc[ribe] nome_tabela
 
 
-PADRONIZA«√O: em nomes de campos e restriÁıes de tabela
+PADRONIZA√á√ÉO: em nomes de campos e restri√ß√µes de tabela
 
 nomenclatura de campos da tabela:
 qualificador_nomedescritivo
@@ -592,7 +594,7 @@ nr_nota
 dt_nascimento
 
 
-nomenclatura de restriÁıes de uma tabela 
+nomenclatura de restri√ß√µes de uma tabela 
 tipo de restricao	paroa de nome
 chave primaria 		pk_tabela
 chave estrangeira 	fk_tabelamae_tabelafilha
@@ -606,7 +608,7 @@ ck_cliente_ie_fumante
 
 
 
-as infos sobre a restricao que foram criadas para uma tabela s„o armazenadas em uma tabela de controle, atualizada automaticamente 
+as infos sobre a restricao que foram criadas para uma tabela s√£o armazenadas em uma tabela de controle, atualizada automaticamente 
 tabela USER_CONSTRAINTS
 
 SELECT * FROM USER_CONSTAINTS
@@ -623,31 +625,31 @@ WHERE CONSTRAINT_NAME = 'NOME_DA_CONSTRAINT';
 
 
 INSERT: pagina 117
-na insersao recomentado usar o nome das colunas e depois o valor. pois se a estrutra da tabela fora alterado a aplicao tambem sofrera altaraÁıes.
+na insersao recomentado usar o nome das colunas e depois o valor. pois se a estrutra da tabela fora alterado a aplicao tambem sofrera altara√ß√µes.
 
 
 os valores so serrao visivies aos demais usuarios(sessoes)
-quadno a transacao que os contem for enerrada. enquanto isso, as alteraÁıes somente existirao para o usuairo que as gerou.
+quadno a transacao que os contem for enerrada. enquanto isso, as altera√ß√µes somente existirao para o usuairo que as gerou.
 
 
 TRANSACAO: 118
-- ocorrencia de operaÁoes q realizam alteraÁoes no dicionario de dados(SQL DDL),como criaÁ„o e alteracao a estrutura de uma tabela, n„o podem ser desfeitas.
+- ocorrencia de opera√ßoes q realizam altera√ßoes no dicionario de dados(SQL DDL),como cria√ß√£o e alteracao a estrutura de uma tabela, n√£o podem ser desfeitas.
 
 -rollback voltar 
 
 -commit, caso a variavel de sistema auto[commit] tenha sido conf para on ou imm[ediate], cada comando sql DML sera sucedido automaticamente por commit.
 
 
-*enquanto n„o È feito commit:
--usuairo pode ver as alteraÁıes feitas
--outros usuaior n podem ver essa alterÁıa
+*enquanto n√£o √© feito commit:
+-usuairo pode ver as altera√ß√µes feitas
+-outros usuaior n podem ver essa alter√ß√µa
 - outros usuairo acessam os dados anteriores. 
-- usuario pode desfazer essas alteraÁıes completamente ou are um ponto especifico 
+- usuario pode desfazer essas altera√ß√µes completamente ou are um ponto especifico 
 
 
 SQLPLUS*
 
-space - numero de espaÁo em branco que serao colocados entre as colunas de uma selecao.
+space - numero de espa√ßo em branco que serao colocados entre as colunas de uma selecao.
 
 SET SPACE 3
 
@@ -658,7 +660,7 @@ valor padrao 80 caracteres - os valores excedidos - depende da variavel WRAP
 SET LINESIZE 120 
 
 
-heading - titulo de exibiÁ„o 
+heading - titulo de exibi√ß√£o 
 SET HEADINF ON 
 SET HEADING OFF 
 
@@ -677,7 +679,7 @@ set wrap off
 
 
 null - especifica o valor de alguma colna fro nula 
-padroa È ""
+padroa √© ""
 set null "texto"
 
 
@@ -769,17 +771,17 @@ https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/setting-orac
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-PASSOS para configuraÁ„o e uso do ORACLE DATABASE: 
+PASSOS para configura√ß√£o e uso do ORACLE DATABASE: 
 
 RESUMO: 
 *ckecklist em todos os passos 
-0- resursos necessarios (requisitos de hardware para instalaÁ„o do oracle database e outros serviÁos)
+0- resursos necessarios (requisitos de hardware para instala√ß√£o do oracle database e outros servi√ßos)
 1-Instalar e configurar Oracle Linux(SO) - (Oracle Preinstallation RPM)
-2-CriaÁ„o de diretoiros e pastas padr„o - (Optimal Flexible Architecture)
-3-CriaÁ„o de variaveis de ambiente - (Environment Variables)
-4-InstalaÁ„o do Oracle database - (Silent Mode or OUI)
+2-Cria√ß√£o de diretoiros e pastas padr√£o - (Optimal Flexible Architecture)
+3-Cria√ß√£o de variaveis de ambiente - (Environment Variables)
+4-Instala√ß√£o do Oracle database - (Silent Mode or OUI)
 5-Configurar Litener - (NETCA)
-6-CriaÁ„o do Banco de Dados ex:(poc08) - (DBCA) ou criaÁ„o dos arquivos ou DBCA -silentmode ou pelo sqlplus 
+6-Cria√ß√£o do Banco de Dados ex:(poc08) - (DBCA) ou cria√ß√£o dos arquivos ou DBCA -silentmode ou pelo sqlplus 
 
 
 ativar listener
@@ -897,7 +899,7 @@ Relational Database Management System (RDBMS)
 *pasta trabalho, e pasta e casa (.sql)
 * salvar como .sql, e usar sqldeveloper como editor 
 * e outro para executar os comandos no sqldeveloper ou sqlplus
-* pode ter duplicata n„o importa 
+* pode ter duplicata n√£o importa 
 
 
 
