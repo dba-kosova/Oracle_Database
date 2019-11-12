@@ -39,6 +39,10 @@ SELECT file_name FROM dba_data_files;
 
 
 
+/*mostrar usuarios logados no DB*/
+SELECT * FROM V$SESSION;
+
+
 
 
 
@@ -46,6 +50,7 @@ SELECT file_name FROM dba_data_files;
 *					REFERENCIAS							 *
 *													 *
 *https://www.askmlabs.com/2018/09/install-oracle-database-18c-in-silent_8.html    			 *
+*http://glufke.net/oracle/viewtopic.php?t=7023 								 *
 **********************************************************************************************************/
 
 
