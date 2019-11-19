@@ -38,20 +38,34 @@ SELECT file_name FROM dba_data_files;
 
 
 
+/*mostrar tablespaces do db*/
+SELECT TABLESPACE_NAME FROM DBA_TABLESPACES;
+
 
 /*mostrar usuarios logados no DB*/
 SELECT * FROM V$SESSION;
 
 
 
+/*mostrar parametro de bloco*/
+SHOW PARAMETER BLOCK 
 
 
-/*********************************************************************************************************
-*					REFERENCIAS							 *
-*													 *
-*https://www.askmlabs.com/2018/09/install-oracle-database-18c-in-silent_8.html    			 *
-*http://glufke.net/oracle/viewtopic.php?t=7023 								 *
-**********************************************************************************************************/
+
+
+
+
+
+
+
+
+/**********************************************************************************************************
+*					REFERENCIAS							  *
+*													  *
+*https://www.askmlabs.com/2018/09/install-oracle-database-18c-in-silent_8.html    			  *
+*http://glufke.net/oracle/viewtopic.php?t=7023 								  *
+*https://www.udemy.com/course/administracao-de-banco-de-dados-oracle-12c/learn/lecture/14570178#overview  *
+***********************************************************************************************************/
 
 
 
