@@ -72,8 +72,6 @@ SHOW PARAMETER BLOCK
 
 
 
-S
-
 
 
 
