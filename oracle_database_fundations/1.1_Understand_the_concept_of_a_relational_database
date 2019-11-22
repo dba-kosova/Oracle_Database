@@ -1,0 +1,21 @@
+#filesystem
+
+df -h | grep /u01 
+
+
+
+#usuario grid 
+#asm
+#consulta em cima do diskgroup
+#consultar algumas visões
+
+
+
+
+
+#controlfile 
+#indice dos livros
+#onde estao localizados os caminhos dos arquivos do bd, os nomes
+# sem o controlfile fica dificil fazer o backup
+
+
