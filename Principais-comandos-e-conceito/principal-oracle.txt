@@ -831,13 +831,28 @@ Relational Database Management System (RDBMS)
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+REFERENCIA: https://www.udemy.com/course/curso-completo-de-banco-de-oracle-dba/learn/lecture/13356994#overview
+
+Vissões do dicionario de dados:
+
+
+DBA_XXX -> objetos do banco de dados inteiro
+ALL_XXX -> objetos acessiveis ao usuario
+USER_XX -> objetos criados pelo usuario 
+
+
+
+
+vissão 
+USER_TABLES. 
+SELECT * FROM USER_TABLES;
 
 
 
 
 
-
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
