@@ -1,1 +1,100 @@
 72 entendendo as estruturas SGA e PGA
+
+
+
+
+identificar e endenter as estururas algumas areas de memoria 
+
+
+
+
+
+
+instancia oracle = estuturas de memoria + algumas processos de backgroud 
+
+essas areas vao armazenar diferentes coisas,
+informações de cache de dados, para otimizar as consultas  
+o oracle divide em suas areas 
+
+SGA e PGA 
+
+
+SGA - System Global Area area compartilhada de memoria 
+
+
+
+PGA-  Program Global Area
+area para os processos, não compartilha
+relacionado a um processo 
+quando um processo start ele cria uma area na memoria PGA 
+
+
+
+
+
+
+
+SGA 
+DATABASE BUFFER CACHE 
+varios usuarios fazem a mesma consulta 
+result cache 
+
+
+PGA
+sql work area
+privado por cada processo do cliente 
+services process 
+informações de controle do processo 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,1 +1,100 @@
 73 conhecendos os modos de gerenciamento de memoria oracle
+
+
+
+
+quais tipos de gerenciamento de memoria 
+nivel de automação 
+depende o gerenciamento totalmente automatico, não seja a melhor forma para voce 
+
+
+
+
+automatic management 
+ajusta automaticamente de acordo com o target 
+servidor de 16GB 
+pode usar 14GB 
+gerenciar a parte de PGA, SGA 
+
+
+
+
+
+
+
+
+
+
+automatic shared menagement 
+automação particial 
+SGA do maxSize - gerenciar todas as areas de memoria que estão dentro da memoria 
+PGA - gerenciar o que tem dentro da PGA,para distribuir, 
+redo log, java pool size
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gerenciamento totalmente manual 
+o tamanho de cada um buffert 
+não é muito eficiente 
+quando shared pool, -> dentro labary cache 
+dentro 
+self turing 
+
+
+
+
+
+
+
+automatic memory management -> 
+pode ser ruim 
+pode gastar muita PDA 
+LABERY cache 
+e cahche 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
