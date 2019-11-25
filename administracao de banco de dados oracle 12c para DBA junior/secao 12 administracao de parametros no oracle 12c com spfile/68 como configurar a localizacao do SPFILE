@@ -1,0 +1,204 @@
+68 como configurar a localizacao do SPFILE
+
+
+
+
+
+
+spfile - 
+
+
+
+dbs - um apontamento, um atalho 
+
+
+
+
+
+
+
+
+
+
+srvctl 
+
+
+srvctl
+
+
+
+
+sqlplus / as sysdba 
+
+onde esta o spfile 
+show parameter spfile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+su - grid 
+
+o arquivo criado esta em 
+asmcmd 
+cd data 
+ls -la 
+
+mostrar a localização 
+srvclt config database -d AL1
+
+
+
+
+
+usar novo arquivo 
+usando alias 
+
+
+# referenciando
+srvctl modify database -d AL1 -spfile '+DATA/spfileAL1.ora'
+
+
+
+
+
+
+
+na instancia ainda não mostrou 
+
+
+
+show parameter spfile 
+
+
+
+
+a instancia ainda não leu o arquivo 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+srvctl stop database -d AL
+
+
+
+srvctl start database -d AL
+
+
+
+show parameter spfile 
+mudou agora o caminho do spfile 
+
+
+
+
+
+
+ou 
+muito mais dificil 
+cd $HORACLE_HOME/dbs
+vi initAL1.ora
+spfile='+DATA/spfileAL.ora'
+norma alternativa 
+
+
+melhor usar servercontrol 
+pq fica nos cabeçalhos do disco
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,100 @@
+67 e se precisar gerar um SPFILE
+
+
+
+sqlplus 
+
+
+criar um arquivo estatico a partir de um dinamico 
+
+
+
+
+gerou uma versao estatica e fez varias alterações e agora quer gerar a partir dele um dinamico 
+
+
+
+ou so tem o estatico 
+quer criar um dinamico para melhor adm
+
+
+
+
+
+SPILE - DINAMICO 
+PFILE - ESTATICO 
+
+
+create spfile caminho ou q ele jogue automaticamente(onde um parametro esta apontando dbcreatefiledest)
+
+
+CREATE SPFILE FROM PFILE='/tmp/initAL1.ora';
+
+
+
+
+
+
+
+SHOW PARAMETER db_create_f
+
+
+
+
+
+
+
+su - grid 
+
+asmcmd 
+ls 
+cd data 
+ls -la
+ 
+
+
+
+
+
+
+
+
+
+
+show parameter spfile 
+
+alterar para utilizar 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,117 @@
+70 mostrando parametros com comandos SQL
+
+
+
+
+
+
+informações adicionais 
+
+
+na visao v$parameter 
+
+
+
+
+
+
+
+
+
+
+
+
+
+desc v$parameter 
+
+
+
+fiture nova 
+
+
+
+
+
+
+
+
+type 
+
+
+
+isses_modifiable - 
+
+
+ispdb
+
+
+
+
+
+
+
+
+
+show parameter sga 
+
+
+
+https://docs.oracle.com/database/121/REFRN/GUID-C86F3AB0-1191-447F-8EDF-4727D8693754.htm#REFRN30176
+
+
+
+
+
+
+ SELECT name, ispdb_modifiable FROM v$parameter
+  2  WHERE name = 'db_big_table_cache_percent_target';
+
+
+
+
+SELECT NAME,VALUE,ISSES_MODIFIABLE,ISSYS_MODIFIABLE
+FROM V$PARAMETER 
+WHERE NAME LIKE '%sga%';
+
+
+
+COL NAME FOR A32
+
+
+
+SET LINES 200
+
+COL VALUE FOR A32
+
+
+
+
+SYSALTER SYSTEM 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
