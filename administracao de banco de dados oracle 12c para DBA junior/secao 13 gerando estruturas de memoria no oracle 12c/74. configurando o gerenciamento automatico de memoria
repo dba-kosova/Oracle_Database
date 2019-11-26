@@ -4,7 +4,155 @@
 
 
 
-show paramater sga 
+show parameter sga 
+
+
+
+
+sga - target - tamanho total atual 
+
+
+deixar de usar target 
+
+
+
+
+
+show parameter pga 
+
+
+
+
+
+
+
+#memoria em uso 
+show parameter memory 
+
+
+
+
+
+
+
+
+
+
+
+da em byte 
+col value for 99999999
+
+V$pdastat
+
+select value from v$pdastat where name='maximum PGA allocated';
+
+
+
+
+
+
+select name,value,isses_modifiable,issys_modifiable
+from v$parameter 
+where name like '%sga%';
+
+
+
+memory_target = sga_target + max(pga_aggregate_targer, mamimum PGA allocated)
+
+
+
+
+show parameter sga
+
+valor do memory_max_target 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+alter sysytem ser memory_max_target = 3091M SCOPE=SPFILE;
+
+
+
+srvctl stop database -d AL1
+
+
+
+srvctl status database -d AL1
+
+srvctl start database -d AL1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

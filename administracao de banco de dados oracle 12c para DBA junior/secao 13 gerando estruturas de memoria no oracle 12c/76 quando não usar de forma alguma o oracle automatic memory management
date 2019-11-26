@@ -1,1 +1,75 @@
 76 quando não usar de forma alguma o oracle automatic memory management 
+
+
+
+
+
+
+
+
+
+
+
+
+quando se utiliza sga muito grande 
+bom usar um recurso 
+
+
+
+
+recurso do sistema operacional 
+rege page 
+quanto maior a quantidade de memoria 
+maior ponteiros para o SO
+quantidade de paginas de memoria vai ser menor 
+problema de performace com ruge page 
+não faz swape de paginas para memoria 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
