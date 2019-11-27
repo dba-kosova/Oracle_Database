@@ -51,10 +51,8 @@ SELECT * FROM V$SESSION;
 SHOW PARAMETER BLOCK 
 
 
-
-
-
-
+/*lista de usuários no Oracle Database*/
+select username from dba_users;
 
 
 
