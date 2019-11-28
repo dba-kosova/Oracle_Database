@@ -130,6 +130,67 @@ Toda vez que um commit é aplicado um novo SCN é gerado marcando os arquivos pa
 
 
 
+O primeiro SCN é gravado já logo após o commit, quando o LGWr grava os dados do log buffer para o redo ele leva também um SCN identificando que aquela transação foi realizada com sucesso.
+
+
+
+
+
+Os outros SCN são gravados a cada checkpoint no banco de dados, como sabemos o checkpoint grava as informações contidas nos blocos de memória (Database Buffer) para os arquivos em disco (datafiles) e ao fazer atualiza o controlfile e os datafiles envolvidos no processo com o respectivo SCN.
+
+
+
+
+
+
+Quando o processo termina o Oracle entende que todos os datafiles envolvidos foram gravados com sucesso e que, em caso de falha, só o que ocorrer depois deste checkpoint deverá ser recuperado.
+
+
+
+
+
+
+No banco de dados, para garantir os dados e a integridade da base, temos então os seguintes SCNs
+
+
+
+
+
+- SCN dos datafiles: A cada checkpoint completo o Oracle marca o datafile com o SCN mais recente.
+
+
+
+
+sys@ORCL> select name,checkpoint_change# from v$datafile;
+
+NAME                                       CHECKPOINT_CHANGE#
+————————————–                              ——————
+/u01/oracle/oradata/ORCL/system01.dbf      6124985
+/u01/oracle/oradata/ORCL/undotbs01.dbf     6124985
+/u01/oracle/oradata/ORCL/sysaux01.dbf      6124985
+/u01/oracle/oradata/ORCL/users01.dbf       6124985
+/u02/oracle/oradata/ORCL/DADOS.dbf         6124985
+
+
+
+
+- SCN do controlfile: A cada checkpoint completo o Oracle marca o controlfile com o SCN mais recente.
+
+
+
+
+
+sys@ORCL> select checkpoint_change# from v$database;
+CHECKPOINT_CHANGE#
+——————
+6124985
+
+
+
+
+
+
+- SCN inicial: Dentro do cabeçalho do Datafile temos o SCN inicial que nada mais é do que um valor gravado para identificar se este arquivo irá necessitar de recuperação durante a próxima inicialização da instância.
 
 
 
@@ -140,6 +201,113 @@ Toda vez que um commit é aplicado um novo SCN é gerado marcando os arquivos pa
 
 
 
+sys@ORCL> select name,checkpoint_change# from v$datafile_header;
+
+NAME                                       CHECKPOINT_CHANGE#
+————————————–                              ——————
+/u01/oracle/oradata/ORCL/system01.dbf      6124985
+/u01/oracle/oradata/ORCL/undotbs01.dbf     6124985
+/u01/oracle/oradata/ORCL/sysaux01.dbf      6124985
+/u01/oracle/oradata/ORCL/users01.dbf       6124985
+/u02/oracle/oradata/ORCL/DADOS.dbf         6124985
+
+
+
+
+
+- SCN final: Durante o processo de uso normal da base, todos os SCN de controlfiles, o SCN dos datafiles e o SCN inicial do cabeçalho estão idênticos e o SCN final está marcado como NULL.
+
+
+
+
+sys@ORCL> select name,last_change# from v$datafile;
+
+ NAME              LAST_CHANGE#
+————————————–     ——————
+/u01/oracle/oradata/ORCL/system01.dbf
+/u01/oracle/oradata/ORCL/undotbs01.dbf
+/u01/oracle/oradata/ORCL/sysaux01.dbf
+/u01/oracle/oradata/ORCL/users01.dbf
+/u02/oracle/oradata/ORCL/DADOS.dbf
+
+
+
+
+
+Durante o desligamento da base, caso o mesmo seja feito de forma limpa (shutdown immediate ou normal) o Oracle irá definir um valor para o SCN final.
+
+
+Vamos confirmar os valores, use o comando shutdown immediate seguido de um startup mount e depois digite o seguinte comando.
+
+
+sys@ORCL> select name,checkpoint_change#,last_change# from v$datafile;
+
+
+
+NAME                                       CHECKPOINT_CHANGE#  LAST_CHANGE#
+————————————–                              ——————              ————
+/u01/oracle/oradata/ORCL/system01.dbf      6127897             6127897
+/u01/oracle/oradata/ORCL/undotbs01.dbf     6127897             6127897
+/u01/oracle/oradata/ORCL/sysaux01.dbf      6127897             6127897
+/u01/oracle/oradata/ORCL/users01.dbf       6127897             6127897
+/u02/oracle/oradata/ORCL/DADOS.dbf         6127897             6127897
+
+
+
+Ao iniciar novamente a base de dados caso os valores Inicial e Final não coincidam o Oracle entende que aquele datafile precisa de recuperação.
+
+
+sys@ORCL> alter database open;
+
+
+
+
+Database altered.
+sys@ORCL> select name,checkpoint_change#,last_change# from v$datafile;
+
+NAME                                       CHECKPOINT_CHANGE#  LAST_CHANGE#
+————————————–                              ——————              ————
+/u01/oracle/oradata/ORCL/system01.dbf      6127898
+/u01/oracle/oradata/ORCL/undotbs01.dbf     6127898
+/u01/oracle/oradata/ORCL/sysaux01.dbf      6127898
+/u01/oracle/oradata/ORCL/users01.dbf       6127898
+/u02/oracle/oradata/ORCL/DADOS.dbf         6127898
+
+
+
+
+
+Explicando o papel do SCN durante uma recuperação de arquivo.
+
+
+
+No exemplo tivemos um erro no datafile 5 (Dados) e o mesmo precisou ser restaurado.
+Porém ao executar o restore eu não efetuei o recovery, vejamos como fica a base ao tentar abrir
+
+idle> startup
+ORACLE instance started.
+
+Total System Global Area  285212672 bytes
+Fixed Size                  1267068 bytes
+Variable Size             150997636 bytes
+Database Buffers          130023424 bytes
+Redo Buffers                2924544 bytes
+Database mounted.
+ORA-01113: file 5 needs media recovery
+ORA-01110: data file 5: ‘/u02/oracle/oradata/ORCL/DADOS.dbf’
+
+
+
+
+O sistema não conseguiu bater o valor que possuía no SCN do controlfile com o do arquivo (que por ter sido restaurado é mais antigo), mas vamos comprovar, com a base em modo mount execute os seguintes comandos.
+
+
+
+idle> select file#,change# from v$recover_file;
+
+     FILE#    CHANGE#
+     ———-     ———-
+     5        5955546
 
 
 
@@ -147,6 +315,13 @@ Toda vez que um commit é aplicado um novo SCN é gerado marcando os arquivos pa
 
 
 
+A v$recovery_file faz justamente o trabalho de mostrar quais arquivos estão com os SCNs incorretos e precisam de recuperação.
+
+
+
+
+
+Outra sugestão é verificar o conteúdo do SCN da V$datafile juntamente com o SCN do cabeçalho, abaixo, na primeira linha vemos o SCN atual do arquivo e na segunda linha o SCN que ele deveria estar.
 
 
 
@@ -154,14 +329,34 @@ Toda vez que um commit é aplicado um novo SCN é gerado marcando os arquivos pa
 
 
 
+idle> select name,checkpoint_change# from v$datafile where FILE# = 5
+union
+select name,checkpoint_change# from v$datafile_header where FILE# = 5;
+
+NAME                                    CHECKPOINT_CHANGE#
+————————————-                           ——————
+/u02/oracle/oradata/ORCL/DADOS.dbf      5955546
+/u02/oracle/oradata/ORCL/DADOS.dbf      6153406
 
 
 
 
 
+Não temos outra escolha, hora do recover!
 
+Portanto se todos os archives\on-line redo estiverem disponíveis para trazer o arquivo ao SCN desejado o sistema irá prosseguir sem erro.
 
+idle> recover database;
+Media recovery complete.
+ 
 
+Agora é só subir a base.
+
+idle> alter database open;
+Database altered.
+
+Bom, é isso, espero ter colaborado em alguma coisa no seu dia-a-dia.
+Qualquer dúvida, sugestão ou reclamação estou à disposição.
 
 
 
