@@ -1,0 +1,288 @@
+Conceitos de backup e recover em relação ao Oracle
+
+
+
+
+Este artigo tem o objetivo de introduzir alguns conceitos de backup e recover em relação ao Oracle, bem como explicar o papel do SCN durante as situações do cotidiano.
+
+
+
+O que é um backup?
+
+Um backup é uma cópia de arquivos\dados que existe para garantir a restauração dos mesmos em caso de falha.
+
+Uma falha pode ser desde uma corrupção de arquivos, falha de hardware, sinistros (incêndio, tsunamis) até erro de usuário (drops acidentais, exclusão de arquivos, má aplicação de atualizações).
+
+
+
+Quais são os tipos de backup?
+Falando agora diretamente de Oracle nós temos dois tipos de backups:
+
+
+
+
+
+Backups Lógicos: Que contêm dados e\ou definições de objetos. Um exemplo comum de backup lógico é o famoso export\import através do datapump pois ele gera nada mais do que um arquivo binário com as definições de estrutura, índices, grants, dados (e o que mais você quiser) para importação.
+
+
+
+
+Backups Físicos: Que contém os arquivos físicos do banco de dados como datafiles, archive logs ou controlfiles.
+
+Podem ser feitos pelo banco (RMAN ou manualmente com o BEGIN\END BACKUP) ou diretamente pelo usuário administrador via servidor.
+
+
+
+
+
+Backups Consistentes e inconsistentes
+Dentro dos backups físicos ainda temos dois subtipos que também são muito importantes.
+
+
+- Backups Consistentes (também conhecidos como cold backup): Feitos com a base "desligada" ou em modo mount.
+
+Consiste basicamente em fazer um backup sem que a base esteja com transações ativas, garantindo assim que todas as transações previamente realizadas estejam consistentes.
+
+A característica deste tipo de backup é que há a garantia de que todos os SCNs estão idênticos, ou seja, todas as alterações que estavam no redo log e no buffer estão gravadas nos datafiles.
+
+
+
+
+- Backups Inconsistentes (também conhecidos como hot backup): Feitos com a base aberta e gerando transações.
+
+Como o banco está sendo constantemente utilizado antes, durante e depois do backup os SCNs geralmente nunca batem (daí o nome inconsistente), o que faz o sistema depender dos archived logs para posterior recuperação.
+
+Conforme podemos analisar das afirmações é certo que backups inconsistentes necessitam que a base esteja em modo ARCHIVELOG.
+
+
+
+
+O que é uma recuperação?
+
+Uma recuperação é o processo de reconstruir\restaurar arquivos ou dados que tenham sofrido algumas das catástrofes citadas no parágrafo de backup.
+
+
+
+
+Geralmente envolvem duas fases:
+
+- Restaurar o arquivo físico, que nada mais é do que pegar o arquivo do backup e deixar o mesmo disponível para a database (conhecida como Fase de Restore).
+
+- Recuperar os dados aplicando os on-line\archived redo a fim de trazer a base ao ponto mais atual antes de falha (conhecida como Fase de Recover).
+
+
+
+No Oracle existem três tipos básicos de recuperação:
+
+- Instance recovery:
+Realizado pelo próprio banco após uma queda anormal ou um shutdown abort, é feito com o objetivo de garantir a integridade dos dados, aplica no banco o que está em redo (commitados) e da rollback no que estiver em undo (não commitados). Neste processo não há intervenção do usuário.
+
+
+
+
+- Media recover:
+É a recuperação de algum arquivo que está danificado (devido a uma falha de disco por exemplo).
+
+
+Temos como casos de media recovery as recuperações de SPfiles, datafiles ou controlfiles.
+
+Neste processo há intervenção do usuário pois o sistema precisa receber as informações de o que restaurar e onde estão os dados de backup.
+
+
+Uma vez recuperado o arquivo o sistema irá analisar se há a necessidade de Recovery, se houver o mesmo irá realizar este passo sem intervenção (A menos que você especifique que queira interferir como com o comando “RECOVER DATABASE UNTIL CANCEL”).
+
+
+Lembrando apenas que essa ação não é realizada pelo RMAN. Pois o RMAN não faz recuperação UNTIL CANCEL, somente LOG SEQUENCE, TIME ou SCN.
+
+
+
+
+
+- Recover Completo\Incompleto e Point-in-Time:
+Recover completo é o processo de trazer a base de dados para o momento mais atual após a falha, sem nenhuma perda dos dados commitados.
+
+
+
+Por exemplo, você teve um problema às 10 da manhã, mas possui os backups certinhos e os archives até antes da falha, então, você irá restaurar os arquivos com problema e o sistema aplicará se necessário os archives para trazer todos os dados dos arquivos até 9:59, praticamente Zero de perda.
+
+
+
+
+Nestas situações é realizada uma operação de recover incompleto (também conhecida como Point-in-Time) que é voltar à base a um SCN que não seja último para consertar um erro de usuário ou na falta de um archive.
+
+
+
+
+Temos como uma opção ao Point-in-Time recovery (como no exemplo do DROP TABLE ou de um UPDATE INCORRETO) a funcionalidade de Flashback, porém não iremos abordar a mesma nestes artigos.
+
+
+
+
+
+
+
+E para completar, o é um SCN?
+SCN (System Change Number) é um número em formato atômico mantido pelo Oracle para registrar quais alterações foram feitas no seu banco de dados.
+
+
+Toda vez que um commit é aplicado um novo SCN é gerado marcando os arquivos para que o Oracle saiba onde e quanto de recuperação deverá ser aplicado em caso de falha, lembrando que o CONTROL FILE é o coração deste processo pois ele é o responsável por dizer ao Oracle quais os SCNs corretos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*******************************************************************************************************************************
+  *                                                   REFERENCIAS      	                                           		 *
+  *https://www.oracle.com/technetwork/pt/articles/database-performance/conceito-backup-e-recover-em-oracle-1384601-ptb.html      *
+  *******************************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
