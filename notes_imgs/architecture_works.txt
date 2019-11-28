@@ -20,11 +20,78 @@ Redo Log File e Archive
 
 
 
+
+
+
+
+
+ DATA FILES 
+ Em um banco de dados podem existir um ou mais arquivos de dados. O arquivo de dados armazena o dicionário de dados e os objetos do usuário. Este tipo de arquivo armazena também as ultimas alterações submetidas a commit feita nos dados. 
+
+
+O servidor le os dados no arquivo de dados e armazena no cache de buffer do banco de dados. O servidor nao grava dados novos ou modificados imediatamente no arquivo de dados ele le e joga os dados no cache de buffer de dados. 
+
+
+
+
+
+ REDO LOG FILES 
+ Todo banco de dados oracle tem no mínimo dois grupos de arquivos de redo log cada um com pelo menos um arquivo de redo log. Serve pra registrar alteração feitas nos dados. 
+
+
+
+
+
+
+
+ CONTROL FILES 
+Os arquivos de controle armazenam as informações para manter e verificar a integridade de um banco de dados, como o nome do banco de dados, o time stamp, nomes e local de arquivos de dados de redo log. 
+
+ As informações armazenadas nos arquivos de controle são usadas para identificar os arquivos de dados e o arquivo de redo log. Os arquivos de controle deve ser abertos quando você abrir o banco de dados. Se o dba alterar a estrutura do banco de dados o servidor oracle modificará automaticamente o arquivo de controle. 
+
+
+
+
+
+ ARQUIVOS NÃO RELACIONADOS A BANCO DE DADOS 
+
+ Parameter file (Arquivos de parâmetros) - definir uma característica de uma instância oracle, configuração da instância - inicialização (arquivo de parâmetros) - especifica o nome do banco de dados a quantidade de memória a ser alocada o nome de arquivo de controle e outros parâmetros do sistema. 
+
+
+
+
+ Password file (Arquivos de senha) - é utilizado para autenticar ou validar os usuários privilegiado pelo banco de dados oracle. 
+
+
+
+
+
+
+ Archived redo log file (Arquivos de redo log arquivados) - ele armazena copia off-line de arquivos de redo log utilizado pra recuperação de uma falha de mídia, após o arquivamento é possível reutilizar os arquivos. No modo archivelog é possível reutilizar o banco todo em caso de falha. 
+
+
+
+
+
+
+
+
+
+
+
+
 Redo Log File
 
+Esse arquivo é uma cadeia contínua e cronológica de cada vetor de alteração (“instruções” para desfazer um DML de alteração – insert, update, delete). Uma utilidade de fácil entendimento desses arquivos é na recuperação de uma base após um problema que necessite “voltar” o backup. Para que não haja perda de trabalho até o momento do crash ou erro, os arquivos de redo log podem ser aplicados ao backup para refazer o trabalho, adiantando-os no tempo até o momento em que o dano ocorreu.
 
 
 
+John Watson afirma que o redo log pode ser dividido em dois tipos: redo log online e o redo log arquivado (os archives).
+
+
+
+
+Cada banco de dados deve ter por definição pelo menos dois redo log online. Arquivos de redo log compõe um grupo de arquivo, e são conhecidos como membros. Um banco de dados requer ao menos dois grupos com pelo menos um membro para funcionar. Para um melhor desempenho, podem ser criados mais de dois grupos, e para uma maior segurança, deve-se criar mais de um membro por grupo (caso opte por essa configuração não é necessário se preocupar com desempenho ou sincronismo, pois o processo responsável irá gravar em todos os membros de forma paralela mantendo-os idênticos). A razão do requisito mínimo para o banco Oracle funcionar ser um mínimo de dois grupos é devido à situação de que enquanto um dos grupos (o de status current) está recebendo as alterações (através de comando do processo de background Log Writer – LGWR), o outro está sendo “arquivado” (pelo processo de background Archiver – ARCn), ou seja, está sendo gerado um Archive a partir de um Redo Log File com status inactive. Um passo a passo do processo pode ser o seguinte: ao tempo em que as sessões dos usuários atualizam registros (no buffer cache), elas também gravam vetores de alterações mínimos no redo log buffer, e o LGWR continuamente grava os dados desse buffer para os arquivos que compõem o grupo de arquivos de redo log atual (com status current). Por serem de tamanhos limitados, os redo log se alternam quando estiverem completamente cheios, tornando o outro grupo o atual. Se o banco de dados estiver configurado para gerar Archive (o que é uma segurança para que não haja perda de dados), os processos ARCn arquivarão (ou copiarão) os membros do redo log file que compõe o primeiro grupo. Quando o segundo grupo é totalmente preenchido, o LGWR mudará de volta para o primeiro (setará seu status como current) e irá sobrescrever seu conteúdo (que já foi arquivado), ao mesmo tempo, o ARCn começará a arquivar o segundo grupo (de status inactive). Basicamente é dessa forma que se dá esse processo, de forma cíclica (alternância de log) e reutilizando os membros dos grupos de redo log file.
 
 
 
@@ -47,6 +114,7 @@ Redo Log File
   *http://www.linhadecodigo.com.br/artigo/550/oracle-database-files-arquivo-de-dados.aspx				                        *
   *http://raphaeloafernandes.blogspot.com/2013/05/um-pouco-sobre-redo-log-file-e-archive.html                                                   *
   *https://www.oracle.com/webfolder/technetwork/tutorials/architecture-diagrams/18/technical-architecture/database-technical-architecture.html  *
+  *https://www.devmedia.com.br/revista-sql-magazine												*
   ***********************************************************************************************************************************************/
 
 
