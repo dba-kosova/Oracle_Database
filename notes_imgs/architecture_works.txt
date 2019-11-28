@@ -1,0 +1,70 @@
+
+
+
+Arquivos Database:
+- DATA FILES 
+- REDO LOG FILES 
+- CONTROL FILES 
+- ARCHIVED REDO LOG FILE
+- PARAMETER FILE
+- PASSWORD FILE 
+- LOG
+
+
+
+
+Redo Log File e Archive 
+
+. São elas: log buffer, log writer e archiver. Basicamente, o primeiro (log buffer) é uma área de memória pequena onde são gravadas instruções de desfazer uma alteração (comando DML) disparada contra a base, antes de essa instrução ser gravada no disco (no redo log file). Eu escrevi algo sobre essa estrutura com um pouco mais de riqueza no artigo: [Hard Parse]Parte 01 - Execução de comandos DML. O log writer é o processo de background responsável pela gravação do conteúdo do log buffer no redo log file. O archiver também é um processo de background, porém sua existência está condicionada a uma configuração da instância (ARCHIVELOG). O archiver copia o conteúdo dos arquivos de redo log (que são arquivos cíclicos e reutilizáveis – falarei melhor sobre isso) em arquivos chamados de archives (ou redo log arquivado). Cada uma dessas estruturas podem ser alvo de bastante discussão e conteúdo, que não focarei nesse post, mas é importante que entendamos ao menos o básico para não nos atrapalharmos mais adiante em outras explicações.
+
+
+
+
+Redo Log File
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /**********************************************************************************************************************************************
+  *                                                   REFERENCIAS      	                                           		                *
+  *http://www.linhadecodigo.com.br/artigo/550/oracle-database-files-arquivo-de-dados.aspx				                        *
+  *http://raphaeloafernandes.blogspot.com/2013/05/um-pouco-sobre-redo-log-file-e-archive.html                                                   *
+  *https://www.oracle.com/webfolder/technetwork/tutorials/architecture-diagrams/18/technical-architecture/database-technical-architecture.html  *
+  ***********************************************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
