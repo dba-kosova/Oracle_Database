@@ -58,10 +58,10 @@ select username from dba_users;
 
 
 /**********************************************************************************************************
-*					REFERENCIAS							  *
-*													  *
-*https://www.askmlabs.com/2018/09/install-oracle-database-18c-in-silent_8.html    			  *
-*http://glufke.net/oracle/viewtopic.php?t=7023 								  *
+*					REFERENCIAS							  												  *
+*													  													  *
+*https://www.askmlabs.com/2018/09/install-oracle-database-18c-in-silent_8.html    			  			  *
+*http://glufke.net/oracle/viewtopic.php?t=7023 								  							  *
 *https://www.udemy.com/course/administracao-de-banco-de-dados-oracle-12c/learn/lecture/14570178#overview  *
 *https://www.udemy.com/course/curso-completo-de-banco-de-oracle-dba/learn/lecture/13356994#overview       *
 ***********************************************************************************************************/

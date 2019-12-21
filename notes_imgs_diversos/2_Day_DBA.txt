@@ -1,1 +1,196 @@
 2_DAY_DBA
+
+
+Oracle Database 2 Day DBA is a database administration quick start guide that teaches
+you how to perform day-to-day database administrative tasks. The goal of this book is
+to help you understand the concepts behind Oracle Database. It teaches you how to
+perform all common administration tasks needed to keep the database operational,
+including how to perform basic troubleshooting and performance monitoring
+activities.
+
+
+
+
+Audience
+Oracle Database 2 Day DBA is for anyone who wants to perform basic administrative
+tasks with Oracle Database. Only minimal basic knowledge of or experience with
+database management is required, and a basic knowledge of computers.
+In particular, this guide is for the following groups of Oracle users:
+ 	Developers who want to acquire basic database administrator (DBA) skills
+ 	Anyone managing database servers
+ 	Database administrators managing an Oracle database for a small or
+medium-sized business
+This book is equally useful for enterprise DBAs. It recommends best practices and
+describes efficient ways of performing administrative tasks with Oracle Enterprise
+Manager as the primary interface. 
+
+
+
+
+
+
+
+Related Documentation
+For more information, see these Oracle resources:
+■ Oracle Database Administrator's Guide
+xvi
+■ Oracle Enterprise Manager Advanced Configuration
+■ Oracle Database Concepts
+■ Oracle Enterprise Manager Concepts
+■ Oracle Database Net Services Administrator's Guide
+■ Oracle Database SQL Language Reference
+■ Oracle Database Reference
+■ Oracle Database Backup and Recovery User's Guide
+■ Oracle Real Application Clusters Installation Guide for Linux and UNIX or other
+operating system
+■ Oracle Real Application Clusters Administration and Deployment Guide
+■ Oracle Clusterware Administration and Deployment Guide
+■ Oracle Automatic Storage Management Administrator's Guide
+■ Oracle Database Installation Guide
+There are also several other 2 Day + books available for a variety of topics:
+■ Oracle Database 2 Day + Security Guide
+■ Oracle Database 2 Day + Data Warehousing Guide
+■ Oracle Database 2 Day + Data Replication and Integration Guide
+■ Oracle Database 2 Day + Performance Tuning Guide
+■ Oracle Database 2 Day + Real Application Clusters Guide
+■ Oracle Database 2 Day Developer's Guide
+■ Oracle Database 2 Day + .NET Developer's Guide for Microsoft Windows
+■ Oracle Database 2 Day + PHP Developer's Guide
+■ Oracle Database 2 Day + Application Express Developer's Guide
+■ Oracle Database 2 Day + Java Developer's Guide
+
+
+
+
+
+
+
+
+Many of the examples in this guide use the sample schemas, which are installed by
+default when you select the Basic Installation option with an Oracle Database
+installation. See Oracle Database Sample Schemas for information about how these
+schemas were created and how you can use them.
+To download free release notes, installation documentation, updated Oracle
+documentation, white papers, or other collateral, visit the Oracle Technology Network
+(OTN). You must register online before using OTN; registration is free and can be done
+at
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
