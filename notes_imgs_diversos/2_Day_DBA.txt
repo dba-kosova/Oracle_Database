@@ -1,6 +1,38 @@
 2_DAY_DBA
 
 
+
+
+tasks:
+
+These tasks include configuring the database, managing memory and
+storage, managing users, managing database objects such as tables, performing basic
+troubleshooting, creating backups for your database, performance monitoring
+activities, and more.
+The primary administrative interface used in this guide is Oracle Enterprise Manager
+Database Control, featuring all the self-management capabilities introduced in Oracle
+Database.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Oracle Database 2 Day DBA is a database administration quick start guide that teaches
 you how to perform day-to-day database administrative tasks. The goal of this book is
 to help you understand the concepts behind Oracle Database. It teaches you how to
@@ -32,32 +64,32 @@ Manager as the primary interface.
 
 Related Documentation
 For more information, see these Oracle resources:
-■ Oracle Database Administrator's Guide
+-       Oracle Database Administrator's Guide
 xvi
-■ Oracle Enterprise Manager Advanced Configuration
-■ Oracle Database Concepts
-■ Oracle Enterprise Manager Concepts
-■ Oracle Database Net Services Administrator's Guide
-■ Oracle Database SQL Language Reference
-■ Oracle Database Reference
-■ Oracle Database Backup and Recovery User's Guide
-■ Oracle Real Application Clusters Installation Guide for Linux and UNIX or other
+-       Oracle Enterprise Manager Advanced Configuration
+-       Oracle Database Concepts
+-       Oracle Enterprise Manager Concepts
+-       Oracle Database Net Services Administrator's Guide
+-       Oracle Database SQL Language Reference
+-       Oracle Database Reference
+-       Oracle Database Backup and Recovery User's Guide
+-       Oracle Real Application Clusters Installation Guide for Linux and UNIX or other
 operating system
-■ Oracle Real Application Clusters Administration and Deployment Guide
-■ Oracle Clusterware Administration and Deployment Guide
-■ Oracle Automatic Storage Management Administrator's Guide
-■ Oracle Database Installation Guide
+-       Oracle Real Application Clusters Administration and Deployment Guide
+-       Oracle Clusterware Administration and Deployment Guide
+-       Oracle Automatic Storage Management Administrator's Guide
+-       Oracle Database Installation Guide
 There are also several other 2 Day + books available for a variety of topics:
-■ Oracle Database 2 Day + Security Guide
-■ Oracle Database 2 Day + Data Warehousing Guide
-■ Oracle Database 2 Day + Data Replication and Integration Guide
-■ Oracle Database 2 Day + Performance Tuning Guide
-■ Oracle Database 2 Day + Real Application Clusters Guide
-■ Oracle Database 2 Day Developer's Guide
-■ Oracle Database 2 Day + .NET Developer's Guide for Microsoft Windows
-■ Oracle Database 2 Day + PHP Developer's Guide
-■ Oracle Database 2 Day + Application Express Developer's Guide
-■ Oracle Database 2 Day + Java Developer's Guide
+-       Oracle Database 2 Day + Security Guide
+-       Oracle Database 2 Day + Data Warehousing Guide
+-       Oracle Database 2 Day + Data Replication and Integration Guide
+-       Oracle Database 2 Day + Performance Tuning Guide
+-       Oracle Database 2 Day + Real Application Clusters Guide
+-       Oracle Database 2 Day Developer's Guide
+-       Oracle Database 2 Day + .NET Developer's Guide for Microsoft Windows
+-       Oracle Database 2 Day + PHP Developer's Guide
+-       Oracle Database 2 Day + Application Express Developer's Guide
+-       Oracle Database 2 Day + Java Developer's Guide
 
 
 
@@ -83,8 +115,19 @@ at
 
 
 
+1
+Introduction 1-1
+1 Introduction
 
 
+As a database administrator (DBA), you are responsible for the overall operation of
+Oracle Database. This introductory chapter is intended to help orient you to many
+common DBA tasks, to the tools available to you, and to this guide. The chapter
+contains the following sections:
+-       About This Guide
+-       About Oracle Database
+-       Common Oracle DBA Tasks
+-       Tools for Administering the Database
 
 
 
@@ -92,12 +135,25 @@ at
 
 
 
+These tasks include configuring the database, managing memory and
+storage, managing users, managing database objects such as tables, performing basic
+troubleshooting, creating backups for your database, performance monitoring
+activities, and more.
+The primary administrative interface used in this guide is Oracle Enterprise Manager
+Database Control, featuring all the self-management capabilities introduced in Oracle
+Database.
 
 
 
 
 
 
+About Oracle Database
+Oracle Database is a relational database with object and Extensible Markup Language
+(XML) capabilities. In a relational database, all data is stored in two-dimensional tables
+that are composed of rows and columns. Oracle Database enables you to store data,
+update it, and efficiently retrieve it, with a high degree of performance, reliability, and
+scalability
 
 
 
@@ -105,10 +161,31 @@ at
 
 
 
+Oracle Database is composed of the following elements:
+-       The Oracle software that you install on your host computer
+-       The database, which is a collection of physical files on one or more disks
+The database contains user data, metadata, and control structures. Metadata, or
+data about the data, is the collection of information on disk that permits Oracle
+software to manage user data. An example of metadata is the data dictionary.
+Control structures (such as the control file and online redo log files) ensure the
+integrity, availability, and recoverability of user data.
+-       The Oracle instance, which is composed of the following:
+– The background processes, which are the operating system processes or
+threads that perform the work of accessing, storing, monitoring, and
+recovering user data, metadata, and control files associated with the database
+– The shared memory areas used by the background processes
+-       Server processes that perform work on behalf of connected users and
+applications, and the memory and temporary storage used by these processes
+Server processes parse and execute SQL statements, and retrieve and return results
+to the user or application.
+-       Oracle Net, which is a software layer that enables client applications and Oracle
+Database to communicate over a network, and the Oracle Net listener, which is a
+process that listens for connection requests from the network.
 
 
 
 
+Oracle Database Administrator's Guide
 
 
 
@@ -118,6 +195,24 @@ at
 
 
 
+Common Oracle DBA Tasks
+As an Oracle DBA, you can expect to be involved in the following tasks:
+-       Installing Oracle software
+-       Creating Oracle databases
+-       Performing upgrades of the database and software to new release levels
+-       Starting and shutting down the database instance
+-       Managing the storage structures of the database
+-       Managing users and security
+-       Managing database objects, such as tables, indexes, and views
+-       Backing up the database and performing recovery operations when necessary
+-       Monitoring the state of the database and taking preventive or corrective action as
+required
+-       Monitoring and tuning database performance
+-       Diagnosing and reporting critical errors to Oracle Support Services
+In a small to medium-sized database environment, you might be the sole person
+performing these tasks. In large, enterprise environments, the job is often divided
+among several DBAs, each of whom has a specialty, such as database security or
+database tuning.
 
 
 
@@ -127,10 +222,43 @@ at
 
 
 
+Tools for Administering the Database
+The goal of this guide is to enable you to quickly and efficiently create an Oracle
+database, and to provide guidance in basic database administration.
+The following are some products, tools, and utilities you can use to achieve your goals
+as a database administrator:
+■ Oracle Universal Installer
+Oracle Universal Installer (OUI) is a utility that installs your Oracle software and
+options. It can automatically start Oracle Database Configuration Assistant to
+install a database.
+■ Oracle Database Configuration Assistant
 
+Oracle Database Configuration Assistant (DBCA) is a utility that creates a
+database from templates that are supplied by Oracle, or you can create your own.
+It enables you to copy a preconfigured seed database, thus saving the time and
+effort of generating and customizing a new database.
 
 
 
+■ Database Upgrade Assistant
+The Database Upgrade Assistant is a tool that guides you through the upgrade of
+your existing database to a new Oracle Database release.
+■ Net Configuration Assistant
+Net Configuration Assistant (NETCA) is a utility that enables you to configure
+listeners and naming methods, which are critical components of the Oracle
+Database network.
+■ Oracle Enterprise Manager Database Control
+The primary product for managing your database is Oracle Enterprise Manager
+Database Control (Database Control), a Web-based interface. After you have
+installed the Oracle Database software, created or upgraded a database, and
+configured the network, you can use Database Control to manage your database.
+Database Control also provides an interface for performance advisors and for
+Oracle utilities such as SQL*Loader and Recovery Manager (RMAN).
+Oracle also offers separately licensed Oracle Enterprise Manager management
+packs, management plug-ins, and other products you can purchase to enhance the
+capabilities of Oracle Enterprise Manager in specific environments.
+See Also:
+■ Oracle Database Licensing Information
 
 
 
@@ -140,14 +268,186 @@ at
 
 
 
+Installing Oracle Database and Creating a
+Database
 
 
 
 
 
+To install your Oracle Database software, use Oracle Universal Installer (OUI). OUI is a
+graphical user interface utility that enables you to install new Oracle Database
+software. Online Help is available to guide you through the installation process.
+During the installation process, you are given the opportunity to create a database. If
+you choose to do so, then OUI automatically starts Oracle Database Configuration
+Assistant (DBCA) to guide you through the process of creating and configuring a
+database.
+Before you start the installation process, see the following sections for information
+about prerequisites and installation choices:
+■ Checking Prerequisites
+■ Deciding on Installation Choices
+If you do not create a database during installation, then you must run DBCA at some
+point after installation to create a database.
 
 
 
+
+
+
+Note: After you create a database, either during installation or as a
+standalone operation, you do not have to create another. Each Oracle
+instance works with a single database only. Rather than requiring that
+you create multiple databases to accommodate different applications,
+Oracle Database uses a single database, and accommodates multiple
+applications by enabling you to separate data into different schemas
+within the single database. See "About User Accounts" on page 7-1 for
+more information about schemas.
+
+
+
+
+
+
+
+Checking Prerequisites
+Before installing the software, OUI performs several automated checks to ensure that
+your computer fulfills the basic hardware and software requirements for an Oracle
+Database installation. If your computer does not meet a requirement, then an error
+message is displayed. The requirements may vary depending upon the type of
+computer and operating system you are using, but some prerequisites include:
+
+
+
+■ There is a minimum of 1 GB of physical memory.
+■ Sufficient paging space is available.
+■ The appropriate service packs or patches for your operating system are installed.
+■ An appropriate file system format is being used.
+
+
+
+
+See Also:
+■ Oracle Database Installation Guide for your platform for more
+information about exact requirements
+
+
+
+
+Deciding on Installation Choices
+
+
+Oracle Universal Installer guides you through an interview phase where you specify
+your choices for installation and database creation. The exact sequence of steps
+depends on your operating system. As you progress through the installation, you are
+presented with choices on how to configure the database.
+■ Install Options
+■ Installation Method
+■ Installation Type
+■ Software Installation Directories
+■ Database File Location
+■ Database Identifiers
+■ About Advanced Installation
+
+
+
+
+
+
+Install Options
+You can choose to create and configure a database, or to only install the database
+software.
+You can create a preconfigured database or a custom-configured database during
+installation. If you choose not to create a database during installation, then you must
+run DBCA after installation to create a database.
+Preconfigured databases are based on templates that Oracle provides or that you
+create. Each Oracle-provided template is optimized for a particular workload type. See 
+
+
+
+
+
+
+Installation Method
+
+
+The installation methods are divided into Desktop Class and Server Class:
+■ Desktop Class—This installation class is most appropriate for laptop or desktop
+computers. It includes a starter database and requires minimal configuration.
+■ Server Class—This installation class is for servers, such as you would find in a
+data center, or used to support enterprise-level applications. Choose this
+installation class if you need access to advanced configuration options.
+During a Desktop Class installation, you make only basic choices. For a Server Class
+installation, you choose either typical installation (where you make only basic choices)
+or advanced installation.
+During a Desktop Class or a typical installation, Oracle Database automatically installs
+the sample schemas.
+
+
+
+
+
+
+
+
+Installation Type
+When you install Oracle Database during basic and advanced installations, you need
+answers for the questions listed in this section. OUI provides default values for every
+choice.
+
+
+
+
+■ What type of database edition installation do you want to perform?
+Your choices are:
+– Enterprise Edition—This installation type is the full-featured Oracle Database
+product that provides data management for enterprise-level applications. It is
+intended for mission-critical, high-security online transaction processing
+(OLTP) and data warehousing environments.
+– Standard Edition—This installation type is suitable for workgroup or
+department-level applications, and for small to medium-sized enterprises. It
+provides core relational database management services and options and
+includes an integrated set of management tools, replication, Web features, and
+facilities for building business-critical applications.
+– Standard One Edition—This installation type is suitable for workgroup,
+department, or web applications. It provides core relational database
+management services for single-server environments or highly distributed
+branch environments. Oracle Standard Edition One includes all the facilities
+necessary to build business-critical applications.
+– Personal Edition (Microsoft Windows operating systems only)—This
+installation type installs the same software as the Enterprise Edition, but
+supports only a single-user, development and deployment environment.
+■ What are your database configuration options?
+
+
+
+
+
+
+Software Installation Directories
+You must specify the directory in which the Oracle Database software is installed, or
+the location where the product binary files are copied from the installation media. You
+must choose a location that has enough disk space to contain the software and is
+accessible by the operating system user performing the installation.
+You also specify the location of the Oracle base directory, which is used by all Oracle
+software products installed on the server. The first time you install Oracle Database
+software on a server, you are prompted to specify the location of the inventory
+directory, called oraInventory. This directory provides a centralized inventory of all
+Oracle software products installed on the server. You should use the same value for
+the Oracle inventory directory each time you perform an Oracle software installation
+on the server
+
+
+Database File Location
+A database includes several files that store the user data, database metadata, and
+information required to recover from failures. As an administrator, you decide what
+kind of storage subsystem to use for these files. You can select from the following
+options:
+■ File System—This default option creates database files that are managed by the
+file system of your operating system. You can specify the directory path where
+database files are to be stored. Oracle Database can create and manage the actual
+files.
+If you are not certain about which option to use, then select File System (the
+default).
 
 
 
