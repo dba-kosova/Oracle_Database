@@ -1,0 +1,125 @@
+
+
+
+RMAN (Recovery Manager)
+
+
+
+
+
+ferramenta tão importante
+
+
+
+Por isto como eu disse no começo "DON'T PANIC", vamos desmistificar este dogma.
+
+
+
+Para começar é preciso ter em mente que a principal função de uma "ferramenta de backup" não é apenas garantir um backup fácil e rápido, mas principalmente é garantir uma restauração rápida, eficiente e consistente dos dados perdidos.
+
+
+
+
+
+
+
+
+
+
+
+
+Prefácio
+
+
+
+Para que seja possível efetuar o backup do banco de forma "online", primeiramente é necessário ativar o "modo archivelog" para que os redologs sejam armazenados e nenhuma transação seja perdida durante a execução do backup. Caso você ainda não tenha feito isto deve se reiniciar a instância de banco de dados da seguinte forma:
+
+
+
+sqlplus / as sysdba
+SQL> shutdown immediate
+SQL> startup mount
+SQL> alter database archivelog;
+SQL> alter database open;
+
+
+
+
+
+
+
+
+Quanto ao destino padrão dos Archivelogs e Backups eu costumo sempre que possível utilizar a Flash Recovery Area (FRA). Para isto deve se configurar os parâmetros "db_recovery_file_dest" (local de destino) e "db_recovery_file_dest_size" (tamanho máximo da área).
+
+
+
+
+
+
+Quando o uso da FRA atingir o valor do tamanho máximo da área definido o Oracle irá se encarregar de eliminar backupsets e archivelogs obsoletos automaticamente, veremos como fazer isto manualmente no parte 3 deste artigo.
+
+
+
+
+
+
+
+Como destino da FRA use sempre um disco (ou grupo de discos LUN, LVM, ASM, etc) que de preferencia não seja físicamente o mesmo já utilizado por outro banco de dados vivo, a fim de evitar concorrência durante o backup.
+
+
+
+
+
+Eu considero como uma política muito simples e eficiente manter de 1 a 15 dias de backup em disco (para acesso mais rápido) e os demais em unidades externas, preferencialmente unidades de fita. Lembre-se que a política de retenção de dados deve ser definida junto ao seu cliente ou gestores de segurança de dados, etc. não tome decisões sem antes consultar e discuti-las com os demais responsáveis pela segurança dos dados.
+
+
+
+
+
+1) Bem vindo ao maravilhoso mundo novo, entre nele sem medo
+
+
+Para se conectar no Recovery Manager como "sysdba" basta usar o comando "rman target /", mais fácil impossível:
+
+
+connected to target database: AL1 (DBID=3344508319)
+
+
+
+
+
+
+/**********************************************************************************************************
+*                                               REFERENCIAS                                               *
+*                                                                                                         *
+*https://www.devmedia.com.br/guia-rapido-para-uso-do-rman/24131                           				  *
+***********************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**********************************************************************************************************
+*                                               REFERENCIAS                                               *
+*                                                                                                         *
+*https://www.devmedia.com.br/guia-rapido-para-uso-do-rman/24131                           				  *
+***********************************************************************************************************/

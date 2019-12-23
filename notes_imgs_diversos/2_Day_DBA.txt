@@ -721,6 +721,8 @@ The dbca utility is typically located in the ORACLE_HOME/bin directory.
 
 
 
+ Getting Started with Database
+Administration 
 
 
 
@@ -734,25 +736,63 @@ The dbca utility is typically located in the ORACLE_HOME/bin directory.
 
 
 
+Administering the Database with SQL-Based Management Tools
 
 
 
+In addition to using the graphical user interface (GUI) pages presented in Database
+Control, you can use other Oracle tools such as SQL Developer and SQL*Plus to
+administer your database. These tools enable you to perform database management
+operations, and to query, insert, update, or delete data directly in the database. 
 
 
 
 
+The following sections provide details:
+■ About SQL
+■ About SQL*Plus
+■ Starting SQL*Plus and Connecting to the Database
+■ About SQL Developer
 
 
+See Also:
+■ Oracle Database 2 Day Developer's Guide
+■ Oracle Database SQL Language Reference
 
 
 
 
+About SQL
+To perform many of its operations, Oracle Enterprise Manager Database Control
+(Database Control) submits structured query language (SQL) statements to the
+database. SQL (pronounced like sequel) is an industry-standard English-like computer
+programming language for querying and updating databases.
+The following is an example of a SQL query that lists information about countries in a
+countries table, which is owned by user hr:
+SELECT COUNTRY_ID, COUNTRY_NAME FROM HR.COUNTRIES;
+SQL is a powerful language that can also be used to perform a variety of database
+administration tasks. The following SQL statement creates the database user nick and
+assigns him a password of your choosing, represented by password:
+CREATE USER nick IDENTIFIED BY password;
+When performing an administrative task in Database Control, you can click Show
+SQL to see the SQL statements that Database Control generates and submits.
 
 
 
 
 
 
+About SQL
+To perform many of its operations, Oracle Enterprise Manager Database Control
+(Database Control) submits structured query language (SQL) statements to the
+database. SQL (pronounced like sequel) is an industry-standard English-like computer
+programming language for querying and updating databases.
+The following is an example of a SQL query that lists information about countries in a
+countries table, which is owned by user hr:
+SELECT COUNTRY_ID, COUNTRY_NAME FROM HR.COUNTRIES;
+SQL is a powerful language that can also be used to perform a variety of database
+administration tasks. The following SQL statement creates the database user nick and
+assigns him a password of your choosing, represented by password:
 
 
 
@@ -762,15 +802,32 @@ The dbca utility is typically located in the ORACLE_HOME/bin directory.
 
 
 
+CREATE USER nick IDENTIFIED BY password;
 
 
 
+CREATE USER nick IDENTIFIED BY oracle;
 
 
 
 
 
 
+About SQL*Plus
+SQL*Plus is a command-line program that you use to submit SQL and PL/SQL
+statements to an Oracle database. You can submit statements interactively or as
+SQL*Plus scripts. SQL*Plus is installed with the database and is located in your
+ORACLE_HOME/bin directory.
+You can start SQL*Plus from the command line, or on Microsoft Windows, from the
+Start menu.
+When SQL*Plus loads, it issues the SQL prompt, which looks like this:
+SQL>
+At the SQL prompt, you can enter statements that perform administrative tasks such
+as shutting down the database or creating a new user, or you can query, insert, update,
+and delete data.
+You can enter a single SQL statement on multiple lines. You must end each statement
+with a semicolon (;). For most statements, you can rerun a statement by entering a
+slash (/) on a line by itself.
 
 
 
@@ -778,14 +835,37 @@ The dbca utility is typically located in the ORACLE_HOME/bin directory.
 
 
 
+Starting SQL*Plus and Connecting to the Database
 
 
 
+The section describes how to start SQL*Plus and connect to the database from both the
+command line and the Windows start menu.
+For a new installation, you connect to the database using either the SYS or SYSTEM
+database accounts. When you enter SYS or a slash (/) as the user name and provide
+the AS SYSDBA clause, your access is authenticated using operating system
+authentication. Operating system authentication uses your Windows, UNIX, or Linux
+host user account to authenticate you to Oracle Database. You must have logged in to
+the host computer with a user account that is a member of a special host user group.
+On UNIX and Linux, this user group is typically dba. This type of authentication 
 
 
 
 
 
-
+To start SQL*Plus and connect to the database from the command line:
+1. Open a command window.
+2. Configure the operating system environment variables, as described in
+"Configuring the Operating System Environment Variables".
+3. Start SQL*plus using a command in the following format:
+sqlplus {username | /} [as sysdba]
+An example of this command is the following:
+$ sqlplus / AS SYSDBA
+Enter password: password
+For username, you can use the SYS or SYSTEM administrative users. At the
+prompt, enter the password that you set up during installation. If you use the SYS
+user, you must include AS SYSDBA after the username.
+SQL*Plus connects you to the default database instance (Microsoft Windows) or
+the database instance specified by environment variables (Linux and UNIX).
 
 
