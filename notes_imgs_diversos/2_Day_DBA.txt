@@ -687,12 +687,26 @@ selecting configuration options.
 
 
 
+Starting DBCA
+Note: If you choose to create a starter database while installing the
+Oracle Database software, then OUI automatically starts DBCA.
 
 
 
 
-
-
+To start DBCA:
+1. Log on to your computer as a member of the administrative group that is
+authorized to install Oracle Database software and to create and run the database.
+2. Do one of the following:
+■ To start DBCA on a Microsoft Windows operating system, click Start, select
+Programs (or All Programs), then Oracle - HOME_NAME, then
+Configuration and Migration Tools, and then Database Configuration
+Assistant.
+■ To start DBCA on UNIX or Linux, or at the command-line prompt on the
+Windows operating system, enter the following command:
+dbca
+The dbca utility is typically located in the ORACLE_HOME/bin directory.
+3. Click Next to bypass the Welcome window.
 
 
 
