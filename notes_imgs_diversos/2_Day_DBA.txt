@@ -437,6 +437,11 @@ the Oracle inventory directory each time you perform an Oracle software installa
 on the server
 
 
+
+
+
+
+
 Database File Location
 A database includes several files that store the user data, database metadata, and
 information required to recover from failures. As an administrator, you decide what
@@ -448,6 +453,282 @@ database files are to be stored. Oracle Database can create and manage the actua
 files.
 If you are not certain about which option to use, then select File System (the
 default).
+■ Automatic Storage Management—This option enables you to place your data files
+in Oracle Automatic Storage Management (Oracle ASM) disk groups. If you
+choose Oracle ASM, then Oracle Database automatically manages database file
+placement and naming. For environments with a large number of disks, this
+option simplifies database administration and maximizes performance. Oracle
+ASM performs software striping and mirroring at the file level for maximum
+storage flexibility, performance, and availability.
+Oracle ASM uses an Oracle ASM instance, which is distinct from the database
+instance, to configure and manage disk groups. A single Oracle ASM instance can
+provide storage for multiple databases on the same server.
+For more information, see "About Oracle Automatic Storage Management" on
+page A-1 and Oracle Automatic Storage Management Administrator's Guide.
+
+
+
+
+
+
+
+Database Identifiers
+These options include your global database name and system identifier (SID). The SID
+is a unique identifier that is used to distinguish this instance from other Oracle
+Database instances that you may create later and run concurrently on your system.
+
+
+
+
+
+
+
+
+
+
+The global database name is the full name of the database that uniquely distinguishes
+it from any other database. The global database name is in the form
+database_name.database_domain, for example sales.example.com. The
+database name portion sales is a simple name you call your database. The database
+domain portion example.com specifies the database domain in which the database is
+located. Together, the database name and domain form the global database name.
+
+
+
+
+
+
+About Advanced Installation
+During advanced installations using the Server Class method you are prompted to
+make the additional choices listed in this section, and the choices for a typical
+installation. The installation process provides default values for every choice.
+This guide describes, but does not document, these additional advanced installation
+choices. For more information, see Oracle Database Installation Guide for your platform.
+
+
+
+
+
+This guide describes, but does not document, these additional advanced installation
+choices. For more information, see Oracle Database Installation Guide for your platform.
+■ Product Languages
+You choose which language the software should use after it is installed. You can
+select multiple languages. The default value is English. If you choose a value other
+than English, it does not change the language used by the installation.
+■ Database Configuration Type
+You select a template to use when configuring the database. You can choose either
+either General Purpose/Transaction Processing or Data Warehousing.
+■ Database Configuration Options
+You can choose how to configure the database created by the installer. You can
+select the memory size and management options, the character sets used to store
+data, the security options for database access, and whether the sample schemas
+should be installed.
+To complete the exercises in this guide and related course material, you must
+install the sample schemas. This data is also used in most examples throughout
+Oracle Database documentation. Oracle recommends that you install the sample
+schemas.
+This choice is a configuration option only during advanced installation. Sample
+schemas are installed by default during typical or Desktop class installations.
+■ Database Management Options
+You specify whether to manage your database centrally or locally using Oracle
+Enterprise Manager. Central management enables you to manage multiple targets,
+such as databases and application servers, using a single interface. Using local
+management you can manage only a single database instance at a time.
+To use central management, you must have an Oracle Enterprise Management
+agent on each host, or computer that has Oracle Database software installed on it.
+These agents are responsible for monitoring all components on that host. If an
+agent is not found on the local host, then this option is disabled during
+installation.
+If you are setting up a single database for the first time, then it is recommended
+that you configure local management with Oracle Enterprise Manager, which is
+the default. You can later install additional databases and configure central
+management using Enterprise Manager.
+■ Recovery Options
+Installing Oracle Database Software
+2-6 Oracle Database 2 Day DBA
+You specify whether automated backups should be configured for the database. If
+you choose this option, you must specify whether the recovery area should be
+stored on the local file system or in an Oracle ASM disk group. You must also
+specify the operating system credentials the backup job uses when performing
+backups
+
+
+
+Schema Passwords
+When you create a database, certain administrative user accounts are created
+automatically. You are prompted to enter the passwords for the SYS, SYSTEM,
+SYSMAN, and DBSNMP accounts, which enable you to manage and administer the
+database. You can use the same password for each account, or specify passwords
+for each account individually. If you do not enter a secure password, you will
+receive a warning message during installation.
+■ Operating System Groups
+Administrative access to the database is granted by membership in certain
+operating system groups. You can choose the operating system group to be used
+for SYSDBA access (typically dba) and SYSOPER access (typically oper).
+The SYSDBA group identifies operating system user accounts that have database
+administrative privileges and can log in with SYSDBA access. The SYSOPER
+group is an optional group for users that should have limited database
+administrative privileges. See "SYSDBA and SYSOPER System Priv
+
+
+
+To use Oracle ASM for recovery area storage, you must have
+installed Oracle ASM as part of an Oracle grid infrastructure
+installation and created one or more disk groups before performing
+the Oracle Database installation.
+
+
+
+
+Administrative access to the database is granted by membership in certain
+operating system groups. You can choose the operating system group to be used
+for SYSDBA access (typically dba) and SYSOPER access (typically oper).
+The SYSDBA group identifies operating system user accounts that have database
+administrative privileges and can log in with SYSDBA access. The SYSOPER
+group is an optional group for users that should have limited database
+administrative privileges. See "SYSDBA and SYSOPER System Privileges" on
+page 7-5 for more information about these groups and privileges.
+
+
+
+
+
+
+Installing Oracle Database Software
+Installing Oracle Database Software
+This section briefly describes the steps for a desktop-class installation. Most steps are
+common to all platforms and involve running the Oracle Universal Installer.
+Platform-specific steps are noted. For further assistance, consult the online Help or the
+Oracle Database Installation Guide for your platform
+
+
+
+
+
+Note: The following steps describe the Oracle Universal Installer
+workflow for a host computer that has no previous Oracle software
+installed. If your host computer has Oracle software installed, then
+you may see a different workflow.
+
+
+
+
+
+
+
+
+To perform a basic installation:
+1. Log on to your computer as a member of the administrative group that is
+authorized to install Oracle Database software and to create and run the database.
+Refer to your operating system-specific documentation or contact your system
+administrator to determine whether you have the necessary privileges and
+permissions to install new software.
+2. Do one of the following:
+■ If you are installing from distribution media, then insert the distribution
+media for the database into your computer.
+
+
+
+
+
+
+
+
+Creating and Managing a Database with DBCA
+
+Unless you specified that only the Oracle Database software should be installed,
+Oracle Universal Installer automatically runs Database Configuration Assistant
+(DBCA) after software installation is complete. DBCA then creates a database using
+the information you provided. If you do not create a starter database and later want to
+create one, or to create additional databases, use DBCA.
+Note: With Oracle Database, you typically have a single database
+that hosts multiple applications. You do not need multiple databases
+to run different applications. Instead, you separate the objects that
+support each different application into different schemas in the same
+database. However, there may be situations in which you want to
+create multiple Oracle databases on the same host computer. When
+you do this with DBCA, the new databases typically use the same
+Oracle home directory as the first database, but store database data
+files separately from those of the first database.
+
+
+
+
+
+
+
+DBCA also enables you to modify a database configuration, delete a database, and
+more. This section describes the following DBCA tasks:
+■ Starting DBCA
+■ Creating a Database Using DBCA
+■ Changing the Configuration of a Database Using DBCA
+■ Deleting a Database Using DBCA
+■ Managing Templates with DBCA
+Online Help is available by clicking Help. It provides information that guides you in
+selecting configuration options. 
+
+
+
+
+
+
+
+DBCA also enables you to modify a database configuration, delete a database, and
+more. This section describes the following DBCA tasks:
+■ Starting DBCA
+■ Creating a Database Using DBCA
+■ Changing the Configuration of a Database Using DBCA
+■ Deleting a Database Using DBCA
+■ Managing Templates with DBCA
+Online Help is available by clicking Help. It provides information that guides you in
+selecting configuration options. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
