@@ -305,7 +305,56 @@ order by 6 desc;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RMAN
 
+
+/*connect rman*/
+$ rman target /
+
+
+/*connect sqlplus*/
+$ sqlplus / as sysdba
+
+
+/*connect asm*/
+$ asmcmd
+
+
+
+
+
+
+
+/*comandos rman*/
+
+/*Para exibir a configuração atual da ferramenta execute:*/
+SHOW ALL;
+
+
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+
+
+
+fdisk /dev/sdc
+
+# create mount dir
+sudo mkdir /hdd6T
+
+# new file system
+sudo mkfs.ext4 /dev/sdc
+
+# mount drive
+sudo mount /dev/sdc /hdd6T/
+
+# change ownership to specified user
+sudo chown your-user /hdd6T/
+
+
+
+REPORT NEED BACKUP;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -316,4 +365,5 @@ order by 6 desc;
 *                                                                                                         *
 *https://www.askmlabs.com/2018/09/install-oracle-database-18c-in-silent_8.html                            *
 *http://oracle-sql-procedimentos.blogspot.com/                                                            *
+*https://unix.stackexchange.com/questions/315063/mount-wrong-fs-type-bad-option-bad-superblock            *
 ***********************************************************************************************************/

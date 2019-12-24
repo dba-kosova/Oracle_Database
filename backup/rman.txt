@@ -87,39 +87,159 @@ connected to target database: AL1 (DBID=3344508319)
 
 
 
+Existem diversas opções para o comando "rman" caso você use uma opção inválida, tal como "rman help" serão exibidas as opções válidas. Leia a documentação.
+
+Uma vez dentro da ferramenta é possível se fazer tudo que se deseja com relação a backup e recuperação de dados. E o Guia de Referencia possui uma relação de todos os comandos da ferramenta.
+
+
+
+
+
+
+
+
+
+
+2) Configure, se quiser, apenas uma vez
+
+
+
+
+O mais importante que deve ser lembrado é que estas configurações são persistentes, ou seja, uma vez atribuído um determinado valor ele não precisa ser reconfigurado a cada execução.
+
+Para exibir a configuração atual da ferramenta execute:
+
+
+
+
+
+
+
+Todos os comandos listados podem ser reexecutados com outros valores para que a alteração seja feita. A princípio basta que sejam reconfigurados os seguintes valores:
+
+
+
+
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+
+
+Este comando informa o RMAN que ele sempre que um backup for feito ele também deve extrair um backup dos arquivos "controlfile" e "spfile" automaticamente ao fim do backup
+
+
+
+
+
+
+
+
+RMAN> CONFIGURE RETENTION POLICY TO RECOVERY WINDOW OF 2 DAYS;
+Este comando define a política de retenção de backups para uma janela de 2 dias. Veremos que esta configuração torna muito fácil a remoção dos backups antigos.
+
+Ao definir o tamanho da janela deve se levar em conta o espaço disponível para armazenamento dos backups, portanto ajuste de acordo com o espaço que houver disponível no seu ambiente.
+
+Caso você não queira utilizar a Flash Recovery Area para armazenar seus backups é possível se alterar o destino padrão dos backups através do comando:
+
+
+
+
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT '/adirectory/anotherdirectory/%U'
+
+
+
+3) Executando um backup simples em apenas 1 linha, ou talvez 2
+
+
+
+
+
+
+https://unix.stackexchange.com/questions/315063/mount-wrong-fs-type-bad-option-bad-superblock
+#montar disco de bkp 
+
+# create mount dir
+sudo mkdir /hdd6T
+
+# new file system
+sudo mkfs.ext4 /dev/sdc
+
+# mount drive
+sudo mount /dev/sdc /hdd6T/
+
+# change ownership to specified user
+sudo chown your-user /hdd6T/
+
+
+
+
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT '/bkp/%U';
+
+
+
+
+
+
+Uma regra que é valida sempre em qualquer situação tanto nas áreas de TI quanto na vida real, quanto mais simples e claro for um sistema mais fácil de entende-lo, mante-lo e menos sujeita a falhas ele se torna.
+
+Tente manter suas rotinas de backup sempre o mais simples e diretas possíveis configurações de destinos, formatação, parallelismo, etc pode ser feita com o comando "CONFIGURE" e persistidas evitando scripts imensos para backups padronizados.
+
+
+
+
+
+4) Encontre e valide backups sem complicações
+Para listar seus backups você basicamente irá utilizar o comando "LIST" em suas diversas variações. Um resumo geral dos seus backups pode ser visto com o comando:
+
+1
+RMAN> LIST BACKUP SUMMARY;
+Já para obter mais detalhes sobre o conteúdo e local dos seus backups execute o comando:
+
+1
+RMAN> LIST BACKUP;
+
+
+
+
+SET DBID 3344508319;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+https://www.fabioprado.net/2011/03/serie-rman-parte-1-entendendo-o-rman.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**********************************************************************************************************
 *                                               REFERENCIAS                                               *
 *                                                                                                         *
 *https://www.devmedia.com.br/guia-rapido-para-uso-do-rman/24131                           				  *
-***********************************************************************************************************/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**********************************************************************************************************
-*                                               REFERENCIAS                                               *
-*                                                                                                         *
-*https://www.devmedia.com.br/guia-rapido-para-uso-do-rman/24131                           				  *
+*https://www.fabioprado.net/2011/03/serie-rman-parte-1-entendendo-o-rman.html							  *
 ***********************************************************************************************************/

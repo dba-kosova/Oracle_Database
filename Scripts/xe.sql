@@ -55,6 +55,7 @@ SHOW PARAMETER BLOCK
 select username from dba_users;
 
 
+
 /*connect rman*/
 $ rman target /
 
@@ -72,13 +73,17 @@ $ asmcmd
 
 
 
+/*comandos rman*/
+
+/*Para exibir a configuração atual da ferramenta execute:*/
+SHOW ALL;
 
 
 
 
 
 /**********************************************************************************************************
-*												REFERENCIAS												  *
+*											REFERENCIAS 												  *
 *													  													  *
 *https://www.askmlabs.com/2018/09/install-oracle-database-18c-in-silent_8.html    			  			  *
 *http://glufke.net/oracle/viewtopic.php?t=7023 								  							  *
