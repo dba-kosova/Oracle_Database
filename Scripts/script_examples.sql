@@ -390,6 +390,48 @@ REPORT NEED BACKUP;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+SELECT  TABLESPACE_NAME FROM DBA_TABLESPACES;
+
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS1';
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'USERS';
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = '
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+BISample Schema Installation on Oracle Database
+
+
+https://www.youtube.com/watch?v=mKg0kPvaktg
+
+
+
+@/home/oracle/BISAMPLE_DATA_825.SQL
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+select * from dba_tablespace_usage_metrics
+where tablespace_name in ('UNDOTBS1', 'SYSTEM'  )
+order by 1;
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
@@ -401,4 +443,5 @@ REPORT NEED BACKUP;
 *http://oracle-sql-procedimentos.blogspot.com/                                                            *
 *https://unix.stackexchange.com/questions/315063/mount-wrong-fs-type-bad-option-bad-superblock            *
 *https://nanxiao.me/en/how-to-install-git-on-suse/                                                        *
+*https://www.youtube.com/watch?v=mKg0kPvaktg                                                              *
 ***********************************************************************************************************/
