@@ -400,4 +400,5 @@ REPORT NEED BACKUP;
 *https://www.askmlabs.com/2018/09/install-oracle-database-18c-in-silent_8.html                            *
 *http://oracle-sql-procedimentos.blogspot.com/                                                            *
 *https://unix.stackexchange.com/questions/315063/mount-wrong-fs-type-bad-option-bad-superblock            *
+*https://nanxiao.me/en/how-to-install-git-on-suse/                                                        *
 ***********************************************************************************************************/
