@@ -221,7 +221,68 @@ https://www.fabioprado.net/2011/03/serie-rman-parte-1-entendendo-o-rman.html
 
 
 
+Pessoal, o objetivo deste artigo é apenas comentar sobre as principais características e recursos do o Oracle Recovery Manager (RMAN), uma ferramenta introduzida no Oracle Database desde a versão 8, que é muito utilizada pelos DBA´s e que tem evoluído bastante a cada nova versão.
+   
+    Antes de continuar comentando mais detalhes sobre o RMAN, acho importante apresentar primeiro os principais métodos de backups que podem ser realizados em um BD Oracle:
+  
+        - Backups gerenciados pelo usuário:
+            Backups realizados pelo usuário (normalmente um DBA) consistem em simplesmente copiar os arquivos de dados para um lugar seguro (disco, tape etc), que possibilite uma posterior restauração, se necessário. A cópia pode ser realizada manualmente através de um prompt de comandos do Sistema Operacional (SO) ou através de scripts/softwares que automatizam o processo de cópia dos arquivos.
+  
+        - Exports/Imports:
+            Cópias lógicas de todos os dados ou parte dos dados de um BD Oracle, realizadas por utilitários Oracle (Export/Import convencional ou Data Pump) que geram um arquivo chamado dump. O dump pode ser utilizado posteriormente para recuperação (através de Imports), quando necessário. Por não realizar um backup físico dos dados, o dump não é considerado um método de "backup completo", mas sim um método adicional ou complementar, para diminuir riscos de perdas de dados ou agilizar a recuperação de dados em algumas (poucas) situações.
 
+        - Backups gerenciados pelo RMAN:
+            A principal diferença entre os Backups gerenciados pelo RMAN e os outros métodos citados é que o RMAN possui inúmeros recursos e configurações, que tornam este método o mais poderoso para backupear BD´s Oracle. Por isso, acredito eu, é o mais recomendado pela Oracle e o mais utilizado pelos DBA´s.
+       
+    Esta série de artigos irá abordar os principais conceitos e características do método Backups gerenciados pelo RMAN. O RMAN é um utilitário Oracle, independente de SO, que pode ser utilizado para gerenciar e efetuar as operações de backup, restauração e recuperação de dados em BD´s Oracle. Suas principais características (até o Oracle 10G) são:
+        - Oferece opções para efetuar backup do BD inteiro ou somente tablespaces e/ou datafiles.
+        - Permite realizar backup de control files e archive logs;
+        - Permite compactar backups;
+        - Permite realizar backups incrementais;
+        - Permite a execução de scripts para executar e combinar tarefas de backup ou recovery;
+        - Permite recuperar o BD em um determinado estado anterior no tempo;
+        - Permite recuperar somente os blocos de dados corrompidos, o que resulta em uma recuperação extremamente rápida;
+        - Permite integração com software de mídia tape de terceiros para gravar os backups diretamente nos tapes (dispositivos de alta capacidade de armazenamento);
+        - Armazenamento de informações sobre os backups em um repositório (catálogo de dados) no próprio BD Oracle;
+        - Geração de relatórios e listas de informações sobre os backups efetuados (que constam no catálogo de dados);
+        - Suporte para recursos avançados, tais como processamento paralelo, para otimizar a performance de backups e restores.
+        - Permite duplicar Bd´s para criar clones de BD´s, que podem, por exemplo, serem utilizados para ambientes de testes e desenvolvimento;
+        - Permite executar testes para verificar se backups podem ser restaurados com sucesso.
+        - Permite migrar datafiles de diferentes plataformas de Sistema Operacional;
+                                                            
+  
+    Dentre os principais componentes do RMAN podemos citar (sem considerar ordem de importância):
+
+         1- A interface gráfica web:
+             Conhecida como Oracle Enterprise Manager, é uma ferramenta web que permite se conectar ao BD e utilizar entre inúmeras funcionalidades, as principais funcionalidades do RMAN.
+
+
+
+
+         2- O utilitário de linha de comandos:
+             Interface principal de interação entre o usuário e o RMAN que permite utilizar todos os recursos e funcionalidades do RMAN.
+
+
+
+
+         3- O repositório do RMAN:
+             Local de armazenamento das informações sobre os backups dos Bd´s que são backupeados (bd´s target). Essas informações podem ser armazenadas em 2 locais: no Control File ou no catálogo de dados do RMAN. O catálogo é um conjunto de objetos opcionais (tabelas, visões e outros objetos) que podem ser criados no Bd Oracle para armazenar as informações de backup e de recuperação. Por padrão estas informações são armazenadas no Control File do BD, mas a Oracle recomenda que elas sejam armazenadas no catálogo para possibilitar a utilização de todos os recursos do RMAN e centralizar as informações de backups de múltiplos BD´s em um único lugar.
+             No catálogo podemos consultar informações tais como: status (sucesso ou falha) dos backups, nomes ou identificadores dos datafiles, control files, archive logs, tablespaces e outros que foram backupeados etc.
+  
+        4- Os scripts e comandos do RMAN:
+            Os comandos do RMAN permitem realizar diversas ações para facilitar a execução de backups e restaurações do BD. Estes comandos, organizados logicamente em scripts, podem ser armazenados no catálogo e podem ser reutilizados para múltiplos backups.
+           
+         5- Conectividade com mídia tape:
+             O RMAN fornece uma API (Application :rogram Interface) chamada MML (Media Management Layer), que permite interagir com tape hardware de terceiros para gravar os dados dos backups diretamente nos tapes (ao invés de gravá-los em disco).
+
+
+     Bom pessoal, por hoje é só!
+
+
+
+Referências:  
+    - Material do curso oficial da Oracle: Oracle Database 10G Administration Workshop II.  
+    - Guia de estudos Sybex: OCP: Oracle 10g Administration II
 
 
 

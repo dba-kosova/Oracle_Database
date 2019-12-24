@@ -110,6 +110,13 @@ SELECT TABLE_NAME FROM ALL_TABLES;
 
 
 
+shutdown immediate;
+
+
+startup mount:
+
+alter databse open resetlogs;
+
 
 
 
@@ -150,6 +157,7 @@ SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'SYSTEM';
 
 SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLE_NAME LIKE 'AU%';
 
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS3';
 
 
 SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS1';
@@ -195,6 +203,32 @@ size 500m
 extent management local
 uniform size 128k
 segment space management auto;
+
+
+
+
+create tablespace TBS3
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+create tablespace TBS1
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+ALTER USER hr ACCOUNT UNLOCK IDENTIFIED BY oracle;
+
 
 
 
