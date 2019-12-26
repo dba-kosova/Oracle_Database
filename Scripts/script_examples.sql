@@ -632,10 +632,68 @@ https://oracle-base.com/articles/misc/install-sample-schemas
 perl -p -i.bak -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat
 
 
+DESC ix.AQ$_ORDERS_QUEUETABLE_G;
+
+
+@/home/oracle/db-sample-schemas/info_exchange/ix_main.sql
+
+
+
+/home/oracle/db-sample-schemas/product_media/pm_main.sql
+
+create tablespace TBS5
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
 
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Installation
+The following schemas will be installed.
+
+HR : Human Resources
+OE : Order Entry
+PM : Product Media
+IX : Information Exchange
+SH : Sales History
+BI : Business Intelligence
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+@/home/oracle/db-sample-schemas/sales_history/sh_main.sql
+
+
+
+create tablespace TBS6
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS6';
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 /**********************************************************************************************************
