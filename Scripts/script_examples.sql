@@ -394,7 +394,7 @@ SELECT  TABLESPACE_NAME FROM DBA_TABLESPACES;
 
 
 
-SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS1';
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS3';
 
 
 SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'USERS';
@@ -431,9 +431,211 @@ order by 1;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SCHEMAS AND BACKUP TESTE
 
 
 
+cd /opt
+
+
+cnf git
+
+
+zypper install git-core
+
+
+
+cd /home/oracle
+
+
+
+git clone https://github.com/oracle/db-sample-schemas.git
+
+
+
+
+SELECT  TABLESPACE_NAME FROM DBA_TABLESPACES;
+
+
+
+create tablespace TBS1
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+@/home/oracle/db-sample-schemas/human_resources/hr_main.sql
+oracle
+TBS1
+TEMP
+$ORACLE_HOME/demo/schema/log/
+
+
+
+ALTER USER hr ACCOUNT UNLOCK IDENTIFIED BY oracle;
+
+
+
+
+
+
+create tablespace TBS2
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+@/home/oracle/db-sample-schemas/customer_orders/co_main.sql
+oracle
+localhost:1521/AL1
+TBS2
+TEMP
+
+
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS2';
+
+
+ALTER USER co ACCOUNT UNLOCK IDENTIFIED BY oracle;
+
+
+
+
+
+
+//@/home/oracle/db-sample-schemas/order_entry/oc_main.sql
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create tablespace TBS3
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+@/home/oracle/db-sample-schemas/product_media/pm_main.sql
+oracle
+TBS3
+TEMP
+oracle
++DATA
+$ORACLE_HOME/demo/schema/log/
+v3
+$ORACLE_HOME/demo/schema/
+localhost:1521/AL1
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+@/home/oracle/db-sample-schemas/info_exchange/ix_main.sql
+
+
+select object_type, count(*) from user_objects group by object_type;
+
+
+
+ CONNECT TO hr;
+
+
+
+ CONNECT sys/389102@localhost:1521/AL1 AS SYSDBA;
+
+ CONNECT sys/oracle@localhost:1521/AL1 AS SYSDBA;
+
+
+
+ alter user SYS identified by "newpassword";
+
+
+ alter user SYS identified by "oracle";
+
+
+ alter user SYS identified by  "newpassword";
+
+
+https://stackoverflow.com/questions/740119/default-passwords-of-oracle-11g
+
+
+
+alter session set container=AL1;
+
+
+
+
+sqlplus / as sysdba
+
+alter user system identified by oracle;
+
+
+
+
+alter user sys identified by oracle;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+col username for a10
+
+select username,sysdba,sysoper from v$pwfile_users;
+
+
+ALTER USER sys IDENTIFIED BY "oracle";
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS4';
+
+
+
+
+
+
+https://oracle-base.com/articles/misc/install-sample-schemas
+
+
+
+
+
+perl -p -i.bak -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 /**********************************************************************************************************
@@ -444,4 +646,15 @@ order by 1;
 *https://unix.stackexchange.com/questions/315063/mount-wrong-fs-type-bad-option-bad-superblock            *
 *https://nanxiao.me/en/how-to-install-git-on-suse/                                                        *
 *https://www.youtube.com/watch?v=mKg0kPvaktg                                                              *
+*https://dbakevlar.com/2017/03/manually-adding-sales-history-sh-schema-11-2-0-4/                          *
+*https://stackoverflow.com/questions/740119/default-passwords-of-oracle-11g                               *
+*https://stackoverflow.com/questions/18752676/alter-user-sys-identified-by-not-working                    *
+*http://www.dba-oracle.com/t_reset_sys_password.html                                                      *
+*https://databasesecurityninja.wordpress.com/2019/04/01/changing-sys-password-in-oracle-12cr2-and-18c/    *
+*https://www.youtube.com/watch?v=BGywvemMyXA                                                              *                                                      
+*https://www.youtube.com/watch?v=Y7IrPNUEOSM                                                              *
+*https://oracle-base.com/articles/misc/install-sample-schemas                                             *
 ***********************************************************************************************************/
+
+
+

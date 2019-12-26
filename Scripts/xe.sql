@@ -68,7 +68,8 @@ $ sqlplus / as sysdba
 $ asmcmd
 
 
-
+/*mostrar usuario atual*/
+show user
 
 
 
