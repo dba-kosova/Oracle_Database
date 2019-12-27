@@ -686,7 +686,7 @@ segment space management auto;
 
 
 
-SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS6';
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS5';
 
 
 
@@ -899,9 +899,403 @@ dd
 
 
 
+works
+
+HR : Human Resources
+CO : Costumers Orders  
+IX : Information Exchange
 
 
 
+OE : Order Entry
+PM : Product Media
+
+SH : Sales History
+BI : Business Intelligence
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+SIMPLE SCHEMAS v2.0
+
+
+
+
+
+
+
+
+
+Installation
+The following schemas will be installed.
+
+HR : Human Resources
+OE : Order Entry
+PM : Product Media
+IX : Information Exchange
+SH : Sales History
+BI : Business Intelligence
+
+
+
+
+
+
+
+cd /opt
+
+
+cnf git
+
+
+zypper install git-core
+
+
+
+cd /home/oracle
+
+
+
+git clone https://github.com/oracle/db-sample-schemas.git
+
+
+
+
+SELECT  TABLESPACE_NAME FROM DBA_TABLESPACES;
+
+
+
+create tablespace TBS1
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+@/u01/app/oracle/product/12.2.0/db_1/demo/schema/human_resources/hr_main_new.sql
+oracle
+TBS1
+TEMP
+$ORACLE_HOME/demo/schema/log/
+
+
+
+ALTER USER hr ACCOUNT UNLOCK IDENTIFIED BY oracle;
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS1';
+
+
+
+create tablespace TBS2
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+
+
+@/home/oracle/db-sample-schemas/order_entry/oc_cre.sql
+
+
+
+
+
+
+
+
+
+@/home/oracle/db-sample-schemas/order_entry/oc_main.sql
+oracle
+localhost:1521/AL1
+TBS2
+TEMP
+
+
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS2';
+
+
+ALTER USER co ACCOUNT UNLOCK IDENTIFIED BY oracle;
+
+
+
+
+
+passwd oracle
+
+
+sqlplus /nolog
+
+
+connect / as sysdba
+
+ALTER USER sys IDENTIFIED BY oracle;
+
+
+
+sqlplus / as sysdba
+
+alter user system identified by oracle;
+
+alter user sys identified by oracle;
+
+
+
+
+cd /home/oracle/db-sample-schemas
+
+perl -p -i.bak -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat
+
+
+
+SELECT  TABLESPACE_NAME FROM DBA_TABLESPACES;
+
+
+
+create tablespace TBS3
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+
+@/home/oracle/db-sample-schemas/product_media/pm_main.sql
+oracle
+TBS3
+TEMP
+$ORACLE_HOME/demo/schema/log/
+$ORACLE_HOME/demo/schema/
+/u01/oradata
+localhost:1521/AL1
+
+
+
+
+
+
+
+create tablespace TBS4
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+@/home/oracle/db-sample-schemas/info_exchange/ix_main.sql
+TBS4
+$ORACLE_HOME/demo/schema/log/
+v3
+localhost:1521/AL1
+
+
+
+
+
+create tablespace TBS5
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+@/home/oracle/db-sample-schemas/sales_history/sh_main.sql
+
+
+localhost:1521/AL1
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+SIMPLE SCHEMAS v3.0 FINAL
+
+
+
+Installation
+The following schemas will be installed.
+
+HR : Human Resources
+CO : Costumers Orders
+IX : Information Exchange
+
+
+
+
+cd /opt
+
+
+cnf git
+
+
+zypper install git-core
+
+
+
+cd /home/oracle
+
+
+
+git clone https://github.com/oracle/db-sample-schemas.git
+
+
+root 
+passwd oracle
+oracle
+
+
+
+SELECT  TABLESPACE_NAME FROM DBA_TABLESPACES;
+
+
+
+create tablespace TBS1
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+@/u01/app/oracle/product/12.2.0/db_1/demo/schema/human_resources/hr_main_new.sql
+oracle
+TBS1
+TEMP
+$ORACLE_HOME/demo/schema/log/
+
+
+
+ALTER USER hr ACCOUNT UNLOCK IDENTIFIED BY oracle;
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS1';
+
+
+
+create tablespace TBS2
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+@/home/oracle/db-sample-schemas/customer_orders/co_main.sql
+oracle
+localhost:1521/AL1
+TBS2
+TEMP
+
+
+
+ALTER USER co ACCOUNT UNLOCK IDENTIFIED BY oracle;
+
+
+
+
+cd /home/oracle/db-sample-schemas
+
+
+perl -p -i.bak -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat
+
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS2';
+
+
+
+
+
+sqlplus /nolog
+
+
+connect / as sysdba
+
+ALTER USER sys IDENTIFIED BY oracle;
+
+
+
+sqlplus / as sysdba
+
+alter user system identified by oracle;
+
+alter user sys identified by oracle;
+
+
+
+
+create tablespace TBS3
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+@/home/oracle/db-sample-schemas/info_exchange/ix_main.sql
+oracle
+TBS3
+TEMP
+oracle
+$ORACLE_HOME/demo/schema/log/
+v3
+localhost:1521/AL1
+
+ 
+
+
+
+
+
+
+
+HR : Human Resources
+CO : Costumers Orders
+IX : Information Exchange
+
+
+sqlplus / as sysdba
+
+SELECT TABLESPACE_NAME FROM DBA_TABLESPACES;
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS1';
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS2';
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS3';
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
