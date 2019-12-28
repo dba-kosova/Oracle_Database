@@ -368,6 +368,7 @@ SHOW ALL;
 CONFIGURE CONTROLFILE AUTOBACKUP ON;
 
 
+fdisk -l
 
 fdisk /dev/sdc
 
