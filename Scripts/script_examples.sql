@@ -1298,7 +1298,28 @@ SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS3';
 
 
 
+drop table [Oracle SQL]
 
+    
+drop table table_name;
+drop table table_name cascade constraints;
+drop table table_name purge;
+
+
+The drop table command moves a table into the recycle bin unless purge was also specified.
+
+
+purge
+Normally, a table is moved into the recycle bin (as of Oracle 10g), if it is dropped. However, if the purge modifier is specified as well, the table is unrecoverably (entirely) dropped from the database.
+
+
+cascade constraints
+Deletes all foreign keys that reference the table to be dropped, then drops the table.
+
+
+
+Thanks
+Thanks to Steve Parker and Thorir Olafsson who notified me of a typo on this page.
 
 
 
@@ -1313,6 +1334,34 @@ SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS3';
 
 
 
+  
+FLASHBACK TABLE HR.REGIONS TO BEFORE DROP;
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+BACKUP
+
+sqlplus / as sysdba
+SQL> shutdown immediate
+SQL> startup mount
+SQL> alter database archivelog;
+SQL> alter database open;
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -1337,6 +1386,7 @@ SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS3';
 *https://www.youtube.com/watch?v=BGywvemMyXA                                                              *                                                      
 *https://www.youtube.com/watch?v=Y7IrPNUEOSM                                                              *
 *https://oracle-base.com/articles/misc/install-sample-schemas                                             *
+*http://www.adp-gmbh.ch/ora/sql/drop_table.html                                                           *
 ***********************************************************************************************************/
 
 

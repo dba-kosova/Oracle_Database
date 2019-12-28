@@ -3,7 +3,140 @@
 
 Gerenciando a Lixeira no Oracle 10g
 
+Gerenciando a Lixeira no Oracle 10g
+O objetivo deste artigo é apresentar o funcionamento da Lixeira no Oracle 10g, as implicações deste novo comportamento e como utilizar esta nova funcionalidade.
+5
+5
 
+Marcar como lido
+ 
+Anotar
+ 
+Imprimir
+A partir da versão 10g, quando uma tabela é dropada, o SGBD não remove automaticamente o espaço desta das tablespaces, a não ser que o parâmetro PURGE tenha sido especificado no comando DROP. Na realidade os metadados da tabela, dos índices e das constraints associadas a esta são renomeados e colocados em uma tabela conhecida como recycle bin, ou simplesmente, lixeira. Desta forma, caso a tabela tenha sido excluída erroneamente é possível recuperá-la posteriormente. Esta funcionalidade é chamada de Flashback Drop e através do comando FLASHBACK TABLE é realizada a recuperação.
+
+O objetivo deste artigo é apresentar o funcionamento da Lixeira, as implicações deste novo comportamento e como utilizar esta nova funcionalidade.
+
+A tabela Recycle Bin
+Esta tabela do dicionário contém informações sobre os objetos deletados, sendo eles tabelas, índices, triggers e contraints. Uma vez que a exclusão física não é mais realizada após o comando de DROP, estes objetos ainda continuam ocupando espaço nas tablespaces até que sejam efetivamente removidos ou até que outro objeto da tablespace necessite de espaço para extensão.
+
+As exceções ocorrem quando uma tablespace e o seu conteúdo ou um usuário e seus objetos são excluídos. Em ambos os casos os objetos não são transferidos para a lixeira e os que já se encontravam na mesma são expurgados. Os índices bitmap join, os logs de materialized views e as constraints de integridade referencial associados a uma tabela também não são transferidos para a lixeira.
+
+Para saber quais os objetos do usuário estão na lixeira basta realizar a seguinte query:
+
+1
+SELECT * FROM RECYCLEBIN;
+Ou através do SQL*Plus Release 10.2.0.1.0 para visualizar somente as tabelas:
+
+1
+2
+3
+4
+5
+6
+7
+SQL> show recyclebin
+  
+ORIGINAL NAME RECYCLEBIN NAME OBJECT TYPE DROP TIME
+--------------- ------------------------------ ------------ --------------
+EMPLOYEES BIN$yrMKlZaVMhfgNAgAIMenRA==$0 TABLE 2003-10-27:14:00:19
+IDX_EMP BIN$yrQIJMkVDlopOAlAIMenRA==$1 INDEX 2003-10-27:14:00:19
+EMPLOYEES BIN$yrMJVBaVMimtNAgAIMiqRA==$5 TABLE 2003-10-27:10:23:02
+A seguir a estrutura da lixeira (tabela recyclebin) obtida através do describe:
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+SQL> desc recyclebin
+  
+Nome Nulo? Tipo
+----------------------------------------- -------- -------------------------
+OBJECT_NAME NOT NULL VARCHAR2(30)
+ORIGINAL_NAME VARCHAR2(32)
+OPERATION VARCHAR2(9)
+TYPE VARCHAR2(25)
+TS_NAME VARCHAR2(30)
+CREATETIME VARCHAR2(19)
+DROPTIME VARCHAR2(19)
+DROPSCN NUMBER
+PARTITION_NAME VARCHAR2(32)
+CAN_UNDROP VARCHAR2(3)
+CAN_PURGE VARCHAR2(3)
+RELATED NOT NULL NUMBER
+BASE_OBJECT NOT NULL NUMBER
+PURGE_OBJECT NOT NULL NUMBER
+SPACE NUMBER
+Ao serem transferidos para a lixeira, os objetos são renomeados para evitar conflitos, uma vez que uma mesma tabela pode ter sido excluída, recriada e depois excluída novamente. A coluna OBJECT_NAME contém o novo nome e a coluna ORIGINAL_NAME contém o nome do objeto antes de ser excluído. Na realidade recyclebin é um sinônimo público para a visão user_recyclebin.
+
+Limpeza da Lixeira
+Se um objeto não for mais necessário ele pode ser removido da lixeira usando o comando PURGE. É possível realizar a remoção de uma tabela ou índice, informando o seu nome novo ou o nome inicial. Como por exemplo:
+
+1
+2
+3
+4
+PURGE TABLE "BIN$yrMKlZaVMhfgNAgAIMenRA==$0";
+PURGE TABLE employees;
+PURGE INDEX "BIN$yrQIJMkVDlopOAlAIMenRA==$1";
+PURGE INDEX idx_emp;
+Caso exista mais de um objeto na lixeira com o mesmo nome inicial, o mais antigo será eliminado. Quando uma tabela é completamente eliminada da lixeira, todas as suas partições, LOBs, índices e constraints associados também são eliminados.
+
+No comando de PURGE, também pode ser especificada a tablespace de modo a excluir fisicamente todos os objetos da lixeira que se encontram na mesma ou somente os objetos de um usuário:
+
+1
+2
+PURGE TABLESPACE users;
+PURGE TABLESPACE users USER hr;
+Um usuário também pode limpar toda a sua lixeira através do comando:
+
+1
+PURGE RECYCLEBIN;
+O DBA poderá agendar um procedimento periódico de limpeza da lixeira de todos os esquemas do banco de dados, dê preferência após um backup completo, utilizando o comando abaixo e conectado como sys as sysdba:
+
+1
+PURGE DBA_RECYCLEBIN;
+O próprio SGBD poderá realizar uma limpeza da lixeira caso uma tablespace tenha atingido o seu tamanho máximo e espaço adicional seja necessário para o crescimento dos seus objetos. Neste caso os primeiros objetos a serem eliminados da lixeira são os índices porém serão eliminados tantos objetos da lixeira quanto forem necessários para o espaço que estiver sendo demandado na tablespace.
+
+Recuperando objetos da Lixeira
+O comando para recuperar uma tabela da lixeira é o FLASHBACK TABLE ... TO BEFORE DROP, onde é possível especificar o nome original ou o novo nome atribuído a tabela. Quando uma tabela é recuperada, os objetos associados também são recuperados, como índices, triggers e constraints.
+
+1
+FLASHBACK TABLE employees TO BEFORE DROP;
+A cláusula RENAME TO permite que a tabela receba um novo nome na recuperação. Trata-se de uma cláusula opcional porém necessária caso exista uma tabela com o mesmo nome da original no esquema do usuário. A seguir um exemplo:
+
+1
+FLASHBACK TABLE employees TO BEFORE DROP RENAME TO old_emp;
+Infelizmente os objetos associados recuperados, como índices, triggers e constraints, não retornam aos seus nomes originais por isso é necessário recuperar os nomes dos objetos da visão recyclebin antes do comando FLASHBACK TABLE e depois executar o comando ALTER RENAME TO para renomeá-los.
+
+Caso exista mais de um objeto com o mesmo nome original, o excluído mais recentemente será recuperado. Porém se a intenção do usuário for recuperar uma determinada versão do objeto que foi excluído que não seja a mais recente deve ser especificado o novo nome atribuído ao objeto pela lixeira.
+
+1
+2
+FLASHBACK TABLE "BIN$yrMKlZaVMhfgNAgAIMenRA==$0"
+TO BEFORE DROP RENAME TO old_old_emp;
+DROP Table
+A sintaxe do comando DROP TABLE sofreu alterações para que seja possível especificar que remoção física da tabela e dos outros objetos relacionados a esta seja realizada sem transferi-los para a lixeira.
+
+1
+DROP TABLE [ schema. ]table [ CASCADE CONSTRAINTS ] [ PURGE ] ;
+A Lixeira no SQL Developer
+Através do SQL Developer também é possível visualizar, limpar ou recuperar objetos da lixeira.
 
 
 
@@ -18,6 +151,8 @@ Gerenciando a Lixeira no Oracle 10g
 *											REFERENCIAS 												  *
 *													  													  *
 *https://www.devmedia.com.br/gerenciando-a-lixeira-no-oracle-10g/7895		     			  			  *
+*https://www.oraclehome.com.br/2013/08/14/diferencas-entre-truncate-table-drop-table-ou-delete-from/	  *
+*https://docs.oracle.com/cd/B28359_01/server.111/b28310/tables011.htm#ADMIN01511						  *
 ***********************************************************************************************************/
 
 

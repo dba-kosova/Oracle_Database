@@ -74,10 +74,36 @@ show user
 
 
 
+
+/*recyclebin é um sinônimo público para a visão user_recyclebin*/
+/*objetos do usuário estão na lixeira*/
+SELECT * FROM RECYCLEBIN;
+
+/*objetos do usuário estão na lixeira*/
+show recyclebin
+
+
+/*estrutura da lixeira (tabela recyclebin)*/
+desc recyclebin
+
+/*limpar lixeira*/	
+PURGE RECYCLEBIN;
+
+
+/*Recuperando objetos da Lixeira*/
+FLASHBACK TABLE employees TO BEFORE DROP;
+
+
+
+
+
 /*comandos rman*/
 
 /*Para exibir a configuração atual da ferramenta execute:*/
 SHOW ALL;
+
+
+
 
 
 
