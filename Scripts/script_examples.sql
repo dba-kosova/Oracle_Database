@@ -371,6 +371,12 @@ CONFIGURE CONTROLFILE AUTOBACKUP ON;
 fdisk -l
 
 fdisk /dev/sdc
+n
+p
+enter 
+enter
+
+
 
 # create mount dir
 sudo mkdir /hdd6T
@@ -382,7 +388,8 @@ sudo mkfs.ext4 /dev/sdc
 sudo mount /dev/sdc /hdd6T/
 
 # change ownership to specified user
-sudo chown your-user /hdd6T/
+sudo chown your-user:your-group /hdd6T/
+chown -R oracle:oinstall /bkp
 
 
 
@@ -1340,6 +1347,15 @@ FLASHBACK TABLE HR.REGIONS TO BEFORE DROP;
 
 
 
+FLASHBACK TABLE CO.CUSTOMERS TO BEFORE DROP;
+
+RECOVER TABLE CO.CUSTOMERS;
+
+
+
+
+"to_date('29/12/2019 00:00:00','DD/MM/YYYY HH24:MI:SS')"
+
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1347,15 +1363,86 @@ FLASHBACK TABLE HR.REGIONS TO BEFORE DROP;
 
 BACKUP
 
+
+
 sqlplus / as sysdba
-SQL> shutdown immediate
-SQL> startup mount
+SQL> shutdown immediate;
+SQL> startup mount;
 SQL> alter database archivelog;
 SQL> alter database open;
 
 
 
 
+/*banco está em modo ARCHIVELOG*/
+SELECT LOG_MODE FROM V$DATABASE;
+
+
+
+
+
+sh> rman target /
+
+  
+RMAN> SHOW ALL;
+
+RMAN> CONFIGURE CONTROLFILE AUTOBACKUP ON;
+
+
+RMAN> CONFIGURE RETENTION POLICY TO RECOVERY WINDOW OF 2 DAYS;
+
+
+RMAN> CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT '/adirectory/anotherdirectory/%U'
+RMAN> CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT '/bkp/%U';
+
+
+RMAN> BACKUP DATABASE;
+
+
+
+RMAN> BACKUP INCREMENTAL LEVEL 0 DATABASE;
+RMAN> DELETE NOPROMPT OBSOLETE;
+RMAN> SQL "alter database backup controlfile to trace as /adirectory/controlfile.txt"
+
+
+RMAN> REPORT NEED BACKUP;
+
+
+
+RMAN> LIST BACKUP SUMMARY;
+
+
+
+RMAN> LIST BACKUP;
+
+
+
+RMAN> RESTORE DATABASE VALIDATE;
+
+
+
+RMAN> SET DBID <número do="" dbid="">;
+RMAN> STARTUP FORCE NOMOUNT;</número>
+
+
+
+RMAN> RESTORE CONTROLFILE FROM AUTOBACKUP;
+
+
+RMAN> ALTER DATABASE MOUNT;
+
+
+
+RMAN> RESTORE DATABASE PREVIEW;
+
+
+RMAN> RESTORE DATABASE;
+
+
+RMAN> RECOVER DATABASE UNTIL CANCEL;
+
+
+RMAN> ALTER DATABASE OPEN RESETLOGS;
 
 
 
@@ -1363,6 +1450,153 @@ SQL> alter database open;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+DROP TABLESPACE USERS
+   INCLUDING CONTENTS AND DATAFILES;
+
+
+
+
+DROP TABLESPACE TBS1
+   INCLUDING CONTENTS AND DATAFILES;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+BACKUP
+
+
+sqlplus / as sysdba;
+SQL> shutdown immediate;
+SQL> startup mount;
+SQL> alter database archivelog;
+SQL> alter database open;
+
+
+rman target / 
+
+CONFIGURE BACKUP OPTIMIZATION ON;
+
+
+
+
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT '/bkp/%U';
+
+
+
+
+
+// +ARCH/AL1/AUTOBACKUP/2019_12_28/s_1028237964.261.1028237965
+
+
+
+
+RESTORE DATABASE  VALIDATE;
+
+
+
+//SYSTEM
+RESTORE DATAFILE 1 VALIDATE;
+
+
+
+
+RESTORE TABLESPACE USERS VALIDATE;
+
+
+RESTORE ARCHIVELOG ALL VALIDATE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+srvctl stop database -d AL1
+
+
+
+sqlplus / as sysdba
+
+
+startup NOMOUNT;
+
+sql 'alter database mount';
+
+list backup of database;
+
+
+
+list backup of controlfile;
+
+
+
+startup nomount;
+
+startup mount;
+
+
+
+
+
+
+
+
+
+
+shut immediate;
+
+
+startup nomount;
+
+
+RESTORE CONTROLFILE FROM '+ARCH/AL1/AUTOBACKUP/2019_12_29/s_1028249622.260.1028249625';
+
+
+ALTER DATABASE MOUNT;
+
+
+
+
+LIST BACKUP OF DATABASE;
+
+
+RESTORE DATABASE;
+
+
+
+RECOVER DATABASE;
+
+
+
+SQL 'ALTER DATABASE OPEN RESETLOGS';
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 
@@ -1388,6 +1622,8 @@ SQL> alter database open;
 *https://www.youtube.com/watch?v=Y7IrPNUEOSM                                                              *
 *https://oracle-base.com/articles/misc/install-sample-schemas                                             *
 *http://www.adp-gmbh.ch/ora/sql/drop_table.html                                                           *
+*http://nervinformatica.com.br/blog/index.php/2017/05/22/oracle-mini-manual-de-backup/                    *
+*https://docs.oracle.com/cd/B19306_01/backup.102/b14192/bkup003.html                                      *
 ***********************************************************************************************************/
 
 

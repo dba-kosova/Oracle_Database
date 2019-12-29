@@ -95,6 +95,9 @@ FLASHBACK TABLE employees TO BEFORE DROP;
 
 
 
+/*banco está em modo ARCHIVELOG*/
+SELECT LOG_MODE FROM V$DATABASE;
+
 
 
 /*comandos rman*/
