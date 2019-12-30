@@ -1624,6 +1624,7 @@ SQL 'ALTER DATABASE OPEN RESETLOGS';
 *http://www.adp-gmbh.ch/ora/sql/drop_table.html                                                           *
 *http://nervinformatica.com.br/blog/index.php/2017/05/22/oracle-mini-manual-de-backup/                    *
 *https://docs.oracle.com/cd/B19306_01/backup.102/b14192/bkup003.html                                      *
+*https://docs.oracle.com/cd/B19306_01/server.102/b14357/ch12043.html                                      *
 ***********************************************************************************************************/
 
 
