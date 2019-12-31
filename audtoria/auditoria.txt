@@ -6,7 +6,7 @@
   ***********************************************/
 
 
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Oracle Database: Auditoría (part 1)
 
@@ -112,7 +112,7 @@ AUDIT SESSION WHENEVER NOT SUCCESSFULL;
 
 
 
-----------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -133,15 +133,364 @@ DESC DBA_AUDIT_OBJECT;
 sqlplus / as sysdba
 
 
+AUDIT TABLE BY SCOTT;
+
+AUDIT TABLE BY HR;
+
+
+
+NOAUDIT TABLE;
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Gerenciamento Automático de Auditoria
+Por Fernando Simon
+Postado em Abril 2016
+
+Revisado por Marcelo Pivovar - Solution Architect
+
+Auditoria de bancos de dados Oracle pode ser realizada nativamente através de duas formas, auditoria simples (com AUDIT) ou auditoria fina (com Fine Grant Audit – FGA). De qualquer forma elas armazenam os registros em duas tabelas, aud$ e fga_log$.
+
+Quando você habilita qualquer uma destas duas é importante gerenciar corretamente os registros de auditora, como por exemplo local de armazenamento, tempo de armazenamento e afins. É isso que vamos ver abaixo, como fazer isso automaticamente através do Oracle.
+
+Tablespace
+O primeiro passo é a tablespaces onde as duas tabelas (aud$ e fga_log$) armazenam os dados. Por padrão elas são armazenadas na tablespace system, mas você pode mudar isso. Quando a tablespace chega ao limite os registros param de serem inseridos e se a auditoria estiver na system, o banco todo congela (inclusive logins). Para evitar isso o método correto para mover a auditoria para outra tablespace é através do comando abaixo:
+
+BEGIN
+  
+   --
+   --Modificando para a  auditoria simples, a AUD$
+   DBMS_AUDIT_MGMT.SET_AUDIT_TRAIL_LOCATION(
+    audit_trail_type => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD
+    , audit_trail_location_value => 'TSAUDIT'
+     );
+  
+   --
+   --Modificando para a  auditoria de FGA, a FGA_LOG$
+   DBMS_AUDIT_MGMT.SET_AUDIT_TRAIL_LOCATION(
+    audit_trail_type => DBMS_AUDIT_MGMT.AUDIT_TRAIL_FGA_STD
+    , audit_trail_location_value => 'TSAUDIT'
+     );    
+
+END;
+
+O parâmetro audit_trail_location_value define a tablespace destino e claro que antes de executar o comando acima você deve cria-la. Se você armazena muitos registros de auditoria recomenda-se criar a tablespace como bigfile, assim não terá o limite de 32GB. Se você já tiver dados nas tabelas de auditoria deverá criar a tablespace com tamanho inicial maior do que o tamanho atual das tabelas de auditoria.
+
+No exemplo acima foram movidas as duas tabelas separadamente, mas você pode as duas ao mesmo tempo. Para isso basta mudar o parâmetro audit_trail_type conforme a tabela abaixo:
+
+AUDIT_TRAIL_AUD_STD: Faz referência somente a aud$
+AUDIT_TRAIL_FGA_STD: Faz referência somente a fga_log$
+AUDIT_TRAIL_DB_STD: Ambas as tabelas, aud$ e fga_log$
+Habilitando o Gerenciamento Automático
+O gerenciamento automático da auditoria deve ser habilitado para permitir a movimentação de registros de auditoria entre tablespaces. Se você não moveu as tabelas aud$ e fga_log$ de tablespaces o Oracle automaticamente move os registros da SYSTEM para a SYSAUX. Caso já tenha movido ele não moverá nada. Observe o comando abaixo.
+
+BEGIN
+   DBMS_OUTPUT.ENABLE(10000);
+   
+--
+--Verifica se o init foi habilitado para  as tabelas definidas
+
+   IF NOT DBMS_AUDIT_MGMT.IS_CLEANUP_INITIALIZED(DBMS_AUDIT_MGMT.AUDIT_TRAIL_DB_STD)  THEN
+    DBMS_OUTPUT.PUT_LINE('Limpeza de auditoria será inicializada');
+   
+--
+--Inicializando a auditoria para a AUD$  e FGA
+
+   DBMS_AUDIT_MGMT.INIT_CLEANUP(
+    audit_trail_type => DBMS_AUDIT_MGMT.AUDIT_TRAIL_DB_STD
+     , default_cleanup_interval => 720
+   );       
+
+   ELSE
+
+    DBMS_OUTPUT.PUT_LINE('Limpeza de  auditoria já inicializada');
+    
+   END IF;
+
+END;
+
+Através dele usamos a procedure DBMS_AUDIT_MGMT.IS_CLEANUP_INITIALIZED para verificar se o gerenciamento já foi habilitado. Caso não tenha sido, usamos a procedure DBMS_AUDIT_MGMT.INIT_CLEANUP para habilitar, e com um intervalo escolhido de 720 horas entre estas movimentações. Para Oracle 12C você pode especificar se deseja fazer isso para um PDB específico ou para todos.
+
+Recomendo mover as tabelas de auditoria para uma tablespace específica, pois deixando no padrão não tem como especificar (através do INIT_CLEANUP) a data e hora que irá executar a movimentação e caso você tenha muitos dados pode impactar no ambiente. Mas caso você tenha poucos registros de auditoria o INIT_CLEANUP pode ser válido.
+
+CREATE_PURGE_JOB
+A forma mais fácil de habilitar o gerenciamento automático é criar o job de limpeza de auditoria através da procedure DBMS_AUDIT_MGMT.CREATE_PURGE_JOB. Observe:
+
+BEGIN
+   DBMS_AUDIT_MGMT.CREATE_PURGE_JOB(
+    audit_trail_type =>  DBMS_AUDIT_MGMT.AUDIT_TRAIL_DB_STD
+     , audit_trail_purge_interval => 720 --intervalo de limpeza, em  horas
+     , audit_trail_purge_name  => 'JOB_Limpeza_Auditoria' --nome do job
+     , use_last_arch_timestamp => TRUE 
+   );                        
+END;
+
+Os parâmetros são:
+
+audit_trail_type define qual o tipo de auditoria que você deseja limpar, segue a mesma tabela do início do texto.
+audit_trail_purge_interval define o intervalo (em horas) que o job será chamado. Utilizará como base a data e hora que o job foi criado, no final será demonstrado como ajustar isso.
+audit_trail_purge_name: define o nome do Job.
+use_last_arch_timestamp: define quais s registro serão excluídos, TRUE indica que será com base em um valor definido (veremos como fazer isso abaixo) e FALSE o job removerá todos os registros.
+Para o 12c podemos especificar, através do parâmetro container quais serão os afetados pelo job, todos ou somente o especificado. Quando você define todos, o job é criado no PDB root e este realiza a limpeza em todos os PDB’s.
+
+Seguindo o exemplo acima, o job JOB_Limpeza_Auditoria irá ser executado a cada 720 horas (30 dias) e excluirá todos os registros de auditoria definidos pelo last_archive_time (explicarei no próximo tópico). O interessante do job automático é que o próprio kernel do Oracle se preocupa em localizar os registros a serem removidos e faz isso de forma controlada. Ele não remove todos através de um único delete, faz isso de forma escalonada a cada 10000 registros.
+
+A data e hora que o job será executado depende do momento de execução do CREATE_PURGE_JOB. Como serão criados outros jobs auxiliares, mostrarei no final do artigo como aninhar todos e definir corretamente a execução destes.
+
+Você pode verificar através da tabela DBA_AUDIT_MGMT_CLEANUP_JOBS  como ficou a configuração:
+
+SQL>  COL JOB_NAME FORMAT A25
+SQL>  COL JOB_FREQUENCY FORMAT A30
+SQL>  COL AUDIT_TRAIL FORMAT A40
+SQL>  SET LINESIZE 200 
+SQL>  SELECT * FROM DBA_AUDIT_MGMT_CLEANUP_JOBS;
+
+JOB_NAME                 JOB_STAT AUDIT_TRAIL                        JOB_FREQUENCY
+------------------------ -------- ---------------------------------- ---------------------------
+JOB_LIMPEZA_AUDITORIA    ENABLED  STANDARD AND FGA AUDIT TRAIL       FREQ=HOURLY;INTERVAL=720
+
+SQL>
+ 
+
+Marcando registros a serem excluídos
+No procedimento acima utilizamos o parâmetro use_last_arch_timestamp como TRUE e isso define que a limpeza somente irá excluir os registros que definirmos e não toda a tabela. Para fazer isso usamos a procedure DBMS_AUDIT_MGMT.SET_LAST_ARCHIVE_TIMESTAMP.
+
+Antes disso uma consideração, geralmente quando precisamos identificar algo na auditoria temos requisitos como: “O que João fez a 15 dias atrás?”, “Quem fez update na tabela salário este mês?”. Estes são exemplos, mas na grande maioria das vezes precisamos buscar o histórico e por isso é importante deixar alguns dias no banco para evitar restaurar backup para consulta auditoria.
+
+Por isso que no procedimento que criou o job foi utilizado use_last_arch_timestamp como TRUE. Mas isso deixou o requisito de definir esse ponto até o momento no qual os dados não podem ser apagados. Pense nas tabelas de auditoria com o uma fila, precisamos marcar nessa fila até onde o job de limpeza pode deletar.
+
+Para isso vamos utilizar a procedure DBMS_AUDIT_MGMT.SET_LAST_ARCHIVE_TIMESTAMP e também criar um job para fazer isso de forma automática (para que o job possa executar, criaremos uma procedure específica). A procedure criada:
+
+CREATE  OR REPLACE PROCEDURE AUDIT_DefineMarcacaoAudit
+
+  IS
+
+  BEGIN
+
+  DBMS_AUDIT_MGMT.SET_LAST_ARCHIVE_TIMESTAMP(
+   audit_trail_type =>  DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD
+   , last_archive_time => SYSDATE - 45
+    );                                                
+
+  DBMS_AUDIT_MGMT.SET_LAST_ARCHIVE_TIMESTAMP(
+   audit_trail_type =>  DBMS_AUDIT_MGMT.AUDIT_TRAIL_FGA_STD
+   , last_archive_time => SYSDATE - 45
+    );                                                
+
+END;
+ 
+
+A procedure acima utiliza DBMS_AUDIT_MGMT.SET_LAST_ARCHIVE_TIMESTAMP e marca que todos os registros de auditoria mais velhos que 45 dias (na data de execução da procedure) são marcados para exclusão. Também está separada a definição de datas para aud$ e fga_log$, assim fica mais fácil adaptar para requisitos diferentes de datas. Para deixar a marcação automatizada cria-se o job abaixo:
+
+BEGIN
+   
+DBMS_SCHEDULER.CREATE_JOB(
+    job_name           =>  'JOB_MarcaExclusaoAudit' --nome do job
+    , job_type           =>  'STORED_PROCEDURE'
+    , job_action         =>   'AUDIT_DefineMarcacaoAudit'
+    , repeat_interval     =>  'FREQ=MONTHLY;INTERVAL=1'  -- uma vez ao mes
+    , comments           =>  'Job que executa a procedure que marca ate  que ponto a auditoria pode ser removida'
+   );
+
+   --
+   --Todo o job vem desabilitado por padrao no  scheduler do 11.2, habilitando
+
+   DBMS_SCHEDULER.ENABLE(
+    name => 'JOB_MarcaExclusaoAudit'
+    );
+
+END; 
+ 
+
+O job acima executará 1 vez por mês e chamará a procedure que criamos antes. Assim, garantimos que 45 dias ficarão nas tabelas de auditoria. Se você observar, no momento que o job de limpeza for executar (ele executa a cada 30 dias também) você terá aproximadamente 75 dias dados armazenados, por isso é importante definir a tablespace de auditoria com um tamanho (ou tipo) condizente com o volume.
+
+Aninhando JOBS
+Os jobs criados acima estão marcados para executar com base no momento de criação e isso não é interessante. Além disso, não adianta executar o job de marcação de exclusão depois do job de limpeza. Para resolver isso podemos modificar os parâmetros dos jobs através do scheduler. Exemplo:
+
+BEGIN
+
+   --ajusta data inicial comum e aninhada
+    DBMS_SCHEDULER.SET_ATTRIBUTE(
+     name => 'JOB_MARCAEXCLUSAOAUDIT'
+     , attribute => 'start_date'
+     , value => TO_TIMESTAMP('15-JAN-13  12.00.00', 'DD-MON-RRRR HH24.MI.SS')
+   );
+
+   DBMS_SCHEDULER.SET_ATTRIBUTE(
+    name => 'JOB_LIMPEZA_AUDITORIA'
+     , attribute => 'start_date'
+     , value => TO_TIMESTAMP('15-JAN-13  12.05.00', 'DD-MON-RRRR HH24.MI.SS')
+   );
+   
+   --Segundo sabado do mes
+   DBMS_SCHEDULER.SET_ATTRIBUTE(
+    name => 'JOB_MARCAEXCLUSAOAUDIT'
+     , attribute => 'repeat_interval'
+     , value => 'FREQ=MONTHLY;  BYDAY=2SAT'
+   );
+
+   --Segundo sabado do mes
+   DBMS_SCHEDULER.SET_ATTRIBUTE(
+    name => 'JOB_LIMPEZA_AUDITORIA'
+     , attribute => 'repeat_interval'
+     , value => 'FREQ=MONTHLY;  BYDAY=2SAT'
+   );   
+
+END;
+ 
+
+Com a definição acima temos:
+
+JOB_MARCAEXCLUSAOAUDIT: O que importa aqui é a hora de execução, tem que ser antes do job de exclusão. A data inicial foi definida como 15 de Janeiro de 2013 (pode ser qualquer data) com horário para as 12:00. Também foi definido que ele será executado no segundo sábado de cada mês.
+JOB_LIMPEZA_AUDITORIA: Também tem a data inicial como 15 de Janeiro de 2013, mas o horário é as 12:05. Isso garante que a limpeza sempre executará depois da marcação dos registros. E ele também executa no segundo sábado de cada mês.
+Você pode modificar os valores acima com base nos seus requisitos, mas o importante é garantir que a marcação dos registros sempre ocorra antes da limpeza.
+
+Tabelas importantes
+Algumas tabelas de gerenciamento são importantes de serem acompanhadas. A primeira delas é a DBA_AUDIT_MGMT_CLEAN_EVENTS que registra todos os eventos automáticos de limpeza que ocorreram e quantos registros foram apagados para cada tabela (por isso aparecem separados):
+
+SQL> COL CLEANUP_TIME FORMAT  A35
+SQL> COL AUDIT_TRAIL  FORMAT A25
+SQL> SET PAGESIZE 1000
+SQL> SET LINESIZE 200
+SQL> SELECT audit_trail,  cleanup_time, delete_count FROM DBA_AUDIT_MGMT_CLEAN_EVENTS ORDER BY  cleanup_time DESC;
+
+AUDIT_TRAIL               CLEANUP_TIME                        DELETE_COUNT
+------------------------- ----------------------------------- ------------
+STANDARD AUDIT TRAIL      09-APR-16 10.33.53.867186 AM +00:00        56470
+STANDARD AUDIT TRAIL      09-APR-16 10.33.53.865009 AM +00:00     25217082
+STANDARD AUDIT TRAIL      20-MAR-16 10.00.40.545453 AM +00:00       742355
+STANDARD AUDIT TRAIL      20-MAR-16 10.00.40.542995 AM +00:00     88551571
+..
+..
+STANDARD AUDIT TRAIL      25-JUL-13 02.10.14.479176 PM +00:00       340175
+STANDARD AUDIT TRAIL      25-JUL-13 02.10.14.465855 PM +00:00      9362182
+
+68 rows selected.
+
+SQL>
+ 
+
+Outra tabela importante é DBA_AUDIT_MGMT_LAST_ARCH_TS que pode ser consulta para saber até onde foi a marcação de registros a serem limpos. No exemplo abaixo a marcação informa que o job de limpeza somente apagará registros até 26/02/2016 12:00:
+
+SQL>  COL LAST_ARCHIVE_TS FORMAT A35
+SQL>  SELECT * FROM DBA_AUDIT_MGMT_LAST_ARCH_TS;
+
+AUDIT_TRAIL               RAC_INSTANCE LAST_ARCHIVE_TS
+------------------------- ------------ ------------------------------------
+STANDARD  AUDIT TRAIL                0 24-FEB-16  12.00.00.000000 AM +00:00
+FGA  AUDIT TRAIL                     0 24-FEB-16 12.00.00.000000 AM  +00:00
+
+SQL>
+ 
+
+Outra tabela é a DBA_AUDIT_MGMT_CONFIG_PARAMS que mostra como os estão os parâmetros de gerenciamento da auditoria:
+
+SQL>  COL PARAMETER_VALUE FORMAT A25
+SQL>  COL PARAMETER_NAME FORMAT A25
+SQL>  SELECT * FROM DBA_AUDIT_MGMT_CONFIG_PARAMS;
+
+PARAMETER_NAME             PARAMETER_VALUE           AUDIT_TRAIL
+-------------------------  ------------------------- -----------------------
+DB  AUDIT TABLESPACE       TSAUDITTJ                 STANDARD AUDIT TRAIL
+DB  AUDIT TABLESPACE       TSAUDITTJ                 FGA AUDIT TRAIL
+AUDIT  FILE MAX SIZE       10000                     OS AUDIT TRAIL
+AUDIT  FILE MAX SIZE       10000                     XML AUDIT TRAIL
+AUDIT  FILE MAX AGE        5                         OS AUDIT TRAIL
+AUDIT  FILE MAX AGE        5                         XML AUDIT TRAIL
+DB  AUDIT CLEAN BATCH SIZE 10000                     STANDARD AUDIT TRAIL
+DB  AUDIT CLEAN BATCH SIZE 10000                     FGA AUDIT TRAIL
+OS  FILE CLEAN BATCH SIZE  1000                      OS AUDIT TRAIL
+OS  FILE CLEAN BATCH SIZE  1000                      XML AUDIT TRAIL
+DEFAULT  CLEAN UP INTERVAL 720                       STANDARD AUDIT TRAIL
+DEFAULT  CLEAN UP INTERVAL 720                       FGA AUDIT TRAIL
+
+12 rows selected.
+
+SQL>
+ 
+
+Como foram criados jobs manualmente é importante verificar a execução deles. Para isso utilizamos a tabela do próprio schedule. Observe os parâmetros (blocos e procedures) bem como as datas de execução aninhadas:
+
+SQL>  COL OWNER FORMAT A5
+SQL>  COL JOB_NAME FORMAT A25
+SQL>  COL JOB_TYPE FORMAT A20
+SQL>  COL REPEAT_INTERVAL FORMAT A25
+SQL>  COL JOB_ACTION FORMAT A30
+SQL>  COL START_DATE FORMAT A35
+SQL>  COL NEXT_RUN_DATE FORMAT A35
+SQL>  SET LINESIZE 300
+SQL>  SELECT DSJ.OWNER, DSJ.JOB_NAME, DSJ.JOB_TYPE, DSJ.JOB_ACTION, DSJ.START_DATE, DSJ.REPEAT_INTERVAL, 
+DSJ.NEXT_RUN_DATE, DSJ.RUN_COUNT, DSJ.FAILURE_COUNT
+   2  FROM  DBA_SCHEDULER_JOBS DSJ
+   3   WHERE JOB_NAME IN ('JOB_LIMPEZA_AUDITORIA', 'JOB_MARCAEXCLUSAOAUDIT');
+
+OWNER JOB_NAME                  JOB_TYPE             JOB_ACTION                                                   
+----- ------------------------- -------------------- -------------------------------------------------------------
+SYS   JOB_LIMPEZA_AUDITORIA     PLSQL_BLOCK          BEGIN DBMS_AUDIT_MGMT.CLEAN_AUDIT_TRAIL(3,  TRUE);  END;     
+SYS   JOB_MARCAEXCLUSAOAUDIT    STORED_PROCEDURE     AUDIT_DefineMarcacaoAudit                                    
+
+START_DATE                           REPEAT_INTERVAL           NEXT_RUN_DATE                        RUN_COUNT 
+-----------------------------------  ------------------------- -----------------------------------  --------- 
+15-JAN-13 12.05.00.000000 AM -03:00  FREQ=MONTHLY; BYDAY=2SAT  14-MAY-16 12.05.00.700000 AM -03:00        34
+15-JAN-13 12.00.00.000000 AM -03:00  FREQ=MONTHLY; BYDAY=2SAT  14-MAY-16 12.00.00.200000 AM -03:00        32
+
+FAILURE_COUNT
+-------------
+            1
+            0
+
+SQL>
+ 
+
+Outros cuidados
+Se você desejar pode criar um job para mover as tabelas de auditoria de tempos em tempos (como por exemplo no 3º sábado do mês). Como as tabelas recebem deletes pelo job de limpeza o “início” dela fica desfragmentado e novos registros poderão ser adicionados no fim. Em resumo ela eventualmente pode nunca reduzir de tamanho.
+
+Se você mover elas (através da DBMS_AUDIT_MGMT.SET_AUDIT_TRAIL_LOCATION) você garante que na nova tablespace somente o tamanho necessário é utilizado. Você também pode fazer um shrink se desejar. Se quiser fazer isso, crie uma procedure para mover e um job para automatizar o processo.
+
+Todos os procedimentos acima foram executados com o usuário sys. Com mínimas adaptações você pode executar os procedimentos acima nos bancos Oracle 10.2 até o 12C.
+
+Gerenciamento
+Com tudo isso você tem um controle automatizado dos seus registros de auditoria. Garantindo que você consiga consultar dados históricos de auditoria sem precisar voltar backup. Além disso garante que as tablespaces system e sysaux não ficarão cheias de registros.
+
+Referências
+DBMS_AUDIT_MGMT para 11.2 (https://docs.oracle.com/cd/E18283_01/appdev.112/e16760/d_audit_mgmt.htm)
+DBMS_AUDIT_MGMT para 12C (https://docs.oracle.com/database/121/ARPLS/d_audit_mgmt.htm)
+
+ 
+
+Fernando Simon DBA do Tribunal de Justiça de Santa Catarina. Trabalha como DBA a diversos anos, desde o Oracle 9i até o Oracle 12c. Tem experiência prática com Oracle Exadata (do V2 ao X5) e soluções que dependem de High Availability como Zero Data Loss, Data Guard, Oracle RAC e replicações diversas. Também atua como palestrante em eventos Oracle no Brasil. Blog: http://www.fernandosimon.com/blog.
+
+Este artigo foi revisto pela equipe de produtos Oracle e está em conformidade com as normas e práticas para o uso de produtos Oracle.
 
 
 
 
 
 
-  /*****************************************************************************************************************
-  *                                                   REFERENCIAS      	                                           *
-  *https://www.youtube.com/watch?v=pfRqZUyLPQY&t=56s							                		   		   *
-  *https://www.youtube.com/watch?v=5OF3JJUx6dE																	   *
-  *https://www.youtube.com/watch?v=rSLv1mge_uw 																	   *
-  ******************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+  /******************************************************************************************************************************
+  *                                                   		REFERENCIAS      	                                  				*
+  *https://www.youtube.com/watch?v=pfRqZUyLPQY&t=56s							                		   		   				*
+  *https://www.youtube.com/watch?v=5OF3JJUx6dE																	   				*
+  *https://www.youtube.com/watch?v=rSLv1mge_uw 																	   				*
+  *https://www.oracle.com/technetwork/pt/articles/database-performance/gerenciamento-automatico-auditoria-3002076-ptb.html		*
+  *******************************************************************************************************************************/

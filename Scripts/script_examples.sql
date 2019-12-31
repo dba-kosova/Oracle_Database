@@ -1592,10 +1592,97 @@ SQL 'ALTER DATABASE OPEN RESETLOGS';
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+COL USERNAME FORMAT A10
+COL USERHOST FORMAT A20
+COL TERMINAL FORMAT A10
+COL TIMESTAMP FORMAT A15
+COL ACTION_NAME FORMAT A10
+COL LOGOFF_TIME FORMAT A10
+
+
+SELECT USERNAME,
+       USERHOST,
+       TERMINAL,
+       TIMESTAMP,
+       ACTION_NAME,
+       LOGOFF_TIME
+FROM  DBA_AUDIT_SESSION;
 
 
 
 
+
+
+
+
+
+COL USERNAME FORMAT A5
+COL USERHOST FORMAT A5
+COL TERMINAL FORMAT A5
+COL TIMESTAMP FORMAT A5
+COL ACTION_NAME FORMAT A5
+COL LOGOFF_TIME FORMAT A5
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+To rename the column headings, and to select data from the HR sample schema view,
+EMP_DETAILS_VIEW, enter
+
+
+
+COLUMN FIRST_NAME HEADING "First Name"
+COLUMN LAST_NAME HEADING "Family Name"
+SELECT FIRST_NAME, LAST_NAME
+FROM hr.EMP_DETAILS_VIEW
+WHERE LAST_NAME LIKE 'K%';
+
+
+
+OR
+
+
+SELECT FIRST_NAME AS 'First Name' , LAST_NAME
+FROM hr.EMP_DETAILS_VIEW
+WHERE LAST_NAME LIKE 'K%';
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+CONNECT /@AL1
+
+
+SET AUTOCOMMIT ON
+
+
+DEFINE _EDITOR = vi
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

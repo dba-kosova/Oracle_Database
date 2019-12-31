@@ -1,0 +1,60 @@
+
+
+
+
+
+
+
+COLUMN LAST_NAME FORMAT A20
+
+
+
+
+
+
+
+
+SQL>  COL JOB_NAME FORMAT A25
+SQL>  COL JOB_FREQUENCY FORMAT A30
+SQL>  COL AUDIT_TRAIL FORMAT A40
+SQL>  SET LINESIZE 200 
+SQL>  SELECT * FROM DBA_AUDIT_MGMT_CLEANUP_JOBS;
+
+
+
+
+
+
+
+
+
+
+
+
+Formatting NUMBER Columns
+
+
+
+When displaying NUMBER columns, you can either accept the SQL*Plus default
+display width or you can change it using the COLUMN command. Later sections
+describe the default display and how you can alter it with the COLUMN command.
+The format model will stay in effect until you enter a new one, reset the column's
+format with
+
+
+COLUMN column_name CLEAR
+
+or exit from SQL*Plus.
+
+
+
+
+
+
+
+
+
+
+
+
+
