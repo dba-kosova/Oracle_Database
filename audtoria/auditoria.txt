@@ -1,0 +1,147 @@
+  /**********************************************
+  * OBJETIVO  : Oracle-DataBase-audit           *
+  * CRIACAO   : 31-12-2019	                    *
+  * VERSAO    : 1.0		                        *
+  * AUTOR     : Pedro Akira Danno Lima          *
+  ***********************************************/
+
+
+
+
+Oracle Database: Auditoría (part 1)
+
+
+auditoria: 
+processo de auditoria, vai veririficar se todos os processos de todas as ações, estou sendo trabalhadas corretamentes
+processo o que acertou, errou, verificou.
+Efidencia, podem ser armazenadas em um repositorio, banco de dados.
+
+Auditoria de Oracle 
+-Auditoria de sessao
+-Auditoria de Objeto
+
+
+
+sqlplus / as sysdba
+
+
+
+veririfcar 
+
+
+desc dba_audit_session;
+
+
+
+
+
+ATIVAR A AUDITORIA DE SESSÃO
+
+
+AUDIT SESSION;
+
+
+sqlplus HR/oracle;
+
+
+
+
+SELECT USERNAME FROM DBA_AUDIT_SESSION;
+
+SELECT COUNT(*) FROM DBA_AUDIT_SESSION;
+
+
+
+SELECT USERNAME,
+	   TO_CHAR(TIMESTAMP,'DD-MON-YY HH24:MI:SS'), 
+	   ACTION_NAME 
+FROM DBA_AUDIT_SESSION;
+
+
+
+
+
+
+
+SELECT USERNAME,
+	   TO_CHAR(TIMESTAMP,'DD-MON-YY HH24:MI:SS'), 
+	   ACTION_NAME,
+	   DECODE(RETURNCODE, '0', 'CONECTADO', 
+	   			          '1005', 'nome de usuário sem senha'
+	   			          '1017','senha errada')
+FROM DBA_AUDIT_SESSION;
+
+
+
+
+
+
+
+#sqlplus HR/oracle;
+SQL> exit
+
+sqlplus IX/oracle;
+
+
+
+
+
+
+DESATIVAR 
+
+NOAUDIT SESSION;
+
+
+
+
+
+
+
+AUDIDAR SOMENTE AS AÇÕES SATISTATORIAS, AS ERRADAS NÃO VAI AUDITAR
+
+AUDIT SESSION WHENEVER SUCCESSFULL;
+
+
+
+
+//AUDITAR SOMENTE AS SESSÇÕES NÃO SATISTATORIAS, AS ERRADAS 
+AUDIT SESSION WHENEVER NOT SUCCESSFULL;
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+
+-Auditoria de Objeto
+
+
+
+ATIVAR AUDITORIA TABLE 
+
+audit table;
+
+
+
+DESC DBA_AUDIT_OBJECT;
+
+
+
+sqlplus / as sysdba
+
+
+
+
+
+
+
+
+  /*****************************************************************************************************************
+  *                                                   REFERENCIAS      	                                           *
+  *https://www.youtube.com/watch?v=pfRqZUyLPQY&t=56s							                		   		   *
+  *https://www.youtube.com/watch?v=5OF3JJUx6dE																	   *
+  *https://www.youtube.com/watch?v=rSLv1mge_uw 																	   *
+  ******************************************************************************************************************/
