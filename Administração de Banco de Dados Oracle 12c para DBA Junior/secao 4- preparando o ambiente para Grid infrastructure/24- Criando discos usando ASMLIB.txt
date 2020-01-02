@@ -1,0 +1,234 @@
+24- Criando discos usando ASMLIB
+
+recomendado ter no minimo 4discos 
+
+2 arc
+
+
+
+
+fdisk -l 
+
+
+
+criar a partição para cada disco 
+
+
+
+
+fdisk /dev/sdb
+
+
+comando: n
+criando uma nova partição 
+
+
+
+comando: p
+partição do tipo primaria 
+
+
+partition number enter
+
+setor: enter 
+ok 
+
+w 
+grava essas alterações 
+
+
+
+aracleasm 
+
+
+oracleasm configure 
+
+
+oracleasm createdisk ASMDATA01 /dev/sdb1
+
+
+dd if=/dev/zero of=/dev/sbb1 bs=1M count=1
+
+
+
+necessario desabilitar a asm do linux 
+
+
+
+
+
+echo 0 > /selinux/enforce 
+
+
+
+oracleasm status 
+
+
+oracleasm init 
+
+
+
+oracleasm listdisk 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fdisk /dev/sdb 
+
+n
+p
+enter 
+enter 
+enter 
+w 
+
+
+
+
+fdisk /dev/sdc
+
+n
+p
+enter 
+enter 
+enter 
+w 
+
+
+
+
+fdisk /dev/sdd
+
+n
+p
+enter 
+enter 
+enter 
+w 
+
+
+fdisk /dev/sde
+
+n
+p
+enter 
+enter 
+enter 
+w 
+
+
+
+
+fdisk /dev/sdf
+
+n
+p
+enter 
+enter 
+enter 
+w 
+
+
+
+
+
+fdisk /dev/sdg
+
+n
+p
+enter 
+enter 
+enter 
+w 
+
+
+
+
+
+fdisk /dev/sdg
+
+n
+p
+enter 
+enter 
+enter 
+w 
+
+
+
+
+
+
+
+oracleasm createdisk ASMDATA01 /dev/sdb1
+
+
+oracleasm listdisks
+
+
+
+
+oracleasm createdisk ASMDATA02 /dev/sdc1
+
+
+
+
+
+
+oracleasm createdisk ASMDATA03 /dev/sdd1
+
+
+
+oracleasm createdisk ASMDATA04 /dev/sde1
+
+
+
+para o archive 
+
+
+
+oracleasm createdisk ASMARCH01 /dev/sdf1
+
+
+
+
+oracleasm createdisk ASMARCH02 /dev/sdg1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+47 removendo uma tablespace
+
+
+https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_9004.htm
+
+
+manter o datafile
+
+o que fazer quando tem as constraints e relacionamentos em diferentes objetos 
+
+
+
+
+col file_name for a60
+col tablespace_name for a30
+set lines 200
+
+select tablespace_name, file_name from dba_data_files;
+
+DROP TABLESPACE TBS3 INCLUDING CONTENTS KEEP DATAFILES CASCADE CONSTRAINTS;
+
+
+
+
+
+
+asmcmd
+
+
+ls
+
+cd DATA 
+
+
+
+ls -la
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

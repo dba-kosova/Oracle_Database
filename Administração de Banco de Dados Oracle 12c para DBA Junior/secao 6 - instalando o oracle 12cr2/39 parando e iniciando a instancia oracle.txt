@@ -1,0 +1,50 @@
+39 parando e iniciando a intanci oracle 
+
+
+
+
+se conectar com usuario oracle 
+
+usamso o grid infraestructe 
+
+
+
+srvctl 
+
+
+srvctl status database -d AL1
+
+
+srvctl stop database -d AL1
+
+
+
+srvctl start database -d AL1
+
+
+
+não utilizar o sqplus 
+
+
+entrar como rot 
+
+/u01/app/12.2.0/grid/bin/crsctl status res -t 
+
+
+mostra todos os recursos 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

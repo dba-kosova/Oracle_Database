@@ -1,0 +1,152 @@
+85 executando backup com RMAN
+
+
+
+
+
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/u01/app/oracle/bkp/%U';
+
+
+
+CANAIS DE BKP MANUALMENTE PARA MUDAR O LOCAL SOMENTE EM EXECUTAÇÃO 
+
+
+
+
+
+backup online 
+
+BACKUP DATABASE;
+
+
+
+
+
+
+
+bkp full rapido pq não tem muita coisa 
+
+
+
+
+
+
+
+
+
+
+%U
+nome unico 
+
+
+
+
+
+
+
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/u01/app/oracle/bkp/AL1_FULL_%U';
+
+
+
+
+%S 
+SET NUMBER 
+
+%T
+TIME STAMP
+
+
+
+
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/u01/app/oracle/bkp/AL1_FULL_%T_S%S_S%P';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+configuração espesifica 
+
+durante a execução 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+run
+   {
+     allocate channel cl device type disk format '/u01/app/oracle/bkp/AL1_FULL_%U_%T';
+     backup database tag BKFORTEST;
+   }
+
+
+
+
+
+
+
+rman target 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

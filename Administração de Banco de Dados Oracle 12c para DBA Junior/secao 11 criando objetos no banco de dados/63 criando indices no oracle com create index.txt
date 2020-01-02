@@ -1,0 +1,10 @@
+63 criando indices no oracle com create index
+
+
+
+CREATE INDEX DEPT_IDX02 ON DEPARTAMENTO (DEPTNUM, DENAME, LOCAL) TABLESPACE APPINDEX;
+
+
+A1Un0#$
+
+

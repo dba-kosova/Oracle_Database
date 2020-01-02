@@ -1,0 +1,137 @@
+75 configurando o oracle autmatic shared memory management 
+
+
+
+
+
+permite controlar o sga 
+permite controlar o pga 
+
+
+
+
+*prefere
+
+
+
+
+
+show parameter mamory
+esta configurado para automatic memory management 
+
+
+
+
+
+
+
+deixa de usar o mmemory_max_target
+
+
+alter system reset memory_target;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+alter sysytem reset  memory_target;
+
+
+
+
+
+
+
+
+
+
+
+alter system set sga_maxsize scope=SPFILE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+srvctl stop database -d AL1
+
+srvctl status database -d AL1
+srvctl start database -d AL1
+
+
+
+
+show parameter memory;
+
+
+
+
+
+
+
+show parameter sga;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

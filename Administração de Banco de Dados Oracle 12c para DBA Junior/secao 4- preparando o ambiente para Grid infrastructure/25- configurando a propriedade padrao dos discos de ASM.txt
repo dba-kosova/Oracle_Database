@@ -1,0 +1,50 @@
+25- configurando a propriedade padrao dos discos de ASM
+
+
+
+
+setar o grupo e usuario padrao 
+
+se não quando instalar o grid 
+vai voltar os discos com propriedade errada 
+
+
+cd /dev/oracleasm/disks 
+
+
+vim /etc/sysconfig/oracleasm
+
+
+
+
+oracleasm configure
+
+
+
+ORACLEASM_UID=oracle
+ORACLEASM_GID=dba
+
+
+
+SOLUTION
+https://www.thegeekdiary.com/unable-to-instantiate-disk-asm_disk-error-on-running-oracleasm-scandisks-command/
+
+
+
+
+/etc/init.d/oracleasm configure
+
+
+
+oracleasm scandisks
+
+
+
+
+
+
+
+
+
+
+

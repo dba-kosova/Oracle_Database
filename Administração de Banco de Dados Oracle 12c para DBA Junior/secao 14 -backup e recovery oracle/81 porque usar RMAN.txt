@@ -1,0 +1,213 @@
+81 porque usar RMAN
+
+
+CATALOGAR NO CRONTROL FILE 
+os backups 
+
+
+a partir da 10 
+o RMAN melhorou muitoooo
+
+melhor ferramenta para fazer backup no oracle 
+
+
+
+backupa do control file 
+doas tablespaces 
+
+
+configurações centralizadas 
+
+backup do banco inteiro 
+
+
+banco de dados centralizado para catalogos paracada banco de dados 
+
+
+
+paralelismo 
+
+padrão de nomes 
+
+centralização local 
+padrõnizar o banco 
+
+
+
+centralização central 
+criar o banco servidor diferente 
+centralmente 
+
+
+
+
+restory sem a intervernção dos dbas 
+
+
+automação de backups 
+spfile
+controlfile 
+
+
+antes de fazer um restori 
+fazer a verificação de retauração 
+
+
+compressão de backups 
+
+encriptação 
+
+
+
+
+rman 
+tem usas proprias visoes 
+
+padronizar scripts de rman 
+
+
+pode armazenar esses scripts no proprio rman 
+
+
+
+duplicate database 
+
+
+integração com varios vendors de tape labrary
+
+
+
+
+
+cross migration 
+copia de arquivo manual no linux 
+
+
+recovery automatico de tempfiles 
+
+
+
+com a possibilidade de redundancia de backups 
+
+restaurar o mesmo bkp no windows no linux 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COL TABLE_NAME FOR A30
+
+
+COL TABLESPACE_NAME FOR A30
+
+
+
+SELECT TABLE_NAME , TABLESPACE_NAME FROM ALL_TABLES;
+
+
+
+
+
+SELECT TABLE_NAME , TABLESPACE_NAME FROM ALL_TABLES
+WHERE TABLE_NAME LIKE 'DBA%';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

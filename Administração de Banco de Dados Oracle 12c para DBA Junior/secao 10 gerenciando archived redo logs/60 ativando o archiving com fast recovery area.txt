@@ -1,0 +1,59 @@
+60 ativando o archiving com fast recovery area
+
+
+
+
+SHOW PARAMETER DB_RECOVERY
+
+
+
+
+srvctl stop database -d AL1
+
+srvctl start database -d AL1 -o mount
+
+
+
+
+
+
+sqlplus / as sysdba
+
+
+
+
+
+
+
+ALTER DATABASE ARCHIVELOG;
+
+
+
+
+
+
+ALTER DATABASE OPEN; 
+
+
+
+
+
+TODA VEZ QUE ENCHER UM REDO LOG
+ELE VAI PARA ARCHIVE
+
+
+
+SELECT NAME, COMPLETION_TIME, STATUS FROM V$ARCHIVED_LOG;
+
+
+
+
+
+
+ALTER SYSTEM SWITCH LOGFILE;
+
+
+
+
+
+

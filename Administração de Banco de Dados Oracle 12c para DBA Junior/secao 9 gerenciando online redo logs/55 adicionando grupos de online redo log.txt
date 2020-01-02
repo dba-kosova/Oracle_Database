@@ -1,0 +1,32 @@
+55 adicionando grupos de online redo log
+
+
+oracle recomenda 2 grupos de redo log 
+
+
+
+
+pode ter ate 10 grupos, depende da quantidade de transassão se faz 
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMANDO DDL 
+
+
+ALTER DATABASE ADD LOGFILE GROUP 
+('+DATA, '+ARCH') SIZE 200M;
+
+
+
+
+

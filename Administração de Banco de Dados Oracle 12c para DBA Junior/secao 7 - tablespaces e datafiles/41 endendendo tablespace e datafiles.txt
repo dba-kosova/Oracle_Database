@@ -1,0 +1,89 @@
+41 endendendo tablespace e datafiles
+
+
+
+
+tablespace são conteners logicos 
+que permite gerenciar arquivos 
+os datafiles
+
+
+datafiles são os arquivos fisicos 
+
+
+cria tabelas e indices dentro das tablesspaces 
+
+
+
+
+dicionario de dados dba_tablespace 
+
+
+
+dba_datafile
+
+
+tablespace so quando o banco esta ativo 
+
+
+
+
+datafiles são fisicos então da para ver 
+
+
+
+
+
+
+dbca 
+cria algumas tablespace padrão 
+
+
+1 datafile = 1 tablepace 
+1 tablespace = mais de um datafile 
+
+
+
+
+tabela - 
+
+
+
+export ORACLE_SID=AL1
+
+
+sqlplus / as sysdba 
+
+
+
+
+SELECT TABLESPACE_NAME FROM DBA_TABLESPACES;
+
+
+DESC DBA_TABLESPACES;
+
+
+
+
+
+COL FILE_NAME FOR A100
+COL TABLESPACE_NAME FOR A40
+
+SET LINES 200
+
+
+
+
+SELECT TABLESPACE_NAME, FILE_NAME FROM DBA_DATAFILES;
+
+su - grid 
+
+asmcmd
+
+
+
+
+
+
+
+

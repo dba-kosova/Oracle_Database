@@ -1,0 +1,170 @@
+32- instalando o grid
+
+
+
+para exportar as variaveis de x 
+variavies de display 
+estão para o grid 
+
+
+
+
+cd $ORACLE_HOME 
+
+
+
+./gripSetup.sh 
+
+
+
+
+
+external - 8 * 4 = 32 
+
+normal = 16GB porque tem redundancia 
+
+
+
+change discovery path 
+
+/dev/oracleasm/disks
+
+
+
+
+
+
+
+
+solução para oracleasm 
+
+
+/etc/init.d/oracleasm configure
+
+
+
+# oracleasm scandisks
+
+
+
+
+
+
+
+
+
+
+
+
+solucação do 
+This is a prerequisite condition to test whether the OS kernel parameter "panic_on_oops" is properly set
+https://www.cndba.cn/cndba/dave/article/755
+
+https://software.databasedevelop.com/article/13601386/Installing+Grid+Infrastructure+12.1.0.2+panic_on_oops+prerequisite+check
+
+
+https://www.cndba.cn/cndba/dave/article/755
+
+
+This is a prerequisite condition to test whether the OS kernel parameter "shmmax" is properly set. (more details)
+Expected Value
+ : 4594366464
+Actual Value
+ : Current=4055463936; Configured=4055463936
+
+
+4594366464
+
+vim /etc/sysctl.conf
+
+
+solucao 
+
+
+# CONFIGURACOES DO ORACLE
+kernel.sem = 250 32000 100 128
+kernel.shmall = 2097152
+kernel.shmmax = 4594366464
+kernel.shmmni = 4096
+kernel.panic_on_oops = 1
+fs.file-max = 6815744
+fs.aio-max-nr = 1048576
+net.ipv4.ip_local_port_range = 20000 65500
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048586
+vm.min_free_kbytes = 23168
+# net.ipv6.conf.all.disable_ipv6 = 1
+# FIM DAS CONFIGURACOES DO ORACLE
+
+
+sysctl -p
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/u01/app/oraInventory/orainstRoot.sh
+
+
+/u01/app/12.2.0/grid/root.sh
+
+
+
+chown -R grid:oinstall /u01/app
+
+pwd 
+
+
+cd bin/ 
+
+
+./crsctl stat res -t 
+
+
+
+4594366464
+
+
+
+login e senha 
+PedroAkira + serpro 
+
+
+
+
+Package: cvuqdisk-1.0.10-1 - This is a prerequisite condition to test whether the package "cvuqdisk-1.0.10-1" is available on the system.
+Expected Value
+ : cvuqdisk-1.0.10-1
+Actual Value
+ : missing
+ Details: 
+ - 
+PRVG-11550 : Package "cvuqdisk" is missing on node "oracledbsrv07"  - Cause:  The cvuqdisk RPM is not installed on the specified node. This package is required for shared disk validations. During installation, ASM disk validation cannot be performed without this RPM.  - Action:  Install the required version of the cvuqdisk RPM using fix up action or manual steps as listed in the documentation. 
+
+
+
+This is a prerequisite condition to test whether the package "cvuqdisk-1.0.10-1" is available on the system. (more details)
+Expected Value
+ : cvuqdisk-1.0.10-1
+Actual Value
+ : missing
+
+
+entrar como root 
+
+
+
+zypper in cvuqdisk-1.0.10-1
+
+

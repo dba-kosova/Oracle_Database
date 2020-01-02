@@ -1,0 +1,71 @@
+33- Adicionado um Diskgroup de Arquives 
+
+
+
+
+
+asmca
+
+disk groups 
+
+create 
+
+
+disk group name: ARCH
+
+
+
+selecionar opcao external 
+
+
+seleonar os discos 
+
+
+ok 
+
+
+
+
+
+
+
+ORA-15031
+
+
+
+
+
+
+ASMARCH01.vmdk
+
+
+
+
+
+vim /etc/sysconfig/oracleasm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

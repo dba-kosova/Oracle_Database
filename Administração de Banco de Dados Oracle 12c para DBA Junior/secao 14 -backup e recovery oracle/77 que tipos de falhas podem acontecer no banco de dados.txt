@@ -1,0 +1,90 @@
+77 que tipos de falhas podem acontecer no banco de dados
+
+existem muitas falhas
+
+falhas fisicas 
+
+
+falhas logicas - bugs,falhas de software, corrupção de,flalhas de aplicação
+
+
+falhas de rede - data guard
+
+
+erros de usuario - sem querer, corrompe dados
+
+
+
+desastres 
+torres gemeas, terremoto
+imundação 
+acidentes naturais 
+
+
+cada tipo de falha tem uma recomendação 
+
+
+
+
+
+
+
+
+
+
+
+MHA
+Master High Availability Manager
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

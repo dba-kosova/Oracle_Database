@@ -1,0 +1,121 @@
+quando eu devo usar um banco de dados
+
+
+
+
+
+banco de dados, nem sempre tudo era centralizado 
+acess - bd locais, aplicações locais
+arquivos, compartilhavam arquivo de rede 
+
+
+
+sap - db2,oracle,maxdb,hana
+
+
+
+
+
+totus 
+
+
+
+
+
+gerenciamento de backup coorporativo 
+
+
+
+forma mais consistente e correta 
+
+
+
+
+
+quando usar: 
+crescimento expressivo dos dados 
+velocidade de processamento é um fator importante 
+relatorios 
+consistencia, validadação de dados 
+
+
+
+
+
+
+arquitetura do banco de dados 
+-memoria 
+-processos
+-arquivos 
+
+
+
+
+
+mecanismos de consistencia de dados 
+chava primaria 
+relacionamentos 
+constraints 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

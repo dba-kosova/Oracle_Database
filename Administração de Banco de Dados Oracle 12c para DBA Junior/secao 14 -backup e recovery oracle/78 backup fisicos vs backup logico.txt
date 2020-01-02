@@ -1,0 +1,103 @@
+78 backup fisicos vs backup logico
+
+
+tipos de backup 
+
+
+e consequentimente o tipo de recovery 
+
+
+fisico - copia fisica dos arquivo, em fita e alguma coisa 
+
+
+logica- extrair os dados do banco de dados e armazenar em um arquivo de dados
+
+
+
+
+logico- não leva o banco em si
+ele copia metadados e os dados que são necessarios para reconstruir o novo banco de dados 
+
+
+
+
+
+
+
+
+
+
+
+
+
+bkp logico menos usado 
+
+
+bkp fisico- um voltar um minuto atras 
+
+
+logico são uteis tambem
+um dados de um determinado usuario
+
+
+
+
+
+
+preferir fazer o backpu fisico 
+
+fisico 
+em modo consistente 
+online 
+fazer o backup online 
+fazer o restorer em um determiado momento 
+
+
+
+
+
+
+copiar dados e metadados 
+
+
+
+logico 
+exprt 
+datadap
+
+
+
+
+
+
+
+fisico 
+tar
+cp 
+rman 
+copiar sem usar o rman, ou ter seu banco de shutdown ou usar um recuros antigo 
+ou colocar a tablespace em backup
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

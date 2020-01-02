@@ -1,0 +1,73 @@
+45. conhecendo melhor algumas das principais clausulas
+
+
+
+create tablespace TBS1
+datafile '+DATA'
+size 100m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+
+
+extent management local
+
+ele ficava muito pesado para a system 
+
+
+
+agora cada tablespace  gerencia o extend 
+
+
+
+show parameter block 
+
+
+
+
+
+
+
+
+uniform size 128k
+com objetos pequenos 
+
+
+
+
+
+
+segment space management auto;
+para ele mesmo gerenciar o espaço do bloco 
+free list
+free listgroup
+como utilizar o espaço dentro do bloco
+PCTFREE 
+ter que fazer os parametros do bloco 
+os algoritmos de gestão do oracle, faz essa gestão 
+ele mesmo gerencia 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+34. criando os diretorios para instalação do RDBMS
+
+
+
+
+logar como root 
+
+
+mkdir -p  /u01/app/oracle/product/12.2.0/db_1
+
+chown -R oracle.oinstall /u01/app/oracle/
+
+chmod -R 775 /u01/app/oracle/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

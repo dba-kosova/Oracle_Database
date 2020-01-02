@@ -1,0 +1,38 @@
+58 decissoes estrategicas antes de ativar o archive
+
+
+arquivar os redo logs 
+
+
+quando implementa o archive redo log 
+ele grava 
+para que possa fazer o restore 
+
+
+
+
+ativar o arquive 
+em ambiente de producao 
+
+
+
+precisa tomar umas decissoes
+nome padrão 
+espaço 
+politica de remoção - atraves do rman ?
+onde vai colocar ? file system ? asm ? 
+
+
+
+
+DB_RECOVERY_FILE_DEST_SIZE 
+
+DB_RECOVERY_FILE_DEST
+
+
+
+
+
+
+
+

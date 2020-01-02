@@ -1,0 +1,55 @@
+35. configurando variaveis de ambiente 
+
+
+
+
+
+se conectar com usuario oracle 
+
+
+
+
+ir para /home/oracle
+
+cd /home/oracle
+
+
+criar arquivo 
+
+
+
+vim .profile 
+
+
+
+
+
+ORACLE_HOME=/u01/app/oracle/product/12.2.0/db_1
+ORACLE_BASE=/u01/app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ORACLE_HOME=/u01/app/oracle/product/12.2.0/db_1
+ORACLE_BASE=/u01/app/oracle
+
+
+
+
+
+
+
+
+
+
+

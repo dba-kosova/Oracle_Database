@@ -1,0 +1,49 @@
+31- ajustando a resolucao de nomes do seu SO
+
+
+
+
+
+com usuario root 
+
+
+
+vim /etc/hosts
+
+
+10.0.2.15
+
+
+
+eth0 - ip de backup 
+
+
+eth1 - ip de produção 
+
+
+
+
+127.0.0.1  localhost 
+10.0.2.15 oradbsrv00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

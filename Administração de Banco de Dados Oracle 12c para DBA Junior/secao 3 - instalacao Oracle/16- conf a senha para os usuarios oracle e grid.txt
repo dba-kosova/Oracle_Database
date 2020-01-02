@@ -1,0 +1,33 @@
+16- conf a senha para os usuarios oracle e grid
+
+
+
+colocar senha 
+passwd oracle 
+
+
+passwd grid
+
+
+
+
+testar 
+
+su oracle - 
+
+
+su grid - 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

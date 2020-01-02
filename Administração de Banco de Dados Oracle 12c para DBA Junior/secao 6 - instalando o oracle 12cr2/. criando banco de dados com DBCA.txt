@@ -1,0 +1,36 @@
+. criando banco de dados com DBCA
+
+
+
+se locar como oracle 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

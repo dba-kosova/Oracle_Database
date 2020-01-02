@@ -1,0 +1,92 @@
+27- formando e montando o filesystem no disco para os binarios
+
+
+
+particionar o disco 
+e alocar um file system 
+
+particcao de 100GB 
+ate para patchs 
+
+
+
+se conectar como root 
+
+
+fdisk -l
+
+
+fdisk /dev/sdh
+n
+p
+enter
+enter 
+enter
+w
+
+
+abrir xlauch 
+
+
+
+yast2
+
+
+clicar em partitiner 
+
+
+
+yes 
+
+
+
+edit 
+
+
+
+mount point 
+
+
+/u01
+
+
+
+mkdir -p /u01
+
+
+
+
+
+oracle home 
+para instalação dos softwares 
+
+
+
+
+
+df -h
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

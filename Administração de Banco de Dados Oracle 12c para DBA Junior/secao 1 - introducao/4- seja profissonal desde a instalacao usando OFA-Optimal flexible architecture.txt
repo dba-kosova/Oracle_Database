@@ -1,0 +1,73 @@
+4- seja profissonal desde a instalacao usando OFA-Optimal flexible architecture
+
+
+
+
+faz parte do planetamento de instalação 
+mais facil saber onde estão os binarios, arquivos de dados 
+facilidar a instalação, manutenção, navegação  
+thobleshoting - diagisnotico 
+
+
+
+OFA - estrutura de diretorios padronizados 
+orainventori 
+orabase
+orahome 
+tmsadm
+adrhome 
+
+
+cada linha é uma instancia ou seja um SID 
+
+
+
+
+oraInventory - inventario, compartilhado em todas as instalações
+vai ser se existe o OFA, /u01 ate u09 - 
+/u01/app - se não tem ele ja reclama 
+inventory é um a menos do oracle
+para poder aramazenar o arquivo logs, xml 
+se não tiver ele cria um no home o que não é recomentado 
+
+
+
+$oracle_base
+oracle
+/u01/app/oracle
+cada versão de software é para um usuario diferente(pode ser)
+ower do binario 
+ower do sistema operacional 
+db_1
+db_2 
+
+
+
+sap - usa o admin $tns_admin 
+
+
+
+
+
+
+
+$ADR_HOME 
+
+
+
+
+oracle_base 
+diag 
+
+
+
+
+
+
+
+
+
+
+
+
+

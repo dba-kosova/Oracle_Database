@@ -1,0 +1,13 @@
+19- instando e o mobaxterm para substituir o putty
+
+
+ssh root@127.0.0.1 -p 2222
+
+
+
+
+
+
+
+
+

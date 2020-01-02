@@ -1,0 +1,210 @@
+88 restaurando um banco de dados
+
+
+banco não pode estar aberto 
+
+tem que estar no status mount ou nomount 
+
+
+nomount restaurar o controla file 
+
+
+
+catalogo de bkps 
+
+qual control file restaurar 
+
+o control file tem os bkps 
+
+
+
+
+
+
+so a instancia e processo de 
+single instance sem o grid 
+srvctl stop database -d AL1
+
+
+
+
+
+sqlplus / as sysdba;
+
+
+#ele ainda não acessa o control file
+startup nomount;
+
+
+
+
+
+rman target /;
+
+list backup of database;
+
+
+
+#mountar para mostar o controlfile 
+#executar comando sql no rman 
+sql 'alter database mount';
+
+
+
+list backup of controlfile;
+
+
+
+
+exit 
+
+
+sqlplus / as sysdba;
+
+shut immediate;
+
+
+
+
+# so vai iniciar a memoria e os processo de bkp
+#não acessa o controlfile
+startup nomount;
+
+
+
+
+
+
+
+rman target /;
+
+
+
+list backup of controlfile;
+
+
+
+
+
+
+RESTORE CONTROLFILE FOR '+ARCH/AL1/BACKUPSET/2019_11_24/ncnnf0_tag20191124t045912_0.260.1025153961';
+
+
+
+
+
+restore controlfile from '+ARCH/AL1/AUTOBACKUP/2019_11_24/s_1025217887.265.1025217891';
+
+
+
+
+
+
+
+List of Backup Sets
+===================
+
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+1       Full    10.16M     DISK        00:00:08     24-NOV-19
+        BP Key: 1   Status: AVAILABLE  Compressed: NO  Tag: TAG20191124T045912
+        Piece Name: +ARCH/AL1/BACKUPSET/2019_11_24/ncnnf0_tag20191124t045912_0.260.1025153961
+  Control File Included: Ckp SCN: 2458450      Ckp time: 24-NOV-19
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+2       Full    10.19M     DISK        00:00:04     24-NOV-19
+        BP Key: 2   Status: AVAILABLE  Compressed: NO  Tag: TAG20191124T045923
+        Piece Name: +ARCH/AL1/AUTOBACKUP/2019_11_24/s_1025153963.261.1025153967
+  Control File Included: Ckp SCN: 2458459      Ckp time: 24-NOV-19
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3       Full    10.19M     DISK        00:00:04     24-NOV-19
+        BP Key: 3   Status: AVAILABLE  Compressed: NO  Tag: TAG20191124T224446
+        Piece Name: +ARCH/AL1/AUTOBACKUP/2019_11_24/s_1025217887.265.1025217891
+  Control File Included: Ckp SCN: 2678717      Ckp time: 24-NOV-19
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+5       Full    10.19M     DISK        00:00:04     27-NOV-19
+        BP Key: 5   Status: AVAILABLE  Compressed: NO  Tag: TAG20191127T013239
+        Piece Name: +ARCH/AL1/AUTOBACKUP/2019_11_27/s_1025400759.268.1025400763
+  Control File Included: Ckp SCN: 2900121      Ckp time: 27-NOV-19
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+7       Full    10.19M     DISK        00:00:03     27-NOV-19
+        BP Key: 7   Status: AVAILABLE  Compressed: NO  Tag: TAG20191127T013757
+        Piece Name: +ARCH/AL1/AUTOBACKUP/2019_11_27/s_1025401077.269.1025401079
+  Control File Included: Ckp SCN: 2900819      Ckp time: 27-NOV-19
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+9       Full    10.19M     DISK        00:00:03     27-NOV-19
+        BP Key: 9   Status: AVAILABLE  Compressed: NO  Tag: TAG20191127T014542
+        Piece Name: +ARCH/AL1/AUTOBACKUP/2019_11_27/s_1025401542.270.1025401545
+  Control File Included: Ckp SCN: 2901078      Ckp time: 27-NOV-19
+
+
+
+
+
+
+
+
+
+sql 'alter database mount';
+
+
+
+
+
+
+
+list backup database;
+
+
+
+
+
+
+
+
+
+
+
+
+
+restore database;
+
+
+
+
+
+recovery database;
+
+
+
+
+
+
+
+
+
+run
+{
+   allocate channel cl type disk;
+   set until time "to_date('2019-NOV-27 23:59:59', 'YYYY-MON-DD HH24:MI:SS')";
+
+}
+
+
+
+
+sql 'alter database open resetlogs';
+
+
+
+

@@ -1,0 +1,1 @@
+drop tablespace tbs3 including contents keep datafiles cascade constraints;

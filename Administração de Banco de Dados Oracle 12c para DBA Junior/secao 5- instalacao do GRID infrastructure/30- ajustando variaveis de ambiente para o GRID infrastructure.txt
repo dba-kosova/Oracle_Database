@@ -1,0 +1,44 @@
+30- ajustando variaveis de ambiente para o GRID infrastructure
+
+
+
+
+
+
+para que não precise mudar manuametne 
+
+
+vi .profile 
+criar o arquivo 
+inserir as variavies de ambiente 
+
+
+
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+export ORACLE_SID=+ASM
+export ORACLE_BASE=/u01/app
+export ORACLE_HOME=$ORACLE_BASE/12.2.0/grid
+export PATH=$ORACLE_HOME/bin:$PATH:$HOME/bin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,58 @@
+36 - descompactando o software
+
+
+
+mkdir -p  /u01/midias 
+
+
+
+
+
+dar permissão para transferir arquivo 
+
+
+su - 
+
+
+
+cd  /u01/
+
+chown oracle.oinstall midias/
+
+
+
+
+
+tranferir arquivo 
+
+
+
+linuxx64_12201_database
+
+
+
+
+
+usuario oracle 
+
+
+
+unzip linuxx64_12201_database
+
+
+
+rm -fr linuxx64_12201_database.zip
+
+
+
+
+
+
+
+
+
+
+
+
+
+

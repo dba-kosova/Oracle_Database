@@ -1,0 +1,25 @@
+28- criando diretorios para instalacao do GRID INFRASTRUCTURE
+
+
+
+
+
+criaçao dos caminhos de instalação do softwares de GRID e database 
+
+
+mkdir -p /u01/app/12.2.0/grid
+
+mkdir -p /u01/app/oracle/product/12.2.0/db_1
+
+
+
+chown -R oracle:oinstall /u01
+
+chmod -R 755 /u01/
+
+
+
+
+
+
+

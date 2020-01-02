@@ -1,0 +1,64 @@
+29- Descompactando o GRID software
+
+
+
+
+
+se conectar com o usuario grid 
+
+
+
+/u01/app/12.2.0/grid
+transferir o arquivo 
+grid_home para este diretorio 
+
+descompactar 
+
+unzip nomedo arquivo 
+
+
+
+
+/u01/app/12.2.0/grid
+
+
+
+
+
+echo $ORACLE_HOME
+
+
+linuxx64_12201_grid_home
+
+
+
+chown -R grid:oinstall * 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ssh grid@127.0.0.1 -p 2222
+
+
+
+
+
+
+
+
+
+

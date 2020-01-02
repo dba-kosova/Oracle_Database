@@ -1,0 +1,10 @@
+12. configurando o PUTTY para permitir interface grafica
+
+
+
+
+ssh 
+x11 enable 
+save 
+
+
