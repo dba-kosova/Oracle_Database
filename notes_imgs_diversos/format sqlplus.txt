@@ -52,7 +52,19 @@ or exit from SQL*Plus.
 
 
 
-
+Listing and Resetting Column Display Attributes
+To list the current display attributes for a given column, use the COLUMN command
+followed by the column name only, as shown:
+COLUMN column_name
+To list the current display attributes for all columns, enter the COLUMN command
+with no column names or clauses after it:
+COLUMN
+To reset the display attributes for a column to their default values, use the CLEAR
+clause of the COLUMN command as shown:
+COLUMN column_name CLEAR
+Example 6–8 Resetting Column Display Attributes to their Defaults
+To reset all column display attributes to their default values, enter:
+CLEAR COLUMNS
 
 
 
