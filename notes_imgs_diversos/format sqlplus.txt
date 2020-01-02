@@ -70,3 +70,32 @@ CLEAR COLUMNS
 
 
 
+
+
+
+
+ALL_DIRECTORIES
+ALL_DIRECTORIES describes all directories accessible to the current user.
+
+Related View
+
+DBA_DIRECTORIES describes all directories in the database.
+
+Column	Datatype	NULL	Description
+OWNER	VARCHAR2(30)	NOT NULL	Owner of the directory (always SYS)
+DIRECTORY_NAME	VARCHAR2(30)	NOT NULL	Name of the directory
+DIRECTORY_PATH	VARCHAR2(4000)	 	Operating system pathname for the directory
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -910,9 +910,18 @@ database tuning.
 
 
 
+*ativado
+CAPS LOCK -> sqlplus e instruções/comandos SQL
 
 
 
+
+
+
+
+
+*desativado 
+CAPS LOCK -> apenas comandos/instruções SQL
 
 
 

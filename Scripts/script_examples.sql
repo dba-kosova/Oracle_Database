@@ -1788,8 +1788,130 @@ cd $ORACLE_HOME/rdbms/lib
 make -f ins_rdbms.mk uniaud_on ioracle ORACLE_HOME=$ORACLE_HOME
 
 
+lsnrctl start
+
+
+SELECT NAME,OPEN_MODE FROM V$PDBS;
+
+
+
+connect sys@PDB3 as sysdba
+
+
+CREATE AUDIT POLICY DP_POL ACTIONS COMPONENT=DATAPUMP EXPORT;
+
+
+audit policy DP_POL;
+
+
+col user_name format a10
+col policy_name format a10
+
+
+
+SELECT user_name,
+       policy_name
+FROM AUDIT_UNIFIED_ENABLED_POLICIES 
+WHERE POLICY_NAME LIKE '%DP%';
+
+
+SHOW CON_NAME;
+
+
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS1';
+
+
+
+SELECT * FROM HR.REGIONS;
+
+
+CREATE DIRECTORY dump AS ‘/oracle/dump/’;
+
+GRANT read, write ON DIRECTORY dump TO PUBLIC;
+
+
+
+
+expdp SYSTEM/oracle@AL1 diretory=dump01 DUMPFILE=TEST1 TABLES=HR.REGIONS
+
+expdp SYSTEM/oracle@AL1 directory=dump dumpfile=teste.dmp schema=HR logfile=teste.log
+
+
+connect SYSTEM/oracle@AL1;
+
+
+
+CREATE DIRECTORY dump03 AS ‘/u01/dump/’;
+
+CREATE DIRECTORY dump03 AS '/u01/dump/';
+
+
+expdp SYSTEM/oracle@AL1 diretory='/u01/dump/' DUMPFILE=TEST1 TABLES=HR.REGIONS
+
+
+expdp SYSTEM/oracle@AL1 diretory=dpump_dir1 DUMPFILE=TEST1 TABLES=HR.REGIONS
+
+
+GRANT READ, WRITE ON DIRECTORY dpump_dir1 TO SYSTEM;
+
+
+expdp hr@AL1 DIRECTORY=dpump_dir1 DUMPFILE=hr.dmp TABLES=employees
+
+
+
+CREATE DIRECTORY dum AS '/u01/';
+
+
+GRANT READ, WRITE ON DIRECTORY dum TO PUBLIC;
+
+
+expdp hr@AL1 DIRECTORY=dum DUMPFILE=hr.dmp TABLES=employees
+
+
+expdp SYSTEM/oracle@AL1 diretory=dum DUMPFILE=TEST1 TABLES=HR.REGIONS
+
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+ALL_DIRECTORIES
+
+
+
+COL OWNER FORMAT A5
+
+COL DIRECTORY_NAME FORMAT A25
+
+COL DIRECTORY_PATH FORMAT A55
+
+
+SET LINESIZE 32000;
+
+
+SELECT OWNER,
+       DIRECTORY_NAME,
+       DIRECTORY_PATH
+     FROM ALL_DIRECTORIES;
+
+
+
+
+SELECT OWNER,
+       DIRECTORY_NAME
+FROM ALL_DIRECTORIES;
+
+
+SELECT DIRECTORY_PATH
+FROM ALL_DIRECTORIES;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
@@ -1815,6 +1937,8 @@ make -f ins_rdbms.mk uniaud_on ioracle ORACLE_HOME=$ORACLE_HOME
 *https://docs.oracle.com/cd/B19306_01/backup.102/b14192/bkup003.html                                      *
 *https://docs.oracle.com/cd/B19306_01/server.102/b14357/ch12043.html                                      *
 *https://www.youtube.com/watch?v=pHjvR_4gSwo                                                              *
+*http://www.rauldba.com.br/expimp/                                                                        *
+*https://dba.stackexchange.com/questions/54149/how-to-make-sqlplus-output-appear-in-one-line              *
 ***********************************************************************************************************/
 
 
