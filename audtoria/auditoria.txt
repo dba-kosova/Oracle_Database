@@ -778,4 +778,5 @@ FONTE: https://blog.dbi-services.com/12c-unified-auditing-and-audit_traildb-in-m
   *https://www.oracle.com/technetwork/pt/articles/database-performance/gerenciamento-automatico-auditoria-3002076-ptb.html		  *
   *https://www.oracle.com/technetwork/pt/articles/idm/auditoria-security-database-12c-2524430-ptb.html                          *
   *https://blog.dbi-services.com/12c-unified-auditing-and-audit_traildb-in-mixed-mode/                                          *
+  *https://www.youtube.com/watch?v=pHjvR_4gSwo                                                                                  *
   *******************************************************************************************************************************/

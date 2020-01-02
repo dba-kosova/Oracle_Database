@@ -1744,13 +1744,49 @@ SHOW PARAMETER AUD
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+HABILITAR Unified Auditing
+
+
+
+
+
+
+
  COL PARAMETER FORMAT A20
  COL value FORMAT A15
  select parameter,value from v$option where parameter='Unified Auditing';
 
+
+
+
 PARAMETER            VALUE
 -------------------- ---------------
 Unified Auditing     FALSE
+
+
+
+
+
+
+show parameter audit
+
+
+desc dba_audit_trail;
+
+
+host ( cd $ORACLE_HOME/rdbms/lib ; make -f ins_rdbms.mk uniaud_&2 ioracle ORACLE_HOME=$ORACLE_HOME )
+
+
+
+
+
+
+
+cd $ORACLE_HOME/rdbms/lib
+
+
+make -f ins_rdbms.mk uniaud_on ioracle ORACLE_HOME=$ORACLE_HOME
+
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1778,6 +1814,7 @@ Unified Auditing     FALSE
 *http://nervinformatica.com.br/blog/index.php/2017/05/22/oracle-mini-manual-de-backup/                    *
 *https://docs.oracle.com/cd/B19306_01/backup.102/b14192/bkup003.html                                      *
 *https://docs.oracle.com/cd/B19306_01/server.102/b14357/ch12043.html                                      *
+*https://www.youtube.com/watch?v=pHjvR_4gSwo                                                              *
 ***********************************************************************************************************/
 
 
