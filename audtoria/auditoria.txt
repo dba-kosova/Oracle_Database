@@ -6,7 +6,7 @@
   ***********************************************/
 
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Oracle Database: Auditoría (part 1)
 
@@ -112,7 +112,7 @@ AUDIT SESSION WHENEVER NOT SUCCESSFULL;
 
 
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -143,7 +143,7 @@ NOAUDIT TABLE;
 
 
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Gerenciamento Automático de Auditoria
 Por Fernando Simon
@@ -481,16 +481,301 @@ Este artigo foi revisto pela equipe de produtos Oracle e está em conformidade c
 
 
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Oracle Database 12c Security: "Auditoria no 12c: Unified Auditing" ( Part I )
+Por Joel Perez , Aman Sharma , Karan Dodwal (OCM) & Carlos H. Y. Furushima 
+Postado em Abril 2015
+
+Revisado por Marcelo Pirovar - Solution Architect
+
+Introdução
+Uma função do administradores de banco de dados (DBA) é zelar pela segurança do banco de dados, é comum verificar que muitos recursos de segurança não são implementados ou operam em configurações default (padrão de fábrica). Devido a heterogeneidade das soluções em cenários de infra-estrutura de TI e possíveis riscos/desvios na integração entre essas soluções heterogêneas, faz com que o DBA fique engessado para implementação de certos métodos de autenticação não-local (kerberos por exemplo). Contudo ainda é de sua responsabilidade, saber quem está entrando/saindo e utilizando seu banco de dados, uma forma eficiente e fácil de fazer isso é por meio da auditoria.
+
+Tipos de auditoria (Auditingoptions) antes do 12c
+Em versões anteriores ao 12c, o DBA pode implementar cinco tipos de configuração de auditoria, são elas:
+
+MandatoryAuditing (Auditoria obrigatória) - Essa auditoria está sempre habilitada e monitora o shutdown e startup do banco de dados e operações de logon como SYSDBA, SYSASM ou SYSOPER.
+Standard Auditing (Padrão auditoria) - Essa auditoria é opcionalmente habilitada pelo DBA, para auditar instrução SQL, privilégios, schema objects e atividade de rede (network) ou multicamadas (multitier). Este tipo de auditoria é definida e controlada sob o nível de banco de dados.
+Value-basedAuditing (Auditoria baseada em valor) - Auditoria baseada em valor (Value-basedAuditing) foi introduzida com intuito de capturar operações que modificam valores, ou seja, operações DML que ocorre na tabela, esse tipo de auditoria utiliza-se de triggers de banco de dados, onde essa é disparada em função de um evento de alteração (operação DML).
+Fine-GrainedAuditing (Auditoria refinada): Auditoria refinada (Fine grainedauditing) é uma auditoria que visa capturar ações baseadas no conteúdo acessado ou modificado, onde são criadas diretivas (policies) para disparar eventos de auditoria (trigger auditevents) quando alguém tenta executar ações sobre a condição especificada na definição da política.
+SysAuditing (auditoria do sys) - Este tipo de auditoria permite que o DBA, seja monitorado, ao se logar com SYS, suas ações serão gravadas em um arquivo do sistema operacional mesmo que audit_trail é definido como none. O parâmetro de instance AUDIT_SYS_OPERATIONS controla a habilitação ou desativação da auditoria do sys.
+Além destas soluções, para proteger as informações de seus sistemas, ha também o Oracle AuditVault uma plataforma corporativa de auditoria e monitoramento de segurança. Combinada todas essas opções, cria-se um robusto sistema de monitoramento, possibilitando o DBA ter um arsenal completo no combate a usuário mal-intencionado, atividades suspeitas e/ou desvios de conduta.
+
+O tem de errado com as opções de auditoria disponível no 11g?
+Na verdade, não há nada de errado com as opções disponíveis, contudo, a gestão da auditoria para o DBA neste cenário é extremamente trabalhosa. Por exemplo, para habilitar o Standard Auditing (Padrão auditoria), os parâmetros AUDIT_TRAIL e AUDIT_FILE_DEST, devem ser setados. Se você estiver planejando usar o Fine-GrainedAuditing (Auditoria refinada) ou somente o Standard Auditing, os registros de auditoria (auditrecords), são armazenados em SYS.FGA_LOG$ ou SYS.AUD$, isso demanda uma atenção especial no armazenamento, uma vez que essas tabelas, tentem a crescer em função do uso do banco de dados e com o passar do tempo, os registros de auditoria (auditrecords) ficarão obsoletos, obrigando o DBA, criar tarefas de expurgo. Caso estiver usando algo mais robusto como Oracle AuditVault, é papel do DBA, gerenciar as tabelas com os dados do Vault, como DVSYS.AUDIT_TRAIL$, para usuários como o SYS, registros de auditoria (auditrecords) são criados usando o usuário ROOT, o que pode dificultar a gestão, no que se refere a processos de TI da companhia, uma vez que nem sempre o DBA tem o acesso de super usuário (ROOT). Resumindo, isso significa, que há muita coisa envolvida (necessidade de hardware, mão de obra, planejamento no processo de TI, etc.), do que apenas habilitar a auditoria para o banco de dados.
+
+Introdução a UnifiedAuditing
+Foi introduzida no Oracle 12c um novo mecanismo de auditoria, onde este novo regime, permite agrupar várias diretivas de auditoria em uma única politica, por este motivo, é empregado o termo "Unified" (unificação) como prefixo de "UnifiedAuditing". É possível criar políticas baseado em ações e condições. A implementação deste novo tipo de política é controlada por um novo usuário (schema AUDSYS), onde suas tabelas para trilha de auditoria (auditingtrailtables - metadados de auditoria) são somente leitura (read-only), até mesmo para o usuário SYS, com isso todos os tipos de trilhas de auditoria seriam gerenciados por um único usuário e em uma tabela de trilha de auditoria, ou seja, torna esta informação disponível em um formato uniforme, a concessão de acesso para os dados de trilha de auditoria, permite duas perspectiva, viewer (ver os dados) ou admin (administrar os dados).
+
+Arquitetura de diretiva da UnifiedAuditing
+
+O usuário owner do "unifiedauditing" (Auditoria unificada) é o AUDSYS. Na SGA, existem background queues (queuesin-memory - duas por client), que armazenam as entradas de auditoria (Auditrecords) de forma volátil, para que posteriormente sejam armazenadas de forma permanente em disco, o flush (despacho das entradas de auditoria) é feito pelo novo processo background GEN0 (processo de execução de tarefas gerais - General TaskExecution process) ou de forma manual utilizando a DBMS_AUDIT_MGMT, o armazenamento é feito em uma tabela somente leitura localizado no schema AUDSYS no tablespace SYSAUX.
+
+A trilha de auditoria unificada (unifiedaudittrail), reside em uma tabela somente leitura (Read-Only) no esquema AUDSYS no tablespace SYSAUX, torna esta informação disponível em um formato uniforme na view de dicionário de dados UNIFIED_AUDIT_TRAIL, ou seja, todas as trilhas de auditoria existentes no 11g, foram unificadas em uma única trilha agora no 12c (view UNIFIED_AUDIT_TRAIL).
+
+OBS.: Para executar o flush manual das entradas de auditoria (Auditrecords) localizado no background queues para o schema AUDSYS.
+
+Exec SYS.DBMS_AUDIT_MGMT.Flush_Unified_Audit_Trail;
+
+Ha duas background queues (filas) por server process (em conexões do tipo dedicada), assim quando um background queue (uma fila) está cheia, seu conteúdo é despachado para disco pelo background GEN0 e o server process (por exemplo RMAN), pode usar a outra background queue (uma fila) para armazenar de forma volátil suas informações de auditoria. A quantidade de memória alocada dentro da SGA que será dedicada para todas as background queues (filas) é 1MB, esse valor pode ser alterado pelo DBA via parâmetro de instance UNIFIED_AUDIT_SGA_QUEUE_SIZE (valor default = 1MB e valor máximo = 30MB). A decisão de alterar o valor de memória alocada deve ser feita com base no montante esperado (workload - quantidade) de informações de auditoria a ser gerados. Para a maioria dos sistemas, o padrão de 1MB deve ser suficiente.
+
+Ha dois diferentes modo de operação, referente a escrita das entradas de auditoria para área de armazenamento permanente (disco), como citado anteriormente, as entradas de auditoria quando geradas, são primeiramente armazenadas em área volátil (SGA) e posteriormente escrito para área permanente (disco) via processo GEN0, essa escrita pode ser imediata ou sob demanda (quando a background queue chegar no seu limite máximo de capacidade). O modo de escrita (gravação) imediata, faz com que a frequência de I/O, seja mais intensa e como consequência, é necessário que o subsistema I/O comporte essa a pressão que está sendo exercida, caso contrário, o sistema como um todo, iria ser impactando, degradando o desempenho significativamente. É possível alterar o modo de operação utilizando o pacote DBMS_AUDIT_MGMT.
+
+Modo de operação imediata (Immediate-Write mode)
+
+EXECUTE DBMS_AUDIT_MGMT.SET_AUDIT_TRAIL_PROPERTY  ( DBM_MS_AUDIT_MGMT.AUDIT_TRAIL_UNIFIED,
+DBMS_AUDIT_MGMT.AUDIT_TRAIL_WRITE_MODE,
+DBMS_AUDIT_MGMT.AUDIT_TRAIL_IMMEDIATE_MODE );
+
+
+Modo de operação sob demanda (Queued-Write mode) # Default
+
+EXECUTE  DBMS_AUDIT_MGMT.SET_AUDIT_TRAIL_PROPERTY (  DBM_MS_AUDIT_MGMT.AUDIT_TRAIL_UNIFIED,
+DBMS_AUDIT_MGMT.AUDIT_TRAIL_WRITE_MODE, 
+DBMS_AUDIT_MGMT.AUDIT_TRAIL_QUEUED_MODE );
+
+
+O default é sempre o modo de operação sob demanda.
+OBS.: É importante ressaltar que se houve um crash instance (queda da instance), pode haver um perda das entradas de auditoria, caso o processo background GEN0 não completar a escrita para disco.
+
+
+Implementando UnifiedAuditing
+Em banco de dados que passaram por um processo de upgrade release para 12c ou um banco de dados recém criado, a unifiedauditing (auditoria unificada) não está habilitada por default na versão 12c (12.1.0.2), em caso de uma herança de políticas de auditoria, oriunda de versões pre-12c (por exemplo, 11gR2 ou inferior, quando unifiedauditing não existia) é possível manter o mecanismo antigo, migrar para o novo ou usar ambos em um modo misto (MixedAuditmode).
+Para banco de dados que passaram por um processo de upgrade release para 12c, quaisquer diretivas ou políticas de auditoria (audit policies) previamente configurados em seus respectivos destinos permaneceram habilitadas. Além deles, é possível criar novas diretiva usando o comando CREATE AUDIT POLICY e habilita-la usando o comando AUDIT. É possíveltambém utilizar diretivas pré-definida (template de auditoria) como ORA_SECURECONFIG, ORA_ACCOUNT_MGMT e ORA_DATABASE_PARAMETER, essas diretivas/políticas são criadas juntamente com o banco de dados, usando o script secconf.sql, que está localizado em $ORACLE_HOME/rdbms/admin.
+
+
+Este artigo continua na sua parte II: Oracle Database 12c Security: "Auditoria no 12c: Unified Auditing" (Part II)
+
+
+Joel Pérez é um DBA Especialista (Oracle ACE Director, OCM Cloud Admin. & OCM11g ). Com mais de 14 anos de experiência do mundo Oracle Technology, especializado em arquitetura e implementação de soluções como: Cloud, Alta disponibilidade, Disaster/Recovery, Upgrades, replicação e todos as áreas relacionadas com bancos de dados Oracle. Consultor internacional com deveres, conferências e atividades em mais de 50 países e inúmeros clientes em todo o mundo. Palestrante regular nos eventos Oracle em todo o mundo como: OTN LAD, OTN MENA, OTN APAC e muito mais. Joel sempre foi conhecido por ser pioneiro em tecnologia Oracle desde os primeiros dias de sua carreira sendo o primeiro latino-americano premiado como "OTN Expert" no ano de 2003 pela Oracle Corporation, um dos primeiros "ACE Oracle" no Oracle ACE Program no ano de 2004, um dos primeiros OCP Database Cloud Administrator em todo o mundo no ano de 2013 e como um das maiores realizações profissionais em sua carreira, recentemente ele foi homenageado como o primeiro "OCM Database Cloud Administrator" do mundo.
+
+Aman Sharma é um especialista em banco de dados Oracle, um Oracle Certified Professional (9i, 10g, 11g), um Oracle Certified Expert para Linux e SQL e Sun Certified System Admin com mais de 6 anos de experiência. Aman trabalha como instrutor de formação de profissionais ao redor da Ásia-Pacífico em tecnologias da Oracle relacionadas. Antes disso, ele trabalhou como DBA para uma empresa de desenvolvimento de software de grande porte. Em seu tempo livre, quando Aman não está ensinando ou viajando, ele gosta de passar o tempo em vários fóruns da Oracle através da web.
+
+Karan Dodwal (OCM) é um Oracle arquiteto com especialização em Oracle High Availability. Ele é um DBA Oracle Certified Master (OCM) com vários anos de experiência em banco de dados Oracle e no desenvolvimento Oracle. Ele trabalha como consultor Oracle e já realizou diversos serviços e treinamentos sobre os produtos da Oracle na Ásia Pacífico, Ásia do Sul e na Grande China. Ele é um speaker do All India Oracle Users Group (North India Chapter) e apresenta sessões no Oracle Technology. Ele tem várias configuração feitas do Oracle High Availability em todas as plataformas para missões críticas do Oracle Database. Ele é um expert em todas as soluções de High Availability da Oracle como RAC, Exadata, Data Guard e outros. Ele freqüentemente publica artigos em diversos sites e no seu bloghttp://karandba.blogspot.in e participa ativamente de eventos do grupo de usuários Oracle AIOUG AllIndia Oracle UsersGroup (North IndiaChapter) e ajuda diversos usuário no OTN Fórum da Oracle.
+
+Carlos H. Y. Furushima é um especialista em banco de dados relacional, trabalhando como consultor de TI, atuando principalmente como o Oracle Database Administrator (DBA Oracle). Tem uma vasta experiência e conhecimento em "Performance, diagnosticand tuning", "High Availability", "Backup & Recovery" e "Exadata". Ele também está entusiasmado com sistema operacional Linux/Unix, onde contribui com o desenvolvimento do código do kernel Linux em parceria com a comunidade "GNU Linux", com criação e revisão de novas funcionalidades, melhorias e correções de bugs. Recentemente, Furushima divide seu tempo com consultoria especializada em banco de dados Oracle e estudos sobre "Oracle Internals", com o objetivo de descobrir e entender os benefícios do bancos de dados Oracle em plataforma Linux/Unix.
+
+Este artigo foi revisto pela equipe de produtos Oracle e está em conformidade com as normas e práticas para o uso de produtos Oracle.
+
+    E-mail this page E-mail this page    Printer View Printer View
+
+
+
+
+
+
+
+
+FONTE: https://www.oracle.com/technetwork/pt/articles/idm/auditoria-security-database-12c-2524430-ptb.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+12c Unified Auditing and AUDIT_TRAIL=DB in mixed mode
+By Oracle TeamFebruary 23, 2017Database Administration & Monitoring2 Comments
+    
+By Franck Pachot
+.
+Oracle enables some auditing by default, and if you don’t do anything, the tables where it is stored will grow in SYSAUX. Don’t wait to get an alert when it is too late. Everything that fills something automatically must be managed to archive or purge automatically. If not, one day you will have a problem.
+
+Imagine that you have 5 features doing something similar but in a different way because they were implemented one at a time. You want to stop this and have only 1 unified feature. That’s great. But you are also required to maintain compatibility with previous version, which means that you actually implemented a 5+1=6th feature 🙁
+
+Unified Auditing
+This exactly what happens with Unified Auditing. Because of this compatibility requirement, it is declined in two modes:
+
+The ‘mixed mode’ that keeps all compatibility as the 5+1 case in my example
+The ‘pure mode’ that do not take care of the past and is actually the one that unifies all. The real ‘Unified’ one.
+You are in ‘mixed mode’ by default and you see it as if there is nothing new enabled:
+
+SQL> select parameter,value from v$option where parameter='Unified Auditing';
+ 
+PARAMETER VALUE
+--------- -----
+Unified Auditing FALSE
+
+But there may be something enabled if the old auditing is enabled, because it is actually a mixed mode.
+
+AUDIT_TRAIL=DB
+Let me explain. I use the old auditing:
+
+SQL> show parameter audit
+NAME TYPE VALUE
+---------------------------- ------- --------------------------------
+audit_trail string DB
+
+This means that I have the default audits (such as logon, logoff, ALTER/CREATE/DROP/GRANT ANY, and so on.
+In addition to that, I enabled the audit of create table:
+
+SQL> audit create table;
+Audit succeeded.
+
+I do some of these stuff and I can see info in the old audit trail:
+SQL> select action_name,sql_text from dba_audit_trail;
+ 
+ACTION_NAME SQL_TEXT
+----------- --------
+CREATE TABLE
+LOGON
+SELECT
+LOGON
+LOGOFF
+
+If you are in that case, you probably manage this trail. Our recommandation is either to disable audit, or to manage it.
+
+But once upgraded to 12c, did you think about managing the new unified audit trail?
+
+SQL> select audit_type,unified_audit_policies,action_name,return_code,count(*) from unified_audit_trail group by audit_type,unified_audit_policies,action_name,return_code order by 1,2,3;
+---- ------ ------------------------------------------------------------------ ---- ------------------- ----- -- --------------------------------------------------------- ----- -- ------
+AUDIT_TYPE UNIFIED_AUDIT_POLICIES ACTION_NAME RETURN_CODE COUNT(*)
+Standard ORA_LOGON_FAILURES LOGON 0 2
+Standard ORA_LOGON_FAILURES LOGON 1017 1
+Standard ORA_SECURECONFIG CREATE ROLE 0 1
+Standard ORA_SECURECONFIG DROP ROLE 0 1
+Standard EXECUTE 0 1
+
+Even with Unified Auditing set to off, some operations are audited when AUDIT_TRAIL=DB. If you don’t want them you have to disable them:
+
+noaudit policy ORA_SECURECONFIG;
+noaudit policy ORA_LOGON_FAILURES;
+
+As you see, in mixed mode the new unified auditing is enabled, and AUDIT_TRAIL is not ignored. This is the mode to use until you have migrated all your policies and audit trail queries to the new one. However you can see that in mixed mode, there is no double auditing but only new default policies. The old policies are only logged to the old audit trail.
+
+But if you don’t use auditing, then you don’t want the mixed mode.
+
+uniaud_on
+This is done with an instance shutdown, relinking onLinux or renaming a ddl on Windows.
+
+
+SQL> shutdown immediate;
+ORACLE instance shut down.
+SQL> host ( cd $ORACLE_HOME/rdbms/lib ; make -f ins_rdbms.mk uniaud_&2 ioracle ORACLE_HOME=$ORACLE_HOME )
+/usr/bin/ar d /u01/app/oracle/product/12.2.0/dbhome_1/rdbms/lib/libknlopt.a kzanang.o
+/usr/bin/ar cr /u01/app/oracle/product/12.2.0/dbhome_1/rdbms/lib/libknlopt.a /u01/app/oracle/product/12.2.0/dbhome_1/rdbms/lib/kzaiang.o
+chmod 755 /u01/app/oracle/product/12.2.0/dbhome_1/bin
+ 
+- Linking Oracle
+...
+
+And then you are in ‘pure mode’:
+
+
+SQL> select parameter,value from v$option where parameter='Unified Auditing';
+ 
+PARAMETER VALUE
+--------- -----
+Unified Auditing TRUE
+
+In that mode, AUDIT_TRAIL is ignored and you will never see new rows in the old AUD$:
+
+SQL> select action_name,sql_text from dba_audit_trail;
+ 
+no rows selected
+
+However, as in the mixed mode you will have to manage the new audit trail. My best recommandation is to keep it and add a purge job. One day you may want to have a look at unsuccessful logins of the past few days. But you still have the choice to disable the default polices, and then the only things you will see are the operations done on the trail:
+
+AUDIT_TYPE UNIFIED_AUDIT_POLICIES ACTION_NAME SQL_TEXT
+---------- ---------------------- ----------- --------
+Standard EXECUTE BEGIN dbms_audit_mgmt.flush_unified_audit_trail; END;^@
+Standard EXECUTE BEGIN dbms_audit_mgmt.clean_audit_trail(audit_trail_type => dbms_audit_mgmt.audi
+Standard EXECUTE BEGIN dbms_audit_mgmt.flush_unified_audit_trail; END;^@
+
+The reason is that if a hacker getting super administrator rights has tried to whipe his traces, then at least this suspect operation remains.
+
+Test it
+To validate this blog post, I’ve tested all scenarios on 12.2.0.1 with the combination of:
+
+audit_trail=db or audit_trail=none
+uniaud_on or uniaud_off
+audit or noaudit policy for ORA_SECURECONFIG and ORA_LOGON_FAILURES
+For each combination, I’ve purged both audit trails (AUD$ and AUD$UNIFIED) and run a few statements that are logged by default or by explicit audit.
+
+So what?
+Basically, the recommandation is still the same as before: either disable the audit or schedule a purge. There is no purge by default because auditing is different than logging. When your security policy is to audit some operations, they must not be purged before being archived, or processed.
+
+When you upgrade to 12c:
+
+If you want to manage only the old audit, then you should disable ORA_LOGON_FAILURES and ORA_SECURECONFIG.
+If you want to manage both, then add a job to purge the unified audit trail (audit_trail_type=>dbms_audit_mgmt.audit_trail_unified).
+If you don’t use the old auditing, then enable the ‘pure mode’. But then, AUDIT_TRAIL=NONE is ignored, so:
+If you don’t use the new unified auditing, then disable ORA_LOGON_FAILURES and ORA_SECURECONFIG.
+Or use the new unified auditing and set a job to purge it regularly.
+And control the growth of SYSAUX:
+
+SQL> select occupant_name,schema_name,occupant_desc,space_usage_kbytes from v$sysaux_occupants where occupant_name like 'AUD%';
+ 
+OCCUPANT_NAME SCHEMA_NAME OCCUPANT_DESC SPACE_USAGE_KBYTES
+------------- ----------- ------------- ------------------
+AUDSYS AUDSYS AUDSYS schema objects 1280
+AUDIT_TABLES SYS DB audit tables 0
+
+SYS ‘DB audit tables’ is the old one, filled in ‘mixed mode’ only. AUDSYS ‘AUDSYS schema objects’ is the new unified one, filled in both modes.
+
+But I have something to add. The default policies do not audit something that you are supposed to do so frequently, it should not fills hundreds of MB before several decades.
+If you get this during the last hour:
+SQL> select audit_type,unified_audit_policies,action_name,return_code,count(*)
+2 from unified_audit_trail where event_timestamp>sysdate-1
+3 group by audit_type,unified_audit_policies,action_name,return_code
+4 order by count(*);
+AUDIT_TYPE UNIFIED_AUDIT_POLICIES ACTION_NAME RETURN_CODE COUNT(*)
+---------- ---------------------- ----------- ----------- --------
+Standard AUDIT 0 2
+Standard EXECUTE 0 4
+Standard ORA_SECURECONFIG CREATE ROLE 0 9268
+Standard ORA_LOGON_FAILURES LOGON 1017 348 
+
+then the problem is not auditing but an attack, either from a hacker of because of your application design connecting for each execution or running DDL all the time.
+
+
+
+
+FONTE: https://blog.dbi-services.com/12c-unified-auditing-and-audit_traildb-in-mixed-mode/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
 
 
   /******************************************************************************************************************************
-  *                                                   		REFERENCIAS      	                                  				*
-  *https://www.youtube.com/watch?v=pfRqZUyLPQY&t=56s							                		   		   				*
-  *https://www.youtube.com/watch?v=5OF3JJUx6dE																	   				*
-  *https://www.youtube.com/watch?v=rSLv1mge_uw 																	   				*
-  *https://www.oracle.com/technetwork/pt/articles/database-performance/gerenciamento-automatico-auditoria-3002076-ptb.html		*
+  *                                                   		REFERENCIAS      	                                  				          *
+  *https://www.youtube.com/watch?v=pfRqZUyLPQY&t=56s							                		   		   				                          *
+  *https://www.youtube.com/watch?v=5OF3JJUx6dE																	   				                                      *
+  *https://www.youtube.com/watch?v=rSLv1mge_uw 																	   				                                      *
+  *https://www.oracle.com/technetwork/pt/articles/database-performance/gerenciamento-automatico-auditoria-3002076-ptb.html		  *
+  *https://www.oracle.com/technetwork/pt/articles/idm/auditoria-security-database-12c-2524430-ptb.html                          *
+  *https://blog.dbi-services.com/12c-unified-auditing-and-audit_traildb-in-mixed-mode/                                          *
   *******************************************************************************************************************************/

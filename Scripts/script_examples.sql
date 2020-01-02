@@ -1674,20 +1674,86 @@ DEFINE _EDITOR = vi
 
 
 
+create tablespace TBS1AUDIT
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
 
 
 
 
+
+SELECT TABLESPACE_NAME 
+FROM DBA_TABLESPACES;
+
+
+
+BEGIN
+  
+   
+   --Modificando para a  auditoria simples, a AUD$
+   DBMS_AUDIT_MGMT.SET_AUDIT_TRAIL_LOCATION(
+    audit_trail_type => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD
+    , audit_trail_location_value => 'TBS1AUDIT'
+     );
+  
+   
+   --Modificando para a  auditoria de FGA, a FGA_LOG$
+   DBMS_AUDIT_MGMT.SET_AUDIT_TRAIL_LOCATION(
+    audit_trail_type => DBMS_AUDIT_MGMT.AUDIT_TRAIL_FGA_STD
+    , audit_trail_location_value => 'TBS1AUDIT'
+     );    
+
+END;
+
+
+
+   DBMS_AUDIT_MGMT.SET_AUDIT_TRAIL_LOCATION(
+    audit_trail_type => DBMS_AUDIT_MGMT.AUDIT_TRAIL_FGA_STD
+    , audit_trail_location_value => 'TBS1AUDIT'
+     );  
+
+
+
+
+SELECT TABLE_NAME
+FROM ALL_TABLES 
+WHERE TABLESPACE_NAME = 'SYSAUX' 
+      AND TABLESPACE_NAME LIKE 'AUDSYS%';
+
+
+SELECT * FROM SCOTT.EMP;
+ 
+
+
+
+VIEW 
+SYS.UNIDIED_AUDIT_TRAIL
+
+
+
+
+COL VALUE FORMAT A45
+
+SHOW PARAMETER AUD
 
 
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+ COL PARAMETER FORMAT A20
+ COL value FORMAT A15
+ select parameter,value from v$option where parameter='Unified Auditing';
+
+PARAMETER            VALUE
+-------------------- ---------------
+Unified Auditing     FALSE
 
 
-
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
