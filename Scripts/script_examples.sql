@@ -1873,22 +1873,23 @@ expdp hr@AL1 DIRECTORY=dum DUMPFILE=hr.dmp TABLES=employees
 expdp SYSTEM/oracle@AL1 diretory=dum DUMPFILE=TEST1 TABLES=HR.REGIONS
 
 
+expdp SYS/oracle@AL1 diretory=dum DUMPFILE=TEST1 TABLES=HR.REGIONS
+
+
+
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
 
 ALL_DIRECTORIES
 
 
 
-COL OWNER FORMAT A5
+COL OWNER FORMAT A5;
 
-COL DIRECTORY_NAME FORMAT A25
+COL DIRECTORY_NAME FORMAT A25;
 
-COL DIRECTORY_PATH FORMAT A55
-
+COL DIRECTORY_PATH FORMAT A55;
 
 SET LINESIZE 32000;
 
@@ -1913,6 +1914,19 @@ FROM ALL_DIRECTORIES;
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+SELECT DBUSERNAME,
+       DP_TEXT_PARAMETERS1,
+       DP_BOOLEAN_PARAMETERS1,
+FROM UNIFIED_AUDIT_TRAIL;    
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
