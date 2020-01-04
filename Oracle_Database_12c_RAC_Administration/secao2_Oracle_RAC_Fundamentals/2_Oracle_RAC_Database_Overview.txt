@@ -1,0 +1,189 @@
+ /**********************************************
+  * OBJETIVO  : Oracle-Database-12c-RAC        *
+  * CRIACAO   : 04-01-2020	                   *
+  * VERSAO    : 1.0		                       *
+  * AUTOR     : Pedro Akira Danno Lima         *
+  **********************************************/
+
+
+
+
+What is oracle RAC database?
+
+-a database running on a cluster of multiple servers that operate as a single 
+database 
+
+-this is opposed to a single-instance database 
+
+
+
+
+-UNPLANNED DOWNTIME
+-the advantage of this architecture is a fundamental requirement for same 
+businesses if any server in the cluster fails down.
+the database should continue its operation as normal.
+
+
+
+
+-it provides a very high available database that protects you from the server hardware or operating system 
+
+
+
+
+
+
+
+
+
+-PLANNED DOWNTIME 
+-even if tou have a planned down time like for example you want to apply a patch
+to the operating system 
+
+
+-or a patch to the database or upgrading the server hardware. 
+  
+
+-if the database was running in a single instance in that serve the database
+would not be available 
+
+
+-of course some mission critial applications cannot afford that with a correct database. 
+
+
+-you can turn off the datavase instance in that server perform your upgrade 
+and then turn on the server  
+again without havinf to shut down the database at all 
+
+
+
+SLA IMPLEMENTATION
+-autocorrect could be useful in more complex situantions
+-avaliability 99.99%
+
+
+
+
+
+HORIZONTAL SCALABILITY
+
+-the workload of some applications is reached its peak in some spacific short time
+-take that web site as an example 
+in shopping seasons like in the black friday or any christmas the site 
+is hammered by the orders.
+
+the actions while the rest of the year the site is runninh low what workloads
+
+
+-autocorrect allows you to add servers to it's a cluster that we need to fullfill 
+the high workload demand 
+
+
+once the work load goes back to its normal level oracle RAC can dynamically 
+remove the instances 
+
+
+this method of increasing the power of the cluster to see if the high demand 
+from the application is HORIZONTAL SCALABILITY
+
+
+VERTICAL SCALABILITY- SINGLE INSTANCE 
+
+
+
+
+
+
+ORACLE RAC BENEFITS 
+
+-HIGH AVAILABILITY 
+
+
+-DATABASE SCALABILITY 
+
+
+-LOAD BALANCING 
+ITS ALLOWS YOU TO control how the applications are distributed on the 
+cluster instances. 
+
+
+
+-RESOURCE UTILIZATION 
+
+
+
+
+
+ORACLE RAC DRAWBACKS
+
+
+
+-ADDITIONAL LICENSE COST 
+
+-ORACLE DATABASE ENTERPRISE EDITON: ORACLE RAC LICENSE IS SEPARATE
+
+-database standard edition: oracle rac license is included, if the total number
+of cpu sockets in all the servers in the cluster less than or equal to 4. 
+
+-complicated hardware architecture and requirements 
+
+-not desigded for distaste recovery 
+
+
+-more complex dba adminstration skills compared to single-instance
+
+
+
+
+
+
+
+
+should the firm use it?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*****************************************************************************************************************
+  *                                                   REFERENCIAS      	                                           *
+  *https://www.udemy.com/course/oracle-database-12c-rac-administration/learn/lecture/8874108?start=0#overview      *
+  ******************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
