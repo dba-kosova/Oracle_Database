@@ -1,0 +1,151 @@
+ /**********************************************
+  * OBJETIVO  : Oracle-Database-12c-RAC        *
+  * CRIACAO   : 07-01-2020	                   *
+  * VERSAO    : 1.0		                       *
+  * AUTOR     : Pedro Akira Danno Lima         *
+  **********************************************/
+
+
+
+
+
+Oracle RAC Architecture 
+
+
+
+
+-Oracle RAC hardware requirements
+-Shared storage configuration options
+-Oracle Grid infrastructure components
+-Oracle Clusterware network configuration
+-Oracle RAC connectivity cycle
+-Oracle RAC database file locations 
+
+
+
+
+Oracle RAC history 
+
+
+oracle parallel server(OPS)
+	-oracle 6.2 on VAX/VMS
+
+
+oracle real application cluster(RAC)
+	-oracle 9i
+
+
+
+Oracle RAC Software stack 
+-ORACLE GRID INSTRASTRUCTURE
+-clusteware
+	-manage the whole cluster
+	-monitor the availability of the resources
+	-controls the resources startup order
+	-can be programmed for user applications
+-ASM
+-oracle database
+
+
+
+-ORACLE GRID INSTRASTRUCTURE
+	-is a suit of software packages which include a killer cluster 
+	where and or key automattic a storage 
+
+
+
+we need tho nodes to build up a cluster.
+
+use public network- this is the network that appplication will use to connect to the 
+oracle rac database 
+	
+
+node must be connected to a seprarete network dedicated to the cluster. 
+privete network, dedicated to the cluster. 
+
+
+
+communication between nodes is called 
+heart bear traffic
+vital performance its network must be very high speed its spend with must be at least one GP s.
+
+
+
+
+virtual ip adrees: has an advantege ovet the public ip addres. 
+if the notes goes down the traditional tcp/ip protocals,
+normally waits for a long time out period before notifying the 
+client about the an available connection. 
+
+
+but in case of the virtual IP adress that we're immediately
+notifies the client about it.
+
+
+this way the current connection will quickly know about the failure and the future conneciton 
+
+
+
+
+
+hardware componets oracle rac 
+
+
+shared storage 
+this storage is accessed by all the cluster with no cluster 
+the storage can be connected with the nodes using either the fiber channel 
+the storage tou need a volume manager or file system or 
+
+
+
+
+oracle RAC:
+cluster notes connected to the public network and this public network is the network
+used by the clients
+-all the nodes are connected to a shared storage system.
+
+
+-load balancing on the cluster nodes.
+
+
+
+
+
+ORACLE RAC: Engineedred systems
+-oracle database applice(ODA)
+-oracle exadata database machine 
+
+from my personal experience one of the best options to build an oracle
+like environment is to use an oracle engineered system an enginnered system is 
+hardware designed developed and configured in a way 
+that makes oracle database runs with best configuration and performance. 
+
+it doesn't only save you the time to design a complex cluster of harware
+architecture. 
+
+
+it also provides its tools to easily manage the hardware instances and at 
+the time of this recoeding 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*****************************************************************************************************************
+  *                                                   REFERENCIAS      	                                           *
+  *https://www.udemy.com/course/oracle-database-12c-rac-administration/learn/lecture/8874146?start=15#overview     *
+  ******************************************************************************************************************/
