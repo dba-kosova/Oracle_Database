@@ -7,7 +7,23 @@
 
 
 
+about oracle gird infrastructure 
+-provide clustering features(clusterware) plus ASM
+-it must be installed in its own, local home
+-ususally owned by a dedicated OS user "grid"
 
+-cluster ready serve(CRS) resources:
+	-asm instance
+	-asm diskgroup
+	-virtual IP(VIP) serves
+	-single client acess name(SCAN)
+	-SCAN listener
+	-database services
+	-oracle ner listener
+	-oracle notification service(ONS)
+
+
+	
 
 
 
