@@ -1,0 +1,116 @@
+
+
+  /*********************************************
+  * OBJETIVO  : Oracle-Database-12c-RAC        *
+  * CRIACAO   : 09-01-2020	                   *
+  * VERSAO    : 1.0		                       *
+  * AUTOR     : Pedro Akira Danno Lima         *
+  *********************************************/
+
+
+
+ ORACLE RAC software stack products 
+
+
+
+ oracle grid infrastructure
+ 	-reference: oracle grid infrastructure installation guide 
+
+
+ oracle database
+ 	-reference: oracle real application clusters installation guide for linux and UNIX
+
+
+
+
+
+GNS or DNS 
+
+
+
+ntp or ctss(cluster time synronization service)
+
+
+
+TFA(trac file analyzer)
+
+
+OEM
+
+
+
+
+AS root 
+
+crsctl check cluster 
+
+
+as grid
+srvctl status asm
+
+
+
+
+cluvfy comp scan
+
+
+
+download and install ORAchk utility 
+
+
+PSU download and install latest patchset updates 
+highly recommended to download and aplu the most recent patchset updates
+or PPI 
+
+
+
+  oracle RAC DATABASE INSTALLATION 
+  TWO WAYS:
+  	-using oracle universal installler(OUI)
+  	-rapid home provisioging (it also support GI installations)
+
+
+
+
+ golden image 
+
+
+
+
+
+
+ using DBCA is recommended 
+
+
+
+
+CDB and a non-CDB 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*****************************************************************************************************************
+  *                                                   REFERENCIAS      	                                           *
+  *https://www.udemy.com/course/oracle-database-12c-rac-administration/learn/lecture/8874158?start=45#overview	   *
+  ******************************************************************************************************************/
+
+
+
