@@ -1,0 +1,38 @@
+
+
+  /*********************************************
+  * OBJETIVO  : Oracle-Database-12c-RAC        *
+  * CRIACAO   : 11-01-2020	                   *
+  * VERSAO    : 1.0		                         *
+  * AUTOR     : Pedro Akira Danno Lima         *
+  *********************************************/
+
+  sudo setxkbmap -model abnt2 -layout br
+  login:root
+  pass: 111111
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  /*****************************************************************************************************************
+  *                                                   REFERENCIAS      	                                           *
+  *https://www.udemy.com/course/oracle-database-12c-rac-administration/learn/lecture/8882832#questions        	   *
+  *https://www.vivaolinux.com.br/topico/Red-Hat-Fedora/Como-configurar-teclado-para-ABNT2                          *
+  ******************************************************************************************************************/
+
+
+
