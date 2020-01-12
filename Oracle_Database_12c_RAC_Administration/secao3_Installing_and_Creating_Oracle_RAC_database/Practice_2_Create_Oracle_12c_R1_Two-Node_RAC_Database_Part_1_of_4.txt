@@ -152,7 +152,7 @@ mv /etc/security/limits.d/oracle-rdbms-server-12cR1-preinstall.conf /etc/securit
 
 
 
-
+rac-scan.srv.localdomain
 
 
 srv-scan
