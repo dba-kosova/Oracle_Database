@@ -1,0 +1,108 @@
+
+
+  /*********************************************
+  * OBJETIVO  : Oracle-Database-12c-RAC        *
+  * CRIACAO   : 11-01-2020	                   *
+  * VERSAO    : 1.0		                         *
+  * AUTOR     : Pedro Akira Danno Lima         *
+  *********************************************/
+
+  sudo setxkbmap -model abnt2 -layout br
+  login:root
+  pass: 111111
+
+ srv1: 192.168.56.71
+ srv2: 192.168.56.72
+
+
+
+
+
+
+In Oracle VirtualBox, select srv1 VM, then click on "Settings" | "Storage" link | "SATA
+Controller" icon | "Add Hard Disk" button.
+
+
+
+C:\Users\Pedro Akira\VirtualBox VMs\oracle database RAC\DISK1.vdi          10GB
+C:\Users\Pedro Akira\VirtualBox VMs\oracle database RAC\DISK2.vdi          15GB
+C:\Users\Pedro Akira\VirtualBox VMs\oracle database RAC\DISK3.vdi          15GB
+
+
+
+
+
+
+FILE -> virtualmedia manager -> modify -> shareable 
+all disks
+
+
+
+
+. Attach the shared disks to the other VM using (srv2). In Oracle VirtualBox, select srv2 machine,
+click on "Storage" page | click on the SATA controller | click on "Add hardisk" icon | click on
+"Choose existing disk" button | select the shared disk file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+45. Start srv1
+46. In a Putty command prompt, login as root to srv1.
+47. List the disks as seen by srv1. You should see the shareable disks that have been added to the
+machine (sdb, sdc, and sdd).
+ls /dev/sd*
+
+
+
+
+
+48. Use the fdisk utility to create partitions in the new disks /dev/sdb , /dev/sdc and /dev/sdd
+The sequence of your answers should be "n", "p", "1", "Return", "Return" and "w".
+Following is an example:
+[root@srv1 ~]# fdisk /dev/sdb
+Device contains neither a valid DOS partition table, nor Sun, SGI or OSF
+disklabel
+Building a new DOS disklabel with disk identifier 0xe3033fca.
+Changes will remain in memory only, until you decide to write them.
+After that, of course, the previous content won't be recoverable.
+Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
+WARNING: DOS-compatible mode is deprecated. It's strongly recommended to
+ switch off the mode (command 'c') and change display units to
+ sectors (command 'u').
+Command (m for help): n
+Command action
+ e extended
+ p primary partition (1-4)
+p
+Partition number (1-4): 1
+First cylinder (1-1305, default 1): [ENTER] pressed
+Using default value 1
+Last cylinder, +cylinders or +size{K,M,G} (1-1305, default 1305): [ENTER] pressed
+Using default value 1305
+Command (m for help): w
+The partition table has been altered!
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
+
+
+
+  /*****************************************************************************************************************
+  *                                                   REFERENCIAS      	                                           *
+  *https://www.udemy.com/course/oracle-database-12c-rac-administration/learn/lecture/8882832#questions        	   *
+  *https://www.vivaolinux.com.br/topico/Red-Hat-Fedora/Como-configurar-teclado-para-ABNT2                          *
+  ******************************************************************************************************************/
+
+
+

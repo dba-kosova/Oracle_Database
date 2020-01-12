@@ -230,6 +230,8 @@ ping srv2-priv.localdomain
 
 
 
+setting putty 
+
 
 
 
