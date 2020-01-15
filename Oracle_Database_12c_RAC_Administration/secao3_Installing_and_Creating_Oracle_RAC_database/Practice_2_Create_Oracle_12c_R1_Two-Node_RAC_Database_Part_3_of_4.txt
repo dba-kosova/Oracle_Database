@@ -1,0 +1,68 @@
+
+
+
+
+
+
+
+  /*********************************************
+  * OBJETIVO  : Oracle-Database-12c-RAC        *
+  * CRIACAO   : 14-01-2020	                   *
+  * VERSAO    : 1.0		                       *
+  * AUTOR     : Pedro Akira Danno Lima         *
+  *********************************************/
+
+
+
+  sudo setxkbmap -model abnt2 -layout br
+  login:root
+  pass: 111111
+
+  srv1: 192.168.56.71
+  srv2: 192.168.56.72
+  ssh root@ip -p 22  mobaXTerm
+
+
+
+  login oracle
+  pass: oracle 
+
+
+
+  sys
+  system 
+  pass:oracle 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*****************************************************************************************************************
+  *                                                   REFERENCIAS      	                                           *
+  *https://www.udemy.com/course/oracle-database-12c-rac-administration/learn/lecture/8874172#questions        	   *
+  *https://www.vivaolinux.com.br/topico/Red-Hat-Fedora/Como-configurar-teclado-para-ABNT2                          *
+  *https://www.edivaldobrito.com.br/emulador-de-terminal-terminator-no-ubuntu/									                   *
+  ******************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
