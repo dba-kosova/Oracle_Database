@@ -8,7 +8,7 @@
   /*********************************************
   * OBJETIVO  : Oracle-Database-12c-RAC        *
   * CRIACAO   : 14-01-2020	                   *
-  * VERSAO    : 1.0		                       *
+  * VERSAO    : 1.0		                         *
   * AUTOR     : Pedro Akira Danno Lima         *
   *********************************************/
 
