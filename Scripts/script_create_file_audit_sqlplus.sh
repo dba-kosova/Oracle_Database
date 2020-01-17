@@ -8,13 +8,16 @@
 # AUTOR     : Pedro Akira Danno Lima             #
 #************************************************#
 
+#name file: script_create_file_audit_sqlplus.sh
+#permition: chmod +x script_create_file_audit_sqlplus.sh
+
 
 
 #mudar diretorio
 cd /home/oracle/auditsqlplus
 
 #atribuir uma data a variavel date
-DATE=$(date +"%m-%d-%y")
+DATA=$(date +"%m-%d-%y")
 
 #criar arquivo
 touch ${DATA}_sqlplus.sql
@@ -27,4 +30,5 @@ touch ${DATA}_sqlplus.sql
 #https://www.udemy.com/course/oracle-database-12c-rac-administration/learn/lecture/8874172#questions        	 #
 #https://www.vivaolinux.com.br/topico/Red-Hat-Fedora/Como-configurar-teclado-para-ABNT2                          #
 #https://github.com/pedroAkiraDanno/Linux/blob/master/Conceitos_de_Programacao_em_Shell_Script_Curso_Gratuito    #
+#https://www.udemy.com/course/conceitos-de-programacao-em-shell-script/learn/lecture/13868716#overview           #
 #****************************************************************************************************************#
