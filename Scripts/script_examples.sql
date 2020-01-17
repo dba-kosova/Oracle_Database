@@ -1927,6 +1927,52 @@ FROM UNIFIED_AUDIT_TRAIL;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ORACLE RAC 
+
+
+
+
+COL OWNER FORMAT A5;
+
+
+COL TABLE_NAME FORMAT A30;
+
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS2';
+
+
+DESC ALL_TABLES;
+
+
+SELECT OWNER, TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'EXAMPLE';
+
+
+
+SELECT OWNER,
+       TABLE_NAME
+FROM ALL_TABLES WHERE TABLESPACE_NAME = 'EXAMPLE'
+ORDER BY OWNER;
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
