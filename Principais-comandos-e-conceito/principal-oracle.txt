@@ -893,7 +893,323 @@ database tuning.
 
 
 
+ /*************************************************************
+ * FILE NAME:  principal-oracle2.0                            *
+ *                                                            *
+ * PURPOSE: concepts about database oracle                    *
+ *                                                            *
+ *                                                            *
+ * Date        Author                       Release           *
+ * 25-01-20    Pedro Akira Danno Lima       -------           *
+ *                                                            * 
+ *************************************************************/
 
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Startup and Shutdown modes in Oracle
+
+
+
+
+Startup Modes :
+	-Startup nomount
+	-Startup mount
+	-Open 
+	-Startup restrict
+	-Startup force
+	-Startup suspend
+
+
+
+
+Startup Nomount :
+
+Oracle open and reads spfile or pfile
+Instance gets created (SGA+BP)
+We can create a database
+We can recreate controlfile
+Based on the values from pfile or spfile  oracle will allocate the sga in the RAM and start the background processes.
+
+How to open in nomount state
+STARTUP NOMOUNT
+
+
+
+
+
+STARTUP MOUNT :
+
+Oracle opens and read control file
+We can perform recovery’s
+We can enable ALM(Archive log  mode)
+We can enable FDBD(Flashback database)
+
+
+Note : Mount is also known as “’Maintenance state” .
+
+To mount a database directly from shutdown state we issue
+
+Sql> startup mount
+1
+Sql> startup mount
+To mount a database from a started state (nomount state)
+
+Sql> alter database mount;
+1
+Sql> alter database mount;
+1.The mount state is used to recover a database that has crashed due to media failure.
+
+2.The mount state is also used by the dba to enable archiver process.
+3.it is also used by the dba to create a standby controlfile for configuring a standby database using dataguard.
+
+
+
+
+
+OPEN STATE :
+
+Database completely opens , where end users connect and perform all transactions
+While moving from mount state to open state Oracle perform “SANITY CHECKING ”
+According to the controlfile information oracle check for physical existence of files and checks for the synchronization SCN#(SYSTEM CHANGE NUMBER) Which is known as “Sanity checking”
+ 
+
+Incase the scns are not matched that means that the database is in an inconsistent state due to improper shutdown previously.
+In this case oracle will try to recover the database with automatic crash recovery, if that also fails then oracle will ask the dba to manually recover the datbase using media recovery methods.
+ 
+
+We can open an already mounted database by below command.
+
+Sql>alter database open;
+1
+Sql>alter database open;
+We can directly go from a shut database to an open database by typing below command.
+
+Sql>startup;
+1
+Sql>startup;
+
+
+
+
+
+
+
+Startup Restrict:
+
+If we start an oracle database in restricted mode then only those users who have restricted session privilege will be able to connect to the database.
+
+Sql> startup restrict;
+Sql> alter system disable restricted session;
+Sql> alter system enable restricted session;
+1
+2
+3
+Sql> startup restrict;
+Sql> alter system disable restricted session;
+Sql> alter system enable restricted session;
+
+
+
+
+
+
+Suspending a database:
+
+If we want to suspend all i/o operations.
+
+Sql> alter system suspend;
+Sql> select database_status from v$instance;
+Database_status
+—————–
+Suspended
+Sql> alter system resume;
+Sql> select database_status from v$instance;
+Database_status
+—————–
+Active
+
+Sql> alter system suspend;
+Sql> select database_status from v$instance;
+Database_status
+—————–
+Suspended
+Sql> alter system resume;
+Sql> select database_status from v$instance;
+Database_status
+—————–
+Active
+
+
+
+
+
+
+
+
+
+
+Startup mount restrict:
+
+This mode has been introduced from oracle 10g onwards. If we want to drop the database then we mount the db it in this mode.
+
+*the nomount state is used by the dba to create a new oracle database.
+*the mount state is used by the dba to perform recovery
+*the open state is used by the dba and programmers to work with the database in a normal way.
+
+sql>Startup mount restrict 
+Sql> Drop database
+1
+2
+sql>Startup mount restrict 
+Sql> Drop database
+
+
+
+
+
+
+
+
+
+
+
+
+Shutdown modes in oracle:
+	-Shutdown /shut/shutdown normal 
+	-Shutdown Transnational
+	-Shutdown immediate 
+	-Shutdown abort 
+
+
+
+
+
+Shutdown /shut/shutdown normal  :
+
+New connections are not allowed 
+Connected user can perform ongoing transaction
+Idle sessions will not  disconnected 
+When connected users’s logout manually then the database gets shutdown.
+It is also graceful shutdown, So it doesn’t require ICR in next startup. 
+A common scn number will be updated to controlfiles and datafiles before the database shutdown.
+
+
+
+
+
+
+
+
+Shutdown Transnational :
+
+New connections are not allowed 
+Connected user can perform ongoing transaction
+Idle sessions will be  disconnected 
+The database gets shutdown once ongoing tx’s gets completed(commit/rollback)
+Hence, It is also graceful shutdown, So it doesn’t require ICR in next startup.
+
+
+
+
+
+
+Shutdown immediate :
+
+New connections are not allowed 
+Connected uses can’t perform ongoing transaction
+Idle sessions will be  disconnected 
+Oracle performs rollback’s the ongoing tx’s(uncommitted)  and database gets shutdown.
+A common scn number will be updated to controlfiles and datafiles before the database shutdown.
+Hence, It is also graceful shutdown, So it doesn’t require ICR in next startup.
+
+
+
+
+
+
+Shutdown  Abort :
+
+New connections are not allowed 
+Connected uses can’t perform ongoing transaction
+Idle sessions will be  disconnected 
+Db gets shutdown abruptly(NO Commit /No Rollback)
+Hence, It is abrupt  shutdown, So its  require ICR in next startup.
+
+
+
+
+
+
+
+STARTUP FORCE :
+
+Startup force is a combination  of shutdown (abort + startup).
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**********************************************************************************************************
+*                                               REFERENCIAS                                               *
+*                                                                                                         *
+*https://www.youtube.com/watch?v=QHYuuXPdQNM									                          *
+*https://www.ktexperts.com/startup-and-shutdown-modes-in-oracle/										  *
+**********************************************************************************************************/
 
 
 

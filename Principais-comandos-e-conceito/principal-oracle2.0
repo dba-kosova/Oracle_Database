@@ -1,0 +1,95 @@
+ /*************************************************************
+ * FILE NAME:  principal-oracle2.0                            *
+ *                                                            *
+ * PURPOSE: concepts about database oracle                    *
+ *                                                            *
+ *                                                            *
+ * Date        Author                       Release           *
+ * 25-01-20    Pedro Akira Danno Lima       -------           *
+ *                                                            * 
+ *************************************************************/
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Startup and Shutdown modes in Oracle
+
+
+Startup Modes :
+	-Startup nomount
+	-Startup mount
+	-Open 
+	-Startup restrict
+	-Startup force
+	-Startup suspend
+
+
+
+Shutdown modes in oracle:
+	-Shutdown /shut/shutdown normal 
+	-Shutdown Transnational
+	-Shutdown immediate 
+	-Shutdown abort 
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**********************************************************************************************************
+*                                               REFERENCIAS                                               *
+*                                                                                                         *
+*https://www.youtube.com/watch?v=QHYuuXPdQNM									                          *
+*https://www.ktexperts.com/startup-and-shutdown-modes-in-oracle/										  *
+**********************************************************************************************************/
