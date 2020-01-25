@@ -1,0 +1,143 @@
+ /*************************************************************
+ * FILE NAME:  principal-oracle2.0                            *
+ *                                                            *
+ * PURPOSE: concepts about database oracle                    *
+ *                                                            *
+ *                                                            *
+ * Date        Author                       Release           *
+ * 25-01-20    Pedro Akira Danno Lima       -------           *
+ *                                                            * 
+ *************************************************************/
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Startup and Shutdown modes in Oracle
+
+
+Startup Modes :
+	-Startup nomount
+	-Startup mount
+	-Open 
+	-Startup restrict
+	-Startup force
+	-Startup suspend
+
+
+
+Shutdown modes in oracle:
+	-Shutdown /shut/shutdown normal 
+	-Shutdown Transnational
+	-Shutdown immediate 
+	-Shutdown abort 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Startup Modes :
+
+NOMOUNT
+
+Este estágio inicializa a instância sem montar o banco de dados. Isso significa que todas as estruturas de memória e os processos de segundo plano estão posicionados, mas ainda sem ter um banco de dados associado a essa instância. É através deste estágio que é possível criar um banco de dados Oracle. Portanto, uma instância só deverá ser iniciada no estágio NOMOUNT durante a criação do banco de dados ou na recriação de arquivos de controle (control files). Em resumo, a inicialização de uma instância Oracle inclui as seguintes tarefas:
+
+Leitura do arquivo de inicialização SPFILE_SID.ora ou SPFILE.ora ou init.ora, exatamente nesta ordem porque, por padrão, à partir do Oracle 9i, primeiro ele tenta abrir o spfile_sid.ora, se o arquivo não for encontrado ele tentará abrir o spfile.ora, se o mesmo não for encontrado ele tentará ler o arquivo init.ora. Se o Oracle não encontrar nenhum arquivo de inicialização ou se o DBA não fornecer um valor explícito para PFILE, a inicialização falhará. A especificação do parâmetro PFILE com STARTUP sobrepõe o comportamento default.
+Alocação da SGA.
+Inicialização dos processos de segundo plano.
+Abertura do arquivo de alerta (ALERT_SID.ora) e dos arquivos de rastreamento.
+Observe que nem os arquivos de controle nem os arquivos de dados e redo log on-line estão abertos neste estágio.
+
+
+
+
+
+
+
+
+
+
+MOUNT
+  
+Após a instância já ter sido inicializada pelo estágio anterior, então é realizada a leitura do arquivo de controle de modo a "associar" o banco de dados à instância já inicializada anteriormente. A opção "startup mount" é muito útil em situações onde é necessário executar algumas operações específicas de manutenção como renomeação de arquivos de dados, ativação e desativação de opções de arquivamento de redo log (ARCHIVELOG) e operações de recuperação do banco de dados. É importante salientar que se a instância já estiver inicializada "startup nomount", mas o banco não estiver montado, então será necessário utilizar o comando "alter database mount". Resumindo, montar o banco de dados inclui as tarefas a seguir:
+
+Associação do banco de dados a uma instância iniciada anteriormente.
+Localização e abertura dos arquivos de controle (control files) especificados no arquivo de inicialização.
+Leitura dos arquivos de controle para obtenção dos nomes e status dos arquivos de dados (data files) e arquivos de redo log on-line (log files).
+É importante salientar que neste estágio não é verificada a existência dos arquivos de dados e arquivos de redo log on-line, mas se os arquivos de controle não forem localizados conforme a localização especificada no parâmetro CONTROL_FILES no arquivo de inicialização, então um erro será retornado, o banco de dados não será montado e a instância permanecerá no estado NOMOUNT. Se o DBA utilizar a opção "startup mount" para inicializar o Oracle e quiser abrir o banco de dados, então será necessário utilizar o comando "alter database open".
+
+
+
+
+
+
+
+OPEN 
+
+Neste terceiro e último estágio, o banco de dados é disponibilizado para acesso dos usuários. A operação normal de um banco de dados significa que uma instância é iniciada e o banco de dados é montado e aberto. Portanto, qualquer usuário válido pode conectar ao banco de dados e executar operações comuns de acesso a dados. Durante esse estágio final, o servidor Oracle verifica se é possível abrir todos os arquivos de dados e arquivos de redo log on-line, além de verificar a consistência do banco de dados onde neste caso, o processo de segundo plano SMON (System Monitor) iniciará a recuperação da instância se necessário. Resumindo, a abertura do banco de dados inclui as seguintes tarefas:
+
+Abertura dos arquivos de dados (data files).
+Abertura dos arquivos de redo log on-line (log files).
+Chama o processo SMON se necessário para a recuperação da instância em caso de uma falha de instância ocorrida enquanto o banco de dados estava aberto e em operação anteriormente.
+É importante salientar que, se algum arquivo de dados ou arquivo de redo log on-line não estiver presente, então o banco de dados não abrirá, permanecendo no estado MOUNT e o servidor Oracle retornará um erro.
+
+Ativação (startup)
+
+SQL> startup
+Instância ORACLE iniciada. 
+Total  System Global Area  188743680 bytes
+
+Fixed  Size                  1286460 bytes
+Variable  Size              88084164 bytes
+Database  Buffers           96468992 bytes
+Redo Buffers                2904064 bytes
+Banco de dados montado.
+Banco de dados aberto.
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************************
+*                                              		 REFERENCIAS                                         				    *
+*                                                                                                                           *
+*https://www.youtube.com/watch?v=QHYuuXPdQNM									                                            *
+*https://www.ktexperts.com/startup-and-shutdown-modes-in-oracle/										                    *
+*https://www.oracle.com/technetwork/pt/articles/database-performance/estagios-inicializacao-oracle-2300597-ptb.html         *
+****************************************************************************************************************************/

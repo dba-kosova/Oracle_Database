@@ -50,6 +50,17 @@ Shutdown modes in oracle:
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Instancia Oracle Database 
+
+
+Uma instância Oracle consiste na estrutura de memória SGA (System Global Area) e nos processos de segundo plano como SMON, PMON, DBWn, LGWR, CKPT, entre outros usados para gerenciar o banco dados. 
+A instância só pode abrir e usar um banco de dados por vez. 
+Em resumo, um servidor Oracle consiste em uma instância Oracle (estruturas de memória e processos) e um banco de dados Oracle (arquivos físicos).
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -87,9 +98,14 @@ Shutdown modes in oracle:
 
 
 
-/**********************************************************************************************************
-*                                               REFERENCIAS                                               *
-*                                                                                                         *
-*https://www.youtube.com/watch?v=QHYuuXPdQNM									                          *
-*https://www.ktexperts.com/startup-and-shutdown-modes-in-oracle/										  *
-**********************************************************************************************************/
+
+
+
+
+/****************************************************************************************************************************
+*                                              		 REFERENCIAS                                         				    *
+*                                                                                                                           *
+*https://www.youtube.com/watch?v=QHYuuXPdQNM									                                            *
+*https://www.ktexperts.com/startup-and-shutdown-modes-in-oracle/										                    *
+*https://www.oracle.com/technetwork/pt/articles/database-performance/estagios-inicializacao-oracle-2300597-ptb.html         *
+****************************************************************************************************************************/
