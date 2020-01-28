@@ -80,6 +80,9 @@ Leitura dos arquivos de controle para obtenção dos nomes e status dos arquivos
 
 
 
+
+
+
 OPEN 
 
 Neste terceiro e último estágio, o banco de dados é disponibilizado para acesso dos usuários. A operação normal de um banco de dados significa que uma instância é iniciada e o banco de dados é montado e aberto. Portanto, qualquer usuário válido pode conectar ao banco de dados e executar operações comuns de acesso a dados. Durante esse estágio final, o servidor Oracle verifica se é possível abrir todos os arquivos de dados e arquivos de redo log on-line, além de verificar a consistência do banco de dados onde neste caso, o processo de segundo plano SMON (System Monitor) iniciará a recuperação da instância se necessário. Resumindo, a abertura do banco de dados inclui as seguintes tarefas:
@@ -104,6 +107,31 @@ Banco de dados aberto.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+Desativação (shutdown)
+
+SQL> shutdown
+Banco de dados fechado.
+Banco de dados desmontado.
+Instância ORACLE desativada.
+
+
+
+
+Eduardo Legatti é Analista de Sistemas e Administrador de banco de dados. É pós graduado em Gerência da Tecnologia da Informação, possui as certificações OCA 9i - OCP 9i/10g/11g – OCE SQL Expert, e vem trabalhando como DBA Oracle desde a versão 8.0.5. Se interessa particularmente em planejar estratégias de backup/recovery, performance tuning e projetos de bancos de dados (modelagem física e lógica) atuando como consultor. Como Oracle ACE, ele tem o hábito de disseminar seu conhecimento através de artigos, grupos de discussão (Oracle OTN Forums) e dedica-se a compartilhar informações de forma a motivar novos DBAs.
+
+Este artigo foi revisto pela equipe de produtos Oracle e está em conformidade com as normas e práticas para o uso de produtos Oracle.
 
 
 
