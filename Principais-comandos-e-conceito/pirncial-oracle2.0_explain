@@ -56,7 +56,7 @@ Inicialização dos processos de segundo plano.
 Abertura do arquivo de alerta (ALERT_SID.ora) e dos arquivos de rastreamento.
 Observe que nem os arquivos de controle nem os arquivos de dados e redo log on-line estão abertos neste estágio.
 
-
+STARTUP NOMOUNT
 
 
 
@@ -75,7 +75,9 @@ Leitura dos arquivos de controle para obtenção dos nomes e status dos arquivos
 É importante salientar que neste estágio não é verificada a existência dos arquivos de dados e arquivos de redo log on-line, mas se os arquivos de controle não forem localizados conforme a localização especificada no parâmetro CONTROL_FILES no arquivo de inicialização, então um erro será retornado, o banco de dados não será montado e a instância permanecerá no estado NOMOUNT. Se o DBA utilizar a opção "startup mount" para inicializar o Oracle e quiser abrir o banco de dados, então será necessário utilizar o comando "alter database open".
 
 
-
+STARTUP MOUNT
+ou 
+ALTER DATABASE MOUNT; /*se o DB já estiver em modo NOMOUNT*/
 
 
 
@@ -105,7 +107,10 @@ Redo Buffers                2904064 bytes
 Banco de dados montado.
 Banco de dados aberto.
 
+ou 
 
+
+ALTER DATABASE OPEN; /*se o DB ja estiver montando*/
 
 
 
@@ -162,10 +167,125 @@ Este artigo foi revisto pela equipe de produtos Oracle e está em conformidade c
 
 
 
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+FILES- Physical Database Structures 
+
+-Datafiles (.dbf)
+-Redo log files
+-Control files
+
+
+
+
+
+Datafiles
+Datafiles are physical files of the operating system that store the data of all logical structures in the database. They must be explicitly created for each tablespace. Oracle assigns each datafile two associated file numbers, an absolute file number and a relative file number, that are used to uniquely identify it. These numbers are described in the following table:
+
+Oracle allows more datafiles in the database than the operating system defined limit. Oracle's DBWn processes can open all online datafiles. Oracle is capable of treating open file descriptors as a cache, automatically closing files when the number of open file descriptors reaches the operating system-defined limit. This can have a negative performance impact. When possible, adjust the operating system limit on open file descriptors so that it is larger than the number of online datafiles in the database.
+
+
+
+Store Datafiles Separate from Redo Log Files
+Datafiles should not be stored on the same disk drive that stores the database's redo log files. If the datafiles and redo log files are stored on the same disk drive and that disk drive fails, the files cannot be used in your database recovery procedures.
+
+If you multiplex your redo log files, then the likelihood of losing all of your redo log files is low, so you can store datafiles on the same drive as some redo log files.
+
+
+
+If you add new datafiles to a tablespace and do not fully specify the filenames, Oracle creates the datafiles in the default database directory or the current directory, depending upon your operating system. Oracle recommends you always specify a fully qualified name for a datafile. Unless you want to reuse existing files, make sure the new filenames do not conflict with other files. Old files that have been previously dropped will be overwritten.
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Redo Log /Online Redo Log files /Redo Thread /redo records /multiplexed redo log
+
+
+
+
+What Is the Redo Log?
+The most crucial structure for recovery operations is the redo log, which consists of two or more preallocated files that store all changes made to the database as they occur. Every instance of an Oracle Database has an associated redo log to protect the database in case of an instance failure.
+
+Redo Threads
+When speaking in the context of multiple database instances, the redo log for each database instance is also referred to as a redo thread. In typical configurations, only one database instance accesses an Oracle Database, so only one thread is present. In an Oracle Real Application Clusters environment, however, two or more instances concurrently access a single database and each instance has its own thread of redo. A separate redo thread for each instance avoids contention for a single set of redo log files, thereby eliminating a potential performance bottleneck.
+
+This chapter describes how to configure and manage the redo log on a standard single-instance Oracle Database. The thread number can be assumed to be 1 in all discussions and examples of statements. For information about redo log groups in an Oracle Real Application Clusters environment, please refer to Oracle Real Application Clusters Administration and Deployment Guide.
+
+Redo Log Contents
+Redo log files are filled with redo records. A redo record, also called a redo entry, is made up of a group of change vectors, each of which is a description of a change made to a single block in the database. For example, if you change a salary value in an employee table, you generate a redo record containing change vectors that describe changes to the data segment block for the table, the undo segment data block, and the transaction table of the undo segments.
+
+Redo entries record data that you can use to reconstruct all changes made to the database, including the undo segments. Therefore, the redo log also protects rollback data. When you recover the database using redo data, the database reads the change vectors in the redo records and applies the changes to the relevant blocks.
+
+Redo records are buffered in a circular fashion in the redo log buffer of the SGA (see "How Oracle Database Writes to the Redo Log") and are written to one of the redo log files by the Log Writer (LGWR) database background process. Whenever a transaction is committed, LGWR writes the transaction redo records from the redo log buffer of the SGA to a redo log file, and assigns a system change number (SCN) to identify the redo records for each committed transaction. Only when all redo records associated with a given transaction are safely on disk in the online logs is the user process notified that the transaction has been committed.
+
+Redo records can also be written to a redo log file before the corresponding transaction is committed. If the redo log buffer fills, or another transaction commits, LGWR flushes all of the redo log entries in the redo log buffer to a redo log file, even though some redo records may not be committed. If necessary, the database can roll back these changes.
+
+How Oracle Database Writes to the Redo Log
+The redo log of a database consists of two or more redo log files. The database requires a minimum of two files to guarantee that one is always available for writing while the other is being archived (if the database is in ARCHIVELOG mode). See "Managing Archived Redo Logs" for more information.
+
+LGWR writes to redo log files in a circular fashion. When the current redo log file fills, LGWR begins writing to the next available redo log file. When the last available redo log file is filled, LGWR returns to the first redo log file and writes to it, starting the cycle again. Figure 10-1 illustrates the circular writing of the redo log file. The numbers next to each line indicate the sequence in which LGWR writes to each redo log file.
+
+Filled redo log files are available to LGWR for reuse depending on whether archiving is enabled.
+
+If archiving is disabled (the database is in NOARCHIVELOG mode), a filled redo log file is available after the changes recorded in it have been written to the datafiles.
+
+If archiving is enabled (the database is in ARCHIVELOG mode), a filled redo log file is available to LGWR after the changes recorded in it have been written to the datafiles and the file has been archived.
+
+Figure 10-1 Reuse of Redo Log Files by LGWR
+
+Description of Figure 10-1 follows
+Description of "Figure 10-1 Reuse of Redo Log Files by LGWR"
+
+Active (Current) and Inactive Redo Log Files
+Oracle Database uses only one redo log files at a time to store redo records written from the redo log buffer. The redo log file that LGWR is actively writing to is called the current redo log file.
+
+Redo log files that are required for instance recovery are called active redo log files. Redo log files that are no longer required for instance recovery are called inactive redo log files.
+
+If you have enabled archiving (the database is in ARCHIVELOG mode), then the database cannot reuse or overwrite an active online log file until one of the archiver background processes (ARCn) has archived its contents. If archiving is disabled (the database is in NOARCHIVELOG mode), then when the last redo log file is full, LGWR continues by overwriting the first available active file.
+
+Log Switches and Log Sequence Numbers
+A log switch is the point at which the database stops writing to one redo log file and begins writing to another. Normally, a log switch occurs when the current redo log file is completely filled and writing must continue to the next redo log file. However, you can configure log switches to occur at regular intervals, regardless of whether the current redo log file is completely filled. You can also force log switches manually.
+
+Oracle Database assigns each redo log file a new log sequence number every time a log switch occurs and LGWR begins writing to it. When the database archives redo log files, the archived log retains its log sequence number. A redo log file that is cycled back for use is given the next available log sequence number.
+
+Each online or archived redo log file is uniquely identified by its log sequence number. During crash, instance, or media recovery, the database properly applies redo log files in ascending order by using the log sequence number of the necessary archived and redo log files.
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /****************************************************************************************************************************
 *                                              		 REFERENCIAS                                         				    *
 *                                                                                                                           *
 *https://www.youtube.com/watch?v=QHYuuXPdQNM									                                            *
 *https://www.ktexperts.com/startup-and-shutdown-modes-in-oracle/										                    *
 *https://www.oracle.com/technetwork/pt/articles/database-performance/estagios-inicializacao-oracle-2300597-ptb.html         *
+*https://docs.oracle.com/cd/B10501_01/server.920/a96521/dfiles.htm 															*
 ****************************************************************************************************************************/

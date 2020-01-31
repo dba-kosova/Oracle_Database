@@ -408,7 +408,10 @@ SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS3';
 SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'USERS';
 
 
-SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = '
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = ''
+
+
+SELECT FILE_NAME FROM DBA_DATA_FILES;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1974,7 +1977,22 @@ LOAD BALANCING ALGORITMO - ORACLE RAC
 
 swingbeach
 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+SELECT FILE_NAME FROM DBA_DATA_FILES;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
 
 

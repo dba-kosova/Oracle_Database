@@ -15,6 +15,11 @@ SELECT instance_Name FROM V$INSTANCE;
 
 
 
+/*nome instancia e status=open|mount|nomount...*/
+SELECT INSTANCE_NAME,STATUS FROM V$INSTANCE;
+
+
+
 /*informacoes sobre instancias*/ 
 SELECT * FROM V$INSTANCE;
 
