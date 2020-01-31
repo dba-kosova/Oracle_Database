@@ -73,7 +73,7 @@ Em resumo, um servidor Oracle consiste em uma instância Oracle (estruturas de m
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Oracle Database characteristics
+Oracle Database Characteristics
 
 
 1. 	performance 								1. performace 
@@ -121,7 +121,7 @@ ARCHIVELOG
 Redo Log /Online Redo Log files /Redo Thread /redo records /multiplexed redo log
 
 
-
+*A estrutura mais crucial para operações de recuperação/recovery é o redo log
 
 
 
