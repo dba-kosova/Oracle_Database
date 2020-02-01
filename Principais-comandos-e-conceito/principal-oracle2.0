@@ -124,6 +124,16 @@ Redo Log /Online Redo Log files /Redo Thread /redo records /multiplexed redo log
 *A estrutura mais crucial para operações de recuperação/recovery é o redo log
 
 
+-LGWR writes to redo log files in a circular fashion.
+
+
+-If archiving is disabled (the database is in NOARCHIVELOG mode), a filled redo log file is available after the changes recorded in it have been written to the datafiles.
+-If archiving is enabled (the database is in ARCHIVELOG mode), a filled redo log file is available to LGWR after the changes recorded in it have been written to the datafiles and the file has been archived.
+
+
+-Redo log file that LGWR is actively writing to is called the current redo log file.
+-Redo log files that are required for instance recovery are called active redo log files. Redo log files that are no longer required for instance recovery are called inactive redo log files.
+
 
 
 
@@ -179,6 +189,9 @@ FILES- Physical Database Structures
 -LOG
 
 -Tempfiles are a special kind of datafile
+
+
+-Trace File
 
 
 
