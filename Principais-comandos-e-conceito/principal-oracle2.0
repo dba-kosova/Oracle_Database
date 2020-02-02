@@ -132,7 +132,8 @@ Redo Log /Online Redo Log files /Redo Thread /redo records /multiplexed redo log
 
 
 -Redo log file that LGWR is actively writing to is called the current redo log file.
--Redo log files that are required for instance recovery are called active redo log files. Redo log files that are no longer required for instance recovery are called inactive redo log files.
+-Redo log files that are required for instance recovery are called active redo log files. 
+-Redo log files that are no longer required for instance recovery are called inactive redo log files.
 
 
 
@@ -192,7 +193,10 @@ FILES- Physical Database Structures
 
 
 -Trace File
-
+-Alert Log
+ 
+-PFILE
+-SPFILE 
 
 
 
