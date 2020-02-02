@@ -131,15 +131,76 @@ Redo Log /Online Redo Log files /Redo Thread /redo records /multiplexed redo log
 -If archiving is enabled (the database is in ARCHIVELOG mode), a filled redo log file is available to LGWR after the changes recorded in it have been written to the datafiles and the file has been archived.
 
 
--Redo log file that LGWR is actively writing to is called the current redo log file.
+-Redo log file that LGWR(LoG WRiter) is actively writing to is called the current redo log file.
 -Redo log files that are required for instance recovery are called active redo log files. 
 -Redo log files that are no longer required for instance recovery are called inactive redo log files.
+
+
+Redo Log Buffer
+
+Group, Members
+
+Redo Switch 
+
 
 
 
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SCN- System Change Number
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Oracle Back Ground Processes
+
+-CKPT
+-DBWR
+-LGWR
+-ARCH
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 
 
@@ -276,4 +337,5 @@ Oracle Grid- Architecture
 *https://docs.oracle.com/cd/B19306_01/server.102/b14231/onlineredo.htm                                                      *
 *https://www.youtube.com/watch?v=-oPdDx9JYp4																				*	
 *https://www.youtube.com/watch?v=X2qSi69KZr8																				*
+*https://docs.oracle.com/cd/E17276_01/html/programmer_reference/transapp_checkpoint.html									*
 ****************************************************************************************************************************/
