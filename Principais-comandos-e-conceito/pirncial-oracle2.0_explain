@@ -207,6 +207,17 @@ If you add new datafiles to a tablespace and do not fully specify the filenames,
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Redo Log /Online Redo Log files /Redo Thread /redo records /multiplexed redo log
 
@@ -259,6 +270,13 @@ A log switch is the point at which the database stops writing to one redo log fi
 Oracle Database assigns each redo log file a new log sequence number every time a log switch occurs and LGWR begins writing to it. When the database archives redo log files, the archived log retains its log sequence number. A redo log file that is cycled back for use is given the next available log sequence number.
 
 Each online or archived redo log file is uniquely identified by its log sequence number. During crash, instance, or media recovery, the database properly applies redo log files in ascending order by using the log sequence number of the necessary archived and redo log files.
+
+
+
+
+
+Redo Log
+
 
 
 
