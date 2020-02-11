@@ -2069,23 +2069,154 @@ COMMIT;
 
 
 
+
+SELECT TABLE_NAME
+FROM ALL_TABLES 
+WHERE TABLESPACE_NAME = 'SYSAUX' 
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+CREATE GLOBAL TEMPORARY TABLE  TALUNO
+(
+  NOME VARCHAR(30)
+);
+
+
+
+
+
+
+declare
+
+i integer := 1;
+
+BEGIN 
+
+       FOR x IN 1 .. 10 LOOP
+          INSERT INTO TALUNO (NOME)
+          VALUES ('Pedro Akira Danno Lima');
+
+    END LOOP;
+END;
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- create demo table
+
+create  table Employee
+(
+       ID VARCHAR(3000),
+       First_Name VARCHAR(3000)
+ );
+
+select * from Employee;
+
+
+
+
+BEGIN
+      FOR v_LoopCounter IN 1..5 LOOP
+          INSERT INTO Employee (ID,First_Name)
+          VALUES (v_LoopCounter,'pedro');
+      END LOOP;
+END;
+
+
+
+
+drop table Employee
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+FOR LOOP
+
+
+create tablespace TBS2
+datafile '+DATA'
+size 500m
+extent management local
+uniform size 128k
+segment space management auto;
+
+
+SELECT TABLE_NAME
+FROM ALL_TABLES;
+
+
+
+create table Employee(
+       ID                 VARCHAR2(4 BYTE)         NOT NULL primary key,
+       First_Name         VARCHAR2(10 BYTE),
+       Last_Name          VARCHAR2(10 BYTE),
+       Start_Date         DATE,
+       End_Date           DATE,
+       Salary             Number(8,2),
+       City               VARCHAR2(10 BYTE),
+      Description        VARCHAR2(15 BYTE)
+   )
+TABLESPACE TBS2;
+
+COMMIT;
+
+select * from Employee;
+
+
+
+BEGIN
+       FOR v_LoopCounter IN 1..50000 LOOP
+           INSERT INTO employee (id)
+           VALUES (v_LoopCounter);
+       END LOOP;
+END;
+/
+SAVEPOINT test;
+
+    
+select * from employee;
+
+
+ROLLBACK TO SAVEPOINT test;
+
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS2';
+
+
+drop table Employee;
+
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
+create table t 
+( 
+      x int, 
+      y char(50) 
+);
+TABLESPACE TBS2;
 
 
+    begin
+        for i in 1 .. 100000
+         loop
+            insert into t values ( i, 'x' );
+        end loop;
+        commit;
+    end;
+    /
 
 
+drop table t ;
 
 
-
-
-
-
-
-
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

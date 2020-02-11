@@ -474,11 +474,28 @@ fixedsize
 
 
 
+Enable/Disable Temporary Undo
+
+-- Session level
+ALTER SESSION SET TEMP_UNDO_ENABLED = TRUE;
+ALTER SESSION SET TEMP_UNDO_ENABLED = FALSE;
+
+-- System level
+CONN sys@pdb1 AS SYSDBA
+
+ALTER SYSTEM SET TEMP_UNDO_ENABLED = TRUE;
+ALTER SYSTEM SET TEMP_UNDO_ENABLED = FALSE;
+
+
+
+
+
 refs: https://www.youtube.com/watch?v=0WvsKOeMCnM
 	  https://www.youtube.com/watch?v=JC5Rgw6vJRg
 	  https://www.youtube.com/watch?v=0WvsKOeMCnM
 	  https://techgoeasy.com/what-is-undo-and-redo-in-oracle-database/
 	  https://www.oracle.com/technetwork/pt/articles/database-performance/shared-undo-local-undo-3403151-ptb.html
+	  https://oracle-base.com/articles/12c/temporary-undo-12cr1
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 

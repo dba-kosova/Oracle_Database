@@ -230,21 +230,29 @@ Undo records are used to:
 
 *Actions of transations before commit. old value in DML changes
 
+-UNDO TEMPORARY, 12c
+
+
+
 
 
 
 
 Manager UNDO
     verificar autoextend na UNDO:
-    COL file_name FORMAT A45
-    COL autoextensible FORMAT A5 
-	select file_name, autoextensible from dba_data_files where tablespace_name='UNDOTBS1';
-	
+    	COL file_name FORMAT A45
+    	COL autoextensible FORMAT A5 
+		select file_name, autoextensible from dba_data_files where tablespace_name='UNDOTBS1';
+
     SHOW PARAMETER UNDO_
-    undo_retention
+    	undo_retention
 
     UNDO MANAGEMENT AUTOMATIC
-    undo_management                      string      AUTO
+    	undo_management                      string      AUTO
+
+    Enable/Disable Temporary Undo #parametro de inicializacao 
+    	ALTER SESSION SET TEMP_UNDO_ENABLED = TRUE;
+    	ALTER SESSION SET TEMP_UNDO_ENABLED = FALSE;
 
 
 
