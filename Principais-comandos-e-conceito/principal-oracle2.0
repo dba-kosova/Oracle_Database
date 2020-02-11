@@ -234,6 +234,17 @@ Undo records are used to:
 
 
 
+Manager UNDO
+    verificar autoextend na UNDO:
+    COL file_name FORMAT A45
+    COL autoextensible FORMAT A5 
+	select file_name, autoextensible from dba_data_files where tablespace_name='UNDOTBS1';
+	
+    SHOW PARAMETER UNDO_
+    undo_retention
+
+    UNDO MANAGEMENT AUTOMATIC
+    undo_management                      string      AUTO
 
 
 

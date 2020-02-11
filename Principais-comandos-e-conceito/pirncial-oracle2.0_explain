@@ -454,6 +454,26 @@ Os dados Undo são tão importantes quanto os dados Redo e ambos se complementam
 
 
 
+transação ativa, nao deu commit ou rollback
+visao consistente, 
+segmentos de undo 
+
+
+VER SE ESTA AUTOEXTEND UNDO
+select file_name, autoextensible from dba_data_files where tablespace_name='UNDOTBS1'
+
+
+
+v$undostat
+
+undo retetion
+show pamater 
+configurada de duas formas 
+autoextent - pode prescer dinamicamente, de acordo com usa utilização
+fixedsize 
+
+
+
 refs: https://www.youtube.com/watch?v=0WvsKOeMCnM
 	  https://www.youtube.com/watch?v=JC5Rgw6vJRg
 	  https://www.youtube.com/watch?v=0WvsKOeMCnM
@@ -462,6 +482,23 @@ refs: https://www.youtube.com/watch?v=0WvsKOeMCnM
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+parameter 
+
+show pamaters 
+estao nos arquivos spfile,pfile
+
+
+
+refs:https://www.youtube.com/watch?v=xv7Ptfsj_ak 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
