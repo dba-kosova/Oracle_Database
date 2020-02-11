@@ -279,6 +279,18 @@ Each online or archived redo log file is uniquely identified by its log sequence
 
 
 Redo Log
+Before writing the changes to the tables  in the datafile,Oracle first write the redo buffer to the redo logs file .
+
+
+How Redo Logs Work
+The Oracle server sequentially records all changes made to the database in the redo log buffer. The redo entries are written from the redo log buffer to one of the online redo log groups called the current online redo log group by the LGWR process. LGWR writes under
+the following situations:
+• When a transaction commits
+• When the redo log buffer becomes one-third full
+• When there is more than a megabyte of changed records in the redo log buffer
+• Before the DBWn writes modified blocks in the database buffer cache to the data files
+Redo logs are used in a cyclic fashion. Each redo log file group is identified by a log sequence number that is overwritten each time the log is reused. LGWR writes to the online redo log files sequentially. When the current online redo log group is filled, LGWR begins writing to the next group. This is called a log switch.When the last available online redo log file is filled, LGWR returns to the first online redo
+log group and starts writing again.
 
 
 
@@ -418,11 +430,35 @@ ends with
 
 
 
+SELECT  TABLESPACE_NAME FROM DBA_TABLESPACES;
+
+
+SELECT  TABLESPACE_NAME
+		FROM DBA_TABLESPACES
+		WHERE TABLESPACE_NAME = 'UNDOTBS1';
+
+
+
+SELECT TABLE_NAME
+FROM ALL_TABLES 
+WHERE TABLESPACE_NAME = 'UNDOTBS1';
+
+SELECT TABLE_NAME
+FROM ALL_TABLES 
+WHERE TABLESPACE_NAME = 'SYSAUX';
+
+
+
+Os dados Undo são tão importantes quanto os dados Redo e ambos se complementam. 
+
+
 
 
 refs: https://www.youtube.com/watch?v=0WvsKOeMCnM
 	  https://www.youtube.com/watch?v=JC5Rgw6vJRg
 	  https://www.youtube.com/watch?v=0WvsKOeMCnM
+	  https://techgoeasy.com/what-is-undo-and-redo-in-oracle-database/
+	  https://www.oracle.com/technetwork/pt/articles/database-performance/shared-undo-local-undo-3403151-ptb.html
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 

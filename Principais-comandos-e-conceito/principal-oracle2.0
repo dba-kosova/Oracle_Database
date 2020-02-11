@@ -221,6 +221,17 @@ UNDO tablespace/ UNDO file / UNDO tables
 
 Every Oracle Database must have a method of maintaining information that is used to roll back, or undo, changes to the database. Such information consists of records of the actions of transactions, primarily before they are committed. These records are collectively referred to as undo.
 
+Undo records are used to:
+	Roll back transactions when a ROLLBACK statement is issued
+	Recover the database
+	Provide read consistency
+	Analyze data as of an earlier point in time by using Oracle Flashback Query
+	Recover from logical corruptions using Oracle Flashback features
+
+*Actions of transations before commit. old value in DML changes
+
+
+
 
 
 
@@ -231,6 +242,7 @@ Every Oracle Database must have a method of maintaining information that is used
 
 
 refs: https://docs.oracle.com/cd/B19306_01/server.102/b14231/undo.htm
+	  https://www.youtube.com/watch?v=Gr1XVKYotkw
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 

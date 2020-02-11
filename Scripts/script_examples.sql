@@ -1977,6 +1977,9 @@ SELECT FILE_NAME FROM DBA_DATA_FILES;
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+
 CREATE TABLE TALUNO
 (
   NOME VARCHAR(30)
@@ -2026,6 +2029,66 @@ COMMIT;
 
 
 
+
+CREATE GLOBAL TEMPORARY TABLE  TALUNO
+(
+  NOME VARCHAR(30)
+);
+
+
+
+
+
+
+INSERT INTO TALUNO (NOME)
+VALUES ('Pedro Akira Danno Lima');
+COMMIT;
+
+INSERT INTO TALUNO (NOME)
+VALUES ('Saty');
+COMMIT;
+
+UPDATE TALUNO
+SET NOME = 'Ivete'
+WHERE NOME = 'Pedro Akira Danno Lima';
+
+SELECT * FROM TALUNO;
+
+DELETE FROM TALUNO WHERE NOME = 'Ivete';
+
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS2';
+
+
+SELECT * FROM V$LOG;
+
+
+DROP TABLE TALUNO;
+COMMIT;
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**********************************************************************************************************
 *                                               REFERENCIAS                                               *
 *                                                                                                         *
@@ -2049,6 +2112,7 @@ COMMIT;
 *https://www.youtube.com/watch?v=pHjvR_4gSwo                                                              *
 *http://www.rauldba.com.br/expimp/                                                                        *
 *https://dba.stackexchange.com/questions/54149/how-to-make-sqlplus-output-appear-in-one-line              *
+*https://stackoverflow.com/questions/16632243/use-of-rollback-command-in-oracle                           *
 ***********************************************************************************************************/
 
 
