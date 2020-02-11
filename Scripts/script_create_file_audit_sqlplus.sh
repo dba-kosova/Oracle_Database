@@ -10,6 +10,7 @@
 
 #name file: script_create_file_audit_sqlplus.sh
 #permition: chmod +x script_create_file_audit_sqlplus.sh
+#execute:   ./script_create_file_audit_sqlplus.sh
 #commands sqlplus: spool /home/oracle/auditsqlplus/01-17-20_sqlplus.sql 
 #commands sqlplus: spool /home/oracle/auditsqlplus/01-17-20_sqlplus.sql append 		to rerecord
 #commands sqlplus: SPOOL OFF     	to off spool

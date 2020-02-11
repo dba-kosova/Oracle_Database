@@ -132,6 +132,9 @@ Banco de dados desmontado.
 Instância ORACLE desativada.
 
 
+shutdown normal
+
+shutdown immediate
 
 
 Eduardo Legatti é Analista de Sistemas e Administrador de banco de dados. É pós graduado em Gerência da Tecnologia da Informação, possui as certificações OCA 9i - OCP 9i/10g/11g – OCE SQL Expert, e vem trabalhando como DBA Oracle desde a versão 8.0.5. Se interessa particularmente em planejar estratégias de backup/recovery, performance tuning e projetos de bancos de dados (modelagem física e lógica) atuando como consultor. Como Oracle ACE, ele tem o hábito de disseminar seu conhecimento através de artigos, grupos de discussão (Oracle OTN Forums) e dedica-se a compartilhar informações de forma a motivar novos DBAs.
@@ -288,6 +291,139 @@ Redo Log
 
 
 
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+UNDO 
+
+Oracle Database creates and manages information thar is used to roll back, or undo,
+changes to the database. Such information consists of records of the actions of transations, primarilly before 
+they are committed. These records are collectively referred to as undo.
+
+UNDO records are used to:
+	roll back transactions when a ROLLBACK statement is issued
+	recovery database
+	provide read consistency
+	Recover from logical corruptions using oracle fashback features 
+
+
+
+
+
+-undo fixed or auto extended 
+	parameter undo guarantee - not rewrite,overwrite
+
+
+-Undo retention Period 
+
+-current undo retention period 
+
+
+show parameter UNDO_RETENTION
+
+
+ALTER SYSTEM SET UNDO_RETENTION=1800 SCOPE=BOTH;
+
+
+
+
+
+undo tablespace 
+	is totally different in terms of usage and 
+	structure when compared to redo log files 
+
+
+
+
+database checkpoints 
+	are nothing to do with 
+	comminting transactions 	
+
+
+undo tablespace 
+	used for:
+		read consistency 
+		transaction rollback 
+		at process level (pmon)
+		flashback query
+		flashback transaction query 
+		flashback transaction 
+		flashback table 
+
+
+OBJECTIVES
+	REDUCE ORA-01555 ERROS
+	ALLOW FOR FLASHBACK IF NECESSARY
+
+
+DECISONS 
+	SIZE
+	UNDO_RETENTION PARAMETER VALUE
+	RETENTION [NO]GUARANTEEE
+
+TOOLS
+	V$UNDOSTAT		
+	
+
+
+ONLINE REDO LOG FILES 
+MANDATORY FOR
+	database integrity & good performace 
+	instance recovery (smon)
+
+
+each online redo log file is an
+	online redo log member of an
+	online redo log group
+
+
+minimum configuration 
+	2 groups each with 1 member
+
+suggested minimum configuration
+	3 groups each with 2 members (multiplexed)			
+
+
+
+ 
+v$logfile.group#
+v$log.group# 
+
+
+v$log
+v&logfile
+
+
+
+
+Transactions - commit 
+A transaction is a logical unit of work 
+that contains one or more sql statements 
+starts with
+	DML
+	DDL 
+
+ends with 
+	explicit commit 
+	implicit commit 
+	rollback
+	process failure
+
+
+
+
+
+
+
+
+
+
+refs: https://www.youtube.com/watch?v=0WvsKOeMCnM
+	  https://www.youtube.com/watch?v=JC5Rgw6vJRg
+	  https://www.youtube.com/watch?v=0WvsKOeMCnM
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
