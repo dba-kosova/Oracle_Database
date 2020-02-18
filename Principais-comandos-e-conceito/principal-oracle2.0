@@ -160,12 +160,79 @@ Multiplex Redo Log
 
 
 
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 SCN- System Change Number
 
+System Commit Number may be understood as Oracle’s representation of time. Oracle uses SCN for controlling consistency. for performing recovery and to order the change vectors in the redo.
+
+
+Every transaction has an SCN. 
+
+
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ORA_ROWSCN
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHEKPOINT/ CKPT procces
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Transaction
+
+“A transaction is a logical, atomic unit of work that contains one or more SQL statements. A transaction groups SQL statements so that they are either all committed, which means they are applied to the database, or all rolled back, which means they are undone from the database. Oracle Database assigns every transaction a unique identifier called a transaction ID”.
+
+
+In order for the transactions to be working correctly in any database, four ACID rules must be followed by the database. These are:
+Atomicity;
+Consistency;
+Isolation;
+Durability.
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -378,4 +445,5 @@ Oracle Grid- Architecture
 *https://www.youtube.com/watch?v=-oPdDx9JYp4																				*	
 *https://www.youtube.com/watch?v=X2qSi69KZr8																				*
 *https://docs.oracle.com/cd/E17276_01/html/programmer_reference/transapp_checkpoint.html									*
+*https://www.red-gate.com/simple-talk/sql/oracle/oracle-system-change-number-an-introduction/								*
 ****************************************************************************************************************************/

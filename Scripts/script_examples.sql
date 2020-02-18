@@ -2136,39 +2136,38 @@ drop table Employee
 FOR LOOP
 
 
-create tablespace TBS2
+create tablespace TBS4
 datafile '+DATA'
 size 500m
 extent management local
 uniform size 128k
 segment space management auto;
 
-
-SELECT TABLE_NAME
-FROM ALL_TABLES;
-
+SELECT TABLESPACE_NAME FROM DBA_TABLESPACES;
 
 
 create table Employee(
-       ID                 VARCHAR2(4 BYTE)         NOT NULL primary key,
-       First_Name         VARCHAR2(10 BYTE),
-       Last_Name          VARCHAR2(10 BYTE),
-       Start_Date         DATE,
-       End_Date           DATE,
-       Salary             Number(8,2),
-       City               VARCHAR2(10 BYTE),
-      Description        VARCHAR2(15 BYTE)
+       ID                 VARCHAR2(3000 BYTE)         NOT NULL primary key,
+       First_Name         VARCHAR2(100 BYTE),
+       Last_Name          VARCHAR2(100 BYTE),
+       City               VARCHAR2(100 BYTE),
+       Description        VARCHAR2(1500 BYTE)
    )
 TABLESPACE TBS2;
 
 COMMIT;
+
+
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLESPACE_NAME = 'TBS4';
+
+
 
 select * from Employee;
 
 
 
 BEGIN
-       FOR v_LoopCounter IN 1..50000 LOOP
+       FOR v_LoopCounter IN 1..50000000 LOOP
            INSERT INTO employee (id)
            VALUES (v_LoopCounter);
        END LOOP;
@@ -2177,10 +2176,14 @@ END;
 SAVEPOINT test;
 
     
-select * from employee;
+
+SELECT COUNT(*) FROM employee;
 
 
 ROLLBACK TO SAVEPOINT test;
+
+
+SELECT COUNT(*) FROM employee;
 
 
 
@@ -2192,32 +2195,22 @@ drop table Employee;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ADD DISK GROUP ASM
+
+root
+fdisk -l 
+fdisk /dev/sdi1
+  n
+  enter/enter/enter
+  w
+  
+oracleasm createdisk DATA_05 /dev/sdi1
 
 
 
-create table t 
-( 
-      x int, 
-      y char(50) 
-);
-TABLESPACE TBS2;
-
-
-    begin
-        for i in 1 .. 100000
-         loop
-            insert into t values ( i, 'x' );
-        end loop;
-        commit;
-    end;
-    /
-
-
-drop table t ;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 /**********************************************************************************************************
