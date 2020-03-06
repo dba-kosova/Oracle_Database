@@ -16,7 +16,7 @@
 
 
 
-
+https://srv-scan.localdomain:5500/em
 
 
 In Oracle VirtualBox, select srv1 VM, then click on "Settings" | "Storage" link | "SATA

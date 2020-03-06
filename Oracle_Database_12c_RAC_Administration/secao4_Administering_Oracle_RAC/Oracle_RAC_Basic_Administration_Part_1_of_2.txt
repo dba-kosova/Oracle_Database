@@ -35,7 +35,18 @@
 
 
 
-
+Switching between Automatic and Manual
+Management Policies
+• Oracle Clusterware controls database restarts in Oracle RAC
+environments via two management policies:
+ AUTOMATIC (default): the database is automatically restored to its
+previous running condition
+ MANUAL: the database is never automatically restarted
+• To change the current management policy:
+• To display current policy:
+srvctl modify database -db db_unique_name
+-policy [AUTOMATIC | MANUAL | NORESTART]
+srvctl config database -db db_unique_name –all
 
 
 
