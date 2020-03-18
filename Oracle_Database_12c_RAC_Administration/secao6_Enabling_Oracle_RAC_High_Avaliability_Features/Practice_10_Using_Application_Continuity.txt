@@ -1,0 +1,2 @@
+srvctl stop service -d rac -s acsrv
+srvctl remove service -d rac -s acsrv

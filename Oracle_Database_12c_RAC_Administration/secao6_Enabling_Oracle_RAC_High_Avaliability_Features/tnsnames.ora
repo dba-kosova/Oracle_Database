@@ -1,0 +1,87 @@
+SOESRV2=
+ (DESCRIPTION =
+  (ADDRESS_LIST =
+    (LOAD_BALANCE=ON)
+    (ADDRESS=(PROTOCOL=TCP)(HOST=192.168.56.81)(PORT=1521))
+    (ADDRESS=(PROTOCOL=TCP)(HOST=192.168.56.82)(PORT=1521))
+   )
+  (CONNECT_DATA=(SERVICE_NAME=rac.localdomain))
+ )
+
+
+lbsrv =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.56.91)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = lbsrv.localdomain)
+    )
+  )
+
+
+ctaf =
+ (DESCRIPTION =(FAILOVER=ON) (LOAD_BALANCE=ON)
+    	(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.56.81)(PORT=1521))
+    	(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.56.82)(PORT=1521))
+ 	(CONNECT_DATA =
+ 		(SERVICE_NAME = rac.localdomain)
+ 		(FAILOVER_MODE = (TYPE=select)
+ 				(METHOD= basic )
+ 				(RETRIES=10)
+ 				(DELAY=10)))
+  )
+
+
+staf=
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.56.91)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = staf.localdomain)
+    )
+  )
+
+
+
+prectaf1 =
+ (DESCRIPTION=
+   (ADDRESS=(PROTOCOL=tcp)(HOST=192.168.56.81)(PORT=1521))
+   (CONNECT_DATA=
+        (SERVICE_NAME=rac.localdomain)
+        (FAILOVER_MODE=
+               (BACKUP=prectaf2)
+               (TYPE=select)
+               (METHOD=preconnect)))
+  )
+
+prectaf2 =
+ (DESCRIPTION=
+   (ADDRESS=(PROTOCOL=tcp)(HOST=192.168.56.82)(PORT=1521))
+   (CONNECT_DATA=
+        (SERVICE_NAME=rac.localdomain)
+        (FAILOVER_MODE=
+               (BACKUP=prectaf1)
+               (TYPE=select)
+               (METHOD=preconnect)))
+  )
+
+
+
+
+pretaf =
+ (DESCRIPTION=(FAILOVER=ON)
+   (ADDRESS=(PROTOCOL=tcp)(HOST=192.168.56.81)(PORT=1521))
+   (CONNECT_DATA=
+        (SERVICE_NAME=pretaf.localdomain)
+        (FAILOVER_MODE=
+               (BACKUP=pretaf_preconnect)
+               (TYPE=select)
+               (METHOD=preconnect)))
+  )
+
+pretaf_preconnect =
+ (DESCRIPTION=(FAILOVER=ON)
+   (ADDRESS=(PROTOCOL=tcp)(HOST=192.168.56.82)(PORT=1521))
+   (CONNECT_DATA=
+        (SERVICE_NAME=pretaf_preconnect.localdomain))
+  )
