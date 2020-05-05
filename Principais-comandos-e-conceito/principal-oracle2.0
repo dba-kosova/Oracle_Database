@@ -375,6 +375,60 @@ FILES- Physical Database Structures
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Password file (orapwd utility) in Oracle
+
+Password file for an Oracle database is called a database password file, and the password file for Oracle ASM is called an Oracle ASM password file.
+
+location:
+comand:        $ cd $ORACLE_HOME/dbs
+location:      /u01/app/oracle/product/12.2.0/db_1/dbs
+file exemplo:  orapwAL1
+
+name file default: orapw<ORACLE_SID> 
+[SID] being the name of the instance
+
+
+parameter REMOTE_LOGIN_PASSWORDFILE:
+specifies if a password file is used to authenticate the Oracle DBA or not.
+values for REMOTE_LOGIN_PASSWORDFILE:
+-NONE 
+-EXCLUSIVE 
+-SHARED 
+
+
+
+ORAPWD
+*You can create a password file using orapwd utility. For some Operating systems, you can create this file as part of standard installation.
+
+*Users are added to the password file when they are granted the SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP privilege.
+
+*The Oracle orapwd utility assists the DBA while granting SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP privileges to other users. By default, SYS is the only user that has SYSDBA and SYSOPER privileges. Creating a password file, via orapwd, enables remote users to connect with administrative privileges.
+
+
+describe the orapwd command line arguments:
+-FILE - Name to assign to the password file. See your operating system documentation for name requirements. You must supply a complete path. If you supply only a file name, the file is written to the current directory
+-ENTRIES
+-FORCE
+-IGNORECASE
+-NOSYSDBA
+
+exemplo: $ orapwd file=password_file_name [password=the_password] [entries=n] [force=Y|N] [ignorecase=Y|N] [nosysdba=Y|N]
+exemplo: orapwd file=orapwTEST password=pedro123! entries=30 force=n 
+
+
+Viewing Password File Members
+V$PWFILE_USERS
+
+
+
+
+
+
+refs: http://satya-dba.blogspot.com/2009/11/password-file-in-oracle.html
+      https://ittutorial.org/oracle-password-file/
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 

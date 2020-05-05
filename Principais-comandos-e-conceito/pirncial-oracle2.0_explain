@@ -524,6 +524,221 @@ Every transaction has an SCN.
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Password file (orapwd utility) in Oracle
+
+
+If the DBA wants to start up an Oracle or ASM instance there must be a way for Oracle to authenticate the DBA. Obviously, DBA password cannot be stored in the database, because Oracle cannot access the database before the instance is started up. Therefore, the authentication of the DBA must happen outside of the database. There are two distinct mechanisms to authenticate the DBA:
+(i) Using the password file or
+(ii) Through the operating system (groups). Any OS user under dba group, can login as SYSDBA.
+
+
+Password file for an Oracle database is called a database password file, and the password file for Oracle ASM is called an Oracle ASM password file. 
+
+The default location for the password file is:
+$ORACLE_HOME/dbs/orapw$ORACLE_SID on Unix,
+%ORACLE_HOME%\database\PWD%ORACLE_SID%.ora on Windows.
+
+REMOTE_LOGIN_PASSWORDFILE
+The init parameter REMOTE_LOGIN_PASSWORDFILE specifies if a password file is used to authenticate the Oracle DBA or not. If it set either to SHARED or EXCLUSIVE, password file will be used.
+
+REMOTE_LOGIN_PASSWORDFILE is a static initialization parameter and therefore cannot be changed without bouncing the database.
+
+Following are the valid values for REMOTE_LOGIN_PASSWORDFILE:
+
+NONE - Oracle ignores the password file if it exists i.e. no privileged connections are allowed over non secure connections. If REMOTE_LOGIN_PASSWORDFILE is set to EXCLUSIVE or SHARED and the password file is missing, this is equivalent to setting REMOTE_LOGIN_PASSWORDFILE to NONE.
+
+EXCLUSIVE (default) - Password file is exclusively used by only one (instance of the) database. Any user can be added to the password file. Only an EXCLUSIVE file can be modified. EXCLUSIVE password file enables you to add, modify, and delete users. It also enables you to change the SYS password with the ALTER USER command.
+
+SHARED - The password file is shared among databases. A SHARED password file can be used by multiple databases running on the same server, or multiple instances of an Oracle Real Application Clusters (RAC) database. However, the only user that can be added/authenticated is SYS.
+
+A SHARED password file cannot be modified i.e. you cannot add users to a SHARED password file. Any attempt to do so or to change the password of SYS or other users with the SYSDBA or SYSOPER or SYSASM (this is from Oracle 11g), SYSKM, SYSDG and SYSBACKUP (these 3 are from Oracle 12c R1) privileges generates an error. All users needing SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG and SYSBACKUP system privileges must be added to the password file when REMOTE_LOGIN_PASSWORDFILE is set to EXCLUSIVE. After all users are added, you can change REMOTE_LOGIN_PASSWORDFILE to SHARED.
+
+This option is useful if you are administering multiple databases or a RAC database.
+
+If a password file is SHARED or EXCLUSIVE is also stored in the password file. After its creation, the state is SHARED. The state can be changed by setting REMOTE_LOGIN_PASSWORDFILE and starting the database i.e. the database overwrites the state in the password file when it is started up.
+
+ORAPWD
+You can create a password file using orapwd utility. For some Operating systems, you can create this file as part of standard installation.
+
+Users are added to the password file when they are granted the SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP privilege.
+
+The Oracle orapwd utility assists the DBA while granting SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP privileges to other users. By default, SYS is the only user that has SYSDBA and SYSOPER privileges. Creating a password file, via orapwd, enables remote users to connect with administrative privileges.
+
+
+Till Oracle 11g:
+$ orapwd file=password_file_name [password=the_password] [entries=n] [force=Y|N] [ignorecase=Y|N] [nosysdba=Y|N]
+
+From Oracle Database 12c release 2:
+orapwd FILE = filename 
+[FORCE = {y|n}] 
+[ASM = {y|n}] 
+[DBUNIQUENAME = dbname] 
+[FORMAT = {12.2|12}] 
+[SYS = {y|n|password|external('sys-external-name')|global('sys-directory-DN')}]
+[SYSBACKUP = {y|n|password|external('sysbackup-external-name')|global('sysbackup-directory-DN')}]
+[SYSDG = {y|n|password|external('sysdg-external-name')|global('sysdg-directory-DN')}] 
+[SYSKM = {y|n|password|external('syskm-external-name')|global('syskm-directory-DN')}] 
+[DELETE = {y|n}]
+[INPUT_FILE = input-fname]
+
+Examples:
+$ orapwd file=orapwSID password=sys_password force=y nosysdba=y
+
+$ orapwd file=$ORACLE_HOME/dbs/orapw$ORACLE_SID password=secret
+
+$ orapwd file=orapwprod entries=32 force=y
+
+C:\orapwd file=%ORACLE_HOME%\database\PWD%ORACLE_SID%.ora password=2012 entries=20
+
+C:\orapwd file=D:\oracle11g\product\11.1.0\db_1\database\pwdsfs.ora password=id entries=8 force=y
+
+$ orapwd file=orapwPRODB3 password=abc123 entries=12 ignorecase=n
+
+$ orapwd file=orapwprodb password=oracle1 ignorecase=y
+
+$ orapwd FILE='+DATA/orcl/orapworcl' DBUNIQUENAME='orcl' SYSBACKUP=password FORMAT=12.2
+
+$ orapwd FILE='+DATA/orcl/orapworcl' DBUNIQUENAME='orcl' FORMAT=12.2 sys=external('KerberosUserSYS@example.com') syskm=external('KerberosUserSYSKM@example.com')
+
+$ orapwd FILE='/u01/oracle/dbs/orapworcl' FORMAT=12.2 INPUT_FILE='/u01/oracle/dbs/orapworcl' FORCE=y
+
+$ orapwd FILE='/u01/oracle/dbs/orapworcl' SYS=Y INPUT_FILE='/u01/oracle/dbs/orapworcl' FORCE=y
+
+$ orapwd DESCRIBE FILE='orapwprod' 
+
+There are no spaces permitted around the equal to (=).
+
+The following describe the orapwd command line arguments.
+
+FILE
+Name to assign to the password file, which will hold the password information. You must supply complete path. If you supply only filename, the file is written to the current directory. The contents are encrypted and are unreadable. This argument is mandatory.
+
+The filenames allowed for the password file are OS specific. Some operating systems require the password file to adhere to a specific format and be located in a specific directory. Other operating systems allow the use of environment variables to specify the name and location of the password file.
+
+If you are running multiple instances of Oracle Database using Oracle Real Application Clusters (RAC), the environment variable for each instance should point to the same password file.
+
+It is critically important to secure password file.
+
+PASSWORD
+This is the password the privileged users should enter while connecting as SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP.
+
+ENTRIES
+Entries specify the maximum number of distinct SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP users that can be stored in the password file.
+
+This argument specifies the number of entries that you require the password file to accept. The actual number of allowable entries can be higher than the number of users, because the orapwd utility continues to assign password entries until an OS block is filled. For example, if your OS block size is 512 bytes, it holds four password entries. The number of password entries allocated is always a multiple of four.
+
+Entries can be reused as users are added to and removed from the password file. When you exceed the allocated number of password entries, you must create a new password file. To avoid this necessity, allocate a number of entries that is larger than you think you will ever need.
+
+FORCE
+(Optional) If Y, permits overwriting an existing password file. An error will be returned if password file of the same name already exists and this argument is omitted or set to N.
+
+IGNORECASE
+(Optional) If Y, passwords are treated as case-insensitive i.e. case is ignored when comparing the password that the user supplies during login with the password in the password file.
+
+From Oracle Database 12c, IGNORECASE parameter has been deprecated.
+
+FORMAT   (from 12c Oracle)
+The administrative privileges SYSBACKUP, SYSDG, and SYSKM are not supported in the password file when the file is created with the FORMAT=LEGACY argument. 12.2 is the default for the FORMAT command line argument.
+
+NOSYSDBA
+(Optional) For Oracle Data Vault installations.
+
+Granting SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP privileges
+
+
+Use the V$PWFILE_USERS view to see the users who have been granted SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP system privileges for a database.
+
+
+SQL> select * from v$pwfile_users;
+USERNAME SYSDBA SYSOPER SYSASM
+-------- ------ ------- ------
+SYS TRUE TRUE FALSE  
+
+The columns displayed by the view V$PWFILE_USERS are:
+
+
+Column 	Description
+ 
+USERNAME 
+This column contains the name of the user that is recognized by the password file. 
+SYSDBA	If the value of this column is TRUE, then the user can log on with SYSDBA system privilege. 
+SYSOPER 	If the value of this column is TRUE, then the user can log on with SYSOPER system privilege. 
+SYSASM	If the value of this column is TRUE, then the user can log on with SYSASM system privilege. 
+
+
+If orapwd has not yet been executed or password file is not available, attempting to grant SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP privileges will result in the following error:
+SQL> grant sysdba to satya;
+ORA-01994: GRANT failed: cannot add users to public password file
+
+If your server is using an EXCLUSIVE password file, use the GRANT statement to grant the SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG or SYSBACKUP system privilege to a user, as shown in the following example:
+SQL> grant sysdba to satya;
+
+SQL> select * from v$pwfile_users;
+USERNAME SYSDBA SYSOPER SYSASM SYSBACKUP SYSKM SYSDG
+-------- ------ ------- ------ ------ ------- ------
+SYS TRUE TRUE FALSE FALSE FALSE FALSE
+SATYA TRUE FALSE FALSE FALSE FALSE FALSE
+
+SQL> grant sysoper to satya;
+SQL> select * from v$pwfile_users;
+USERNAME SYSDBA SYSOPER SYSASM SYSBACKUP SYSKM SYSDG
+-------- ------ ------- ------ ------ ------- ------
+SYS TRUE TRUE FALSE FALSE FALSE FALSE
+SATYA TRUE TRUE FALSE FALSE FALSE FALSE
+
+SQL> grant sysasm to satya;
+SQL> select * from v$pwfile_users;
+USERNAME SYSDBA SYSOPER SYSASM SYSBACKUP SYSKM SYSDG
+-------- ------ ------- ------ ------ ------- ------
+SYS TRUE TRUE FALSE FALSE FALSE FALSE
+SATYA TRUE TRUE TRUE  FALSE FALSE FALSE
+
+When you grant SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG and SYSBACKUP privileges to a user, that user's name and privilege information are added to the password file. If the server does not have an EXCLUSIVE password file (i.e. if the initialization parameter REMOTE_LOGIN_PASSWORDFILE is NONE or SHARED, or the password file is missing), Oracle issues an error if you attempt to grant these privileges.
+
+Use the REVOKE statement to revoke the SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG and SYSBACKUP system privilege from a user, as shown in the following example:
+SQL> revoke sysoper from satya;
+
+SQL> select * from v$pwfile_users;
+USERNAME SYSDBA SYSOPER SYSASM SYSASM SYSBACKUP SYSKM SYSDG
+-------- ------ ------- ------ ------ ------- ------
+SYS TRUE TRUE FALSE FALSE FALSE FALSE
+SATYA TRUE FALSE TRUE FALSE FALSE FALSE
+
+A user's name remains in the password file only as long as that user has at least one of these three privileges. If you revoke all 3 privileges, Oracle removes the user from the password file.
+
+Because SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG and SYSBACKUP are the most powerful database privileges, the WITH ADMIN OPTION is not used in the GRANT statement. That is, the grantee cannot in turn grant the SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG and SYSBACKUP privilege to another user. Only a user currently connected as SYSDBA can grant or revoke another user's SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG and SYSBACKUP system privileges. These privileges cannot be granted to roles, because roles are available only after database startup.
+
+If you receive the file full error (ORA-01996) when you try to grant SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG and SYSBACKUP system privileges to a user, you must create a larger password file and regrant the privileges to the users.
+
+REVOKE SYSDG FROM non-SYS-user;
+GRANT SYSKM TO non-SYS-user;
+
+Removing Password File
+If you determine that you no longer require a password file to authenticate users, you can delete the password file and then optionally reset the REMOTE_LOGIN_PASSWORDFILE initialization parameter to NONE. After you remove this file, only those users who can be authenticated by the OS can perform SYSDBA, SYSOPER, SYSASM, SYSKM, SYSDG and SYSBACKUP database administration operations.
+
+Related Oracle Articles: Auditing in Oracle  Oracle DataBase Administrator Interview Questions/FAQs – Part2
+
+
+
+
+Argument	Description
+FILE	Name to assign to the password file. See your operating system documentation for name requirements. You must supply a complete path. If you supply only a file name, the file is written to the current directory.
+ENTRIES	(Optional) Maximum number of entries (user accounts) to permit in the file.
+FORCE	(Optional) If y, permits overwriting an existing password file.
+IGNORECASE	(Optional) If y, passwords are treated as case-insensitive.
+NOSYSDBA	(Optional) For Data Vault installations. See the Data Vault installation guide for your platform for more information.
+
+
+
+
+
+
+refs: http://satya-dba.blogspot.com/2009/11/password-file-in-oracle.html
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
