@@ -1,8 +1,0 @@
-7-faca o download do oracle 12c para instalacao
-
-
-
-
-
-
-https://www.oracle.com/database/technologies/oracle12c-linux-12201-downloads.html

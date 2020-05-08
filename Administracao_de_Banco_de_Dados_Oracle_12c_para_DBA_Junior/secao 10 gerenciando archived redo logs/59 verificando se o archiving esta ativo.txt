@@ -1,9 +1,0 @@
-59 verificando se o archiving esta ativo
-
-
-
-ARCHIVE LOG LIST
-
-vai depender da fast recovery area 
-
-show parameter recovery_file_dest_size

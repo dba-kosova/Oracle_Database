@@ -1,4 +1,0 @@
-57 removendo grupo de online redolog com drop logfile group
-
-
-ALTER DATABASE DROP LOGFILE GROUP 1;

@@ -1,8 +1,0 @@
-56 obrigando o redolog a escrever em outro grupo fazendo um switch logfile
-
-
-alter system switch logfile;
-alter system checkpoint;
-
-
-
